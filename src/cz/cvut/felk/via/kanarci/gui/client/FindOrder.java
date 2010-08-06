@@ -1,0 +1,121 @@
+package cz.cvut.felk.via.kanarci.gui.client;
+
+import java.util.Date;
+
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DatePicker;
+
+public class FindOrder extends Composite{
+	
+	private Date searchDate = new Date();
+	private DateBox searchDatePicker = new DateBox(new DatePicker(), searchDate, new DateBox.DefaultFormat(DateTimeFormat.getMediumDateFormat()));
+	
+	private ListBox goodsCategory = new ListBox();
+	private ListBox goods = new ListBox();
+	private TextBox countGreater = new TextBox();
+	private TextBox countSmaller = new TextBox();
+	private TextBox priceGreater = new TextBox();
+	private TextBox priceSmaller = new TextBox();
+	
+	private CheckBox isDate = new CheckBox("Date");
+	private CheckBox isCategory = new CheckBox("Category");
+	private CheckBox isGoods = new CheckBox("Goods");
+	private CheckBox isNoGreater = new CheckBox("Number >=");
+	private CheckBox isNoSmaller = new CheckBox("Number <=");
+	private CheckBox isPriceGreater = new CheckBox("Price >=");
+	private CheckBox isPriceSmaller = new CheckBox("Price <=");
+	
+	
+	public FindOrder() {
+		super();
+		final FlexTable flexTable = new FlexTable();
+		flexTable.setCellPadding(4);
+		Label user = new Label("Jméno Příjmení");
+		final Button searchButton = new Button("<b>GO!</b>");
+		
+		searchDatePicker.setWidth("10em");
+		searchDatePicker.setVisible(false);
+		goodsCategory.addItem("--------");
+		goodsCategory.addItem("Cars");
+		goodsCategory.addItem("Others");
+		goodsCategory.setVisible(false);
+		goods.addItem("--------");
+		goods.setVisible(false);
+		countGreater.setWidth("3em");
+		countGreater.setVisible(false);
+		countSmaller.setWidth("3em");
+		countSmaller.setVisible(false);
+		priceGreater.setWidth("6em");
+		priceGreater.setVisible(false);
+		priceSmaller.setWidth("6em");
+		priceSmaller.setVisible(false);
+		
+		searchDatePicker.addValueChangeHandler(new ValueChangeHandler<Date>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Date> event) {
+				searchDate = searchDatePicker.getValue();
+			}
+		});
+		goodsCategory.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (goodsCategory.getItemText(goodsCategory.getSelectedIndex()).equals("Cars")) {
+					goods.clear();
+					goods.addItem("Opel");
+					goods.addItem("Škoda");
+				}
+				else if (goodsCategory.getItemText(goodsCategory.getSelectedIndex()).equals("Others")) {
+					goods.clear();
+					goods.addItem("something other");
+				}
+				else {
+					goods.clear();
+					goods.addItem("--------");
+				}
+			}
+		});
+
+		searchButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				//TODO: search procedure
+			}
+		});
+		
+		flexTable.setWidget(0, 0, new HTML("<u>User</u>:"));
+		flexTable.setWidget(0, 1, user);
+		flexTable.setWidget(1, 0, new HTML("<u>Search</u>:"));
+		flexTable.setWidget(2, 1, isDate);
+		flexTable.setWidget(3, 1, searchDatePicker);
+		flexTable.setWidget(4, 1, isCategory);
+		flexTable.setWidget(4, 2, isGoods);
+		flexTable.setWidget(5, 1, goodsCategory);
+		flexTable.setWidget(5, 2, goods);
+		flexTable.setWidget(6, 1, isNoGreater);
+		flexTable.setWidget(6, 2, countGreater);
+		flexTable.setWidget(6, 3, isNoSmaller);
+		flexTable.setWidget(6, 4, countSmaller);
+		flexTable.setWidget(7, 1, isPriceGreater);
+		flexTable.setWidget(7, 2, priceGreater);
+		flexTable.setWidget(7, 3, isPriceSmaller);
+		flexTable.setWidget(7, 4, priceSmaller);
+		flexTable.setWidget(7, 5, searchButton);
+
+		initWidget(flexTable);
+	}
+}
