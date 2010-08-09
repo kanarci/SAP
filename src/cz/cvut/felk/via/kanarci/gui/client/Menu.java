@@ -17,9 +17,13 @@ public class Menu extends Composite{
 	    public Menu() {
 			super();
 		MenuBar menu = new MenuBar(true);
+		menu.addSeparator();
+		//menu.addItem("Add customer", cmd);
+		menu.addSeparator();
 	    menu.addItem("Edit profile", cmd);
 	    menu.addItem("Customize", cmd);
 	    menu.addItem("Log out", cmd);
+	    menu.addSeparator();
 
 	    initWidget(menu);	    
 	  }

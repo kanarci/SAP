@@ -16,7 +16,7 @@ public interface GuiConstants extends Constants {
 	@DefaultStringValue("[Finalize]")
 	String finalizee();
 	
-	@DefaultStringValue("[Change client]")
-	String change_client();
+	@DefaultStringValue("[Add customer]")
+	String add_customer();
 
 }

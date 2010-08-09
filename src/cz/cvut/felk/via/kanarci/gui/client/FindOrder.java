@@ -65,6 +65,55 @@ public class FindOrder extends Composite{
 		priceSmaller.setWidth("6em");
 		priceSmaller.setVisible(false);
 		
+		//handlers	DO NOT EDIT, IT WORKS, trust me :-)
+		isDate.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isDate.getValue()) searchDatePicker.setVisible(true); else searchDatePicker.setVisible(false);
+			}
+		});
+		isCategory.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isCategory.getValue()) goodsCategory.setVisible(true); else goodsCategory.setVisible(false);
+			}
+		});
+		isGoods.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isGoods.getValue()) {
+					isCategory.setValue(true);
+					goodsCategory.setVisible(true);
+					goods.setVisible(true);
+				} else {
+					goods.setVisible(false);
+				}
+			}
+		});
+		isNoGreater.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isNoGreater.getValue()) countGreater.setVisible(true); else countGreater.setVisible(false);
+			}
+		});
+		isNoSmaller.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isNoSmaller.getValue()) countSmaller.setVisible(true); else countSmaller.setVisible(false);
+			}
+		});
+		isPriceGreater.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isPriceGreater.getValue()) priceGreater.setVisible(true); else priceGreater.setVisible(false);
+			}
+		});
+		isPriceSmaller.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (isPriceSmaller.getValue()) priceSmaller.setVisible(true); else priceSmaller.setVisible(false);
+			}
+		});
 		searchDatePicker.addValueChangeHandler(new ValueChangeHandler<Date>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
