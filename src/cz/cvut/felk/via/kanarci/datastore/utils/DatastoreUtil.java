@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jdo.JDOUserException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.Transaction;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
@@ -40,8 +41,35 @@ public abstract class DatastoreUtil {
 	}
 
 	
+	@SuppressWarnings({ "unused", "unchecked" })
+	private static <T> T getUniqueObjectForIdentifier(T o,
+			String property, String identifier){
+
+		T obj = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Transaction tx = pm.currentTransaction();
+		try {
+            tx.begin();
+    
+            Query q = pm.newQuery(o.getClass());
+            q.setFilter(property + " == " + identifier);
+//            q.declareParameters("String fnParam");
+            q.setUnique(true);
+            T qobj = (T) q.execute();
+            obj = pm.detachCopy(qobj);
+            tx.commit();
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+        }
+        return obj;
+	}
+	
+	
 	/* ------------------------------------------------------------ */
-	public static void createAddress(String street, int co, int cp, String city, int zip){
+	public static void createAddress(String street, int co, int cp, String city, String zip){
 		
 		Address adr = new Address(city, street, co, cp, zip);
 		makeObjectPersistent(adr);
@@ -206,14 +234,34 @@ public abstract class DatastoreUtil {
 	}
 	
 	/* ------------------------------------------------------------ */
-	
-	public static void getEmployeeForName(){
-
-		@SuppressWarnings("unused")
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		
-	}
+//	
+//	public static Employee getEmployeeForFirstName(String firstName){
+//
+//		return Em
+//		
+////		return getUniqueObjectForIdentifier(Employee, property, identifier);
+//		
+////		Employee e = null;
+////		PersistenceManager pm = PMF.get().getPersistenceManager();
+////		
+////		Transaction tx = pm.currentTransaction();
+////		try {
+////            tx.begin();
+////    
+////            Query q = pm.newQuery(Employee.class);
+////            q.setFilter("firstName == fnParam");
+////            q.declareParameters("String fnParam");
+////            q.setUnique(true);
+////            Employee emp = (Employee)q.execute(firstName);
+////            e = pm.detachCopy(emp);
+////            tx.commit();
+////        } finally {
+////            if (tx.isActive()) {
+////                tx.rollback();
+////            }
+////        }
+////        return e;
+//	}
 	
 	
 	

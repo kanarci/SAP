@@ -32,7 +32,7 @@ public class DatastoreServlet extends HttpServlet {
 	    			, req.getParameter("CorporationName"), req.getParameter("Email")
 	    			, req.getParameter("Department"), new Address(req.getParameter("City")
 	    					, req.getParameter("Street"), Integer.parseInt(req.getParameter("co"))
-	    					, Integer.parseInt(req.getParameter("cp")), Integer.parseInt(req.getParameter("ZIP")))));
+	    					, Integer.parseInt(req.getParameter("cp")), req.getParameter("ZIP"))));
 	    }
 	    else if (action.equals("Add Category")) {
 	    	Key key = null;
