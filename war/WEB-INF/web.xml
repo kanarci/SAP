@@ -6,7 +6,14 @@
 <web-app>
   
   <!-- Servlets -->
-
+  <servlet>
+    <servlet-name>contactSendingServlet</servlet-name>
+    <servlet-class>cz.cvut.felk.via.kanarci.gui.server.ContactSendingServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>contactSendingServlet</servlet-name>
+    <url-pattern>/cz/cvut/felk/via/kanarci/gui/contact</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

@@ -41,7 +41,7 @@ public abstract class DatastoreUtil {
 
 	
 	/* ------------------------------------------------------------ */
-	public static void createAddress(String street, int co, int cp, String city, int zip){
+	public static void createAddress(String street, int co, int cp, String city, String zip){
 		
 		Address adr = new Address(city, street, co, cp, zip);
 		makeObjectPersistent(adr);

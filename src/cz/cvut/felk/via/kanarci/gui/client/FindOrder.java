@@ -75,7 +75,10 @@ public class FindOrder extends Composite{
 		isCategory.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if (isCategory.getValue()) goodsCategory.setVisible(true); else goodsCategory.setVisible(false);
+				if (isCategory.getValue()) goodsCategory.setVisible(true); else {
+					goodsCategory.setVisible(false);
+					goods.setVisible(false);
+				}
 			}
 		});
 		isGoods.addValueChangeHandler(new ValueChangeHandler<Boolean>() {

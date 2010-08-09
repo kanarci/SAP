@@ -1,15 +1,22 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 
 @PersistenceCapable
-public class Address {
+public class Address implements Serializable{
 //
 //	 @PrimaryKey
 //	 @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 //	 private Key key;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Persistent
 	private String street;
@@ -24,13 +31,9 @@ public class Address {
 	private String city;
 
 	@Persistent
-	private int zip;
+	private String zip;
 
-	public Address() {
-		super();
-	}
-
-	public Address(String city, String street, int co, int cp, int zip) {
+	public Address(String city, String street, int co, int cp, String zip) {
 		super();
 		this.street = street;
 		this.co = co;
@@ -76,11 +79,11 @@ public class Address {
 		this.city = city;
 	}
 
-	public int getZip() {
+	public String getZip() {
 		return zip;
 	}
 
-	public void setZip(int zip) {
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 
