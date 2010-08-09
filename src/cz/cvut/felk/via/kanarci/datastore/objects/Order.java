@@ -1,5 +1,6 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Order {
+public class Order implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -76,10 +79,8 @@ public class Order {
 		this.courierShipmentDate = null;
 	}
 
-	
-	
-	public Order(String state, Date estimatedDeliveryDate,
-			Date deliveryDate, DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
+	public Order(String state, Date estimatedDeliveryDate, Date deliveryDate,
+			DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
 			Contact deliveryContact, Contact billingContact, Key createdBy) {
 		super();
 		this.orderState = OrderState.OPEN;
@@ -96,7 +97,6 @@ public class Order {
 		this.createdBy = createdBy;
 		this.courierShipmentDate = null;
 	}
-
 
 	public Key getKey() {
 		return key;
@@ -215,41 +215,29 @@ public class Order {
 		return orderState;
 	}
 
-
-
 	public void setOrderState(OrderState orderState) {
 		this.orderState = orderState;
 	}
-
-
 
 	public Contact getDeliveryContact() {
 		return deliveryContact;
 	}
 
-
-
 	public void setDeliveryContact(Contact deliveryContact) {
 		this.deliveryContact = deliveryContact;
 	}
-
-
 
 	public Contact getBillingContact() {
 		return billingContact;
 	}
 
-
-
 	public void setBillingContact(Contact billingContact) {
 		this.billingContact = billingContact;
 	}
 
-
-
 	@SuppressWarnings("unused")
-	private void modificated(){
+	private void modificated() {
 		this.modificationDate = new Date();
 	}
-	
+
 }

@@ -8,6 +8,8 @@ import javax.jdo.annotations.Persistent;
 @PersistenceCapable
 public class Invoice_supplier extends Invoice {
 
+
+	private static final long serialVersionUID = 3363190762305394672L;
 	@Persistent
 	private Supplier supplier;
 

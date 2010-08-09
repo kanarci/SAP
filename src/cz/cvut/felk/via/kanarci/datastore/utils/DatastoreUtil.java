@@ -41,10 +41,11 @@ public abstract class DatastoreUtil {
 	}
 
 	
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	private static <T> T getUniqueObjectForIdentifier(T o,
 			String property, String identifier){
 
+		
 		T obj = null;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -63,6 +64,7 @@ public abstract class DatastoreUtil {
             if (tx.isActive()) {
                 tx.rollback();
             }
+            pm.close();
         }
         return obj;
 	}
@@ -234,34 +236,36 @@ public abstract class DatastoreUtil {
 	}
 	
 	/* ------------------------------------------------------------ */
-//	
-//	public static Employee getEmployeeForFirstName(String firstName){
-//
-//		return Em
+	
+	public static Employee getEmployeeForFirstName(String firstName){
+
+		String property = "firstName";
+		Employee emp = getUniqueObjectForIdentifier(new Employee(null), property, firstName);
+		return emp;
+		
+//		return getUniqueObjectForIdentifier(Employee, property, identifier);
+		
+//		Employee e = null;
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
 //		
-////		return getUniqueObjectForIdentifier(Employee, property, identifier);
-//		
-////		Employee e = null;
-////		PersistenceManager pm = PMF.get().getPersistenceManager();
-////		
-////		Transaction tx = pm.currentTransaction();
-////		try {
-////            tx.begin();
-////    
-////            Query q = pm.newQuery(Employee.class);
-////            q.setFilter("firstName == fnParam");
-////            q.declareParameters("String fnParam");
-////            q.setUnique(true);
-////            Employee emp = (Employee)q.execute(firstName);
-////            e = pm.detachCopy(emp);
-////            tx.commit();
-////        } finally {
-////            if (tx.isActive()) {
-////                tx.rollback();
-////            }
-////        }
-////        return e;
-//	}
+//		Transaction tx = pm.currentTransaction();
+//		try {
+//            tx.begin();
+//    
+//            Query q = pm.newQuery(Employee.class);
+//            q.setFilter("firstName == fnParam");
+//            q.declareParameters("String fnParam");
+//            q.setUnique(true);
+//            Employee emp = (Employee)q.execute(firstName);
+//            e = pm.detachCopy(emp);
+//            tx.commit();
+//        } finally {
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
+//        }
+//        return e;
+	}
 	
 	
 	

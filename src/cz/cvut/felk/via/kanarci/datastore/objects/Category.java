@@ -1,5 +1,6 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable
-public class Category {
+public class Category implements Serializable{
+
+
+	private static final long serialVersionUID = 6449461820231166652L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -42,7 +46,8 @@ public class Category {
 		this.parameterValue = null;
 	}
 
-	public Category(String name, Key supremeCategory, String parameterName, String parameterValue) {
+	public Category(String name, Key supremeCategory, String parameterName,
+			String parameterValue) {
 		super();
 		this.name = name;
 		System.out.println(supremeCategory.toString());
@@ -83,7 +88,7 @@ public class Category {
 	public void addGoodsToCategory(List<Key> goods) {
 		this.goodsInCategory.addAll(goods);
 	}
-	
+
 	public void removeGoodsFromCategory(Key goods) {
 		this.goodsInCategory.remove(goods);
 	}
@@ -106,20 +111,24 @@ public class Category {
 	public void setParametrValue(String parameterValue) {
 		this.parameterValue = parameterValue;
 	}
-	
+
 	@Override
-	public String toString(){
-		String ret = " Kategorie : " + name + " || +" + KeyFactory.keyToString(key) + "+ || ";
-		if(this.supremeCategory == null){
+	public String toString() {
+		String ret = " Kategorie : " + name + " || +"
+				+ KeyFactory.keyToString(key) + "+ || ";
+		if (this.supremeCategory == null) {
 			ret = ret.concat("No supreme key || ");
-		}else{
-			if(KeyFactory.keyToString(supremeCategory).equals("aglub19hcHBfaWRyEgsSCENhdGVnb3J5IgRSb290DA")){
+		} else {
+			if (KeyFactory.keyToString(supremeCategory).equals(
+					"aglub19hcHBfaWRyEgsSCENhdGVnb3J5IgRSb290DA")) {
 				ret = ret.concat("Supreme key ROOT || ");
-			}else{
-				ret = ret.concat("Supreme key +" + KeyFactory.keyToString(supremeCategory) + "+|| ");
+			} else {
+				ret = ret.concat("Supreme key +"
+						+ KeyFactory.keyToString(supremeCategory) + "+|| ");
 			}
 		}
-		ret = ret.concat("<br> Parametr : " + parameterName + " -- " + parameterValue);
+		ret = ret.concat("<br> Parametr : " + parameterName + " -- "
+				+ parameterValue);
 		return ret;
 	}
 

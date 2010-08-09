@@ -1,5 +1,6 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -13,20 +14,23 @@ import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public abstract class Invoice {
+public abstract class Invoice implements Serializable{
+
+
+	private static final long serialVersionUID = 5244203137059684625L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 
 	/*
-	 *  datum splatnosti
+	 * datum splatnosti
 	 */
 	@Persistent
 	private Date maturityDate;
 
 	/*
-	 *  datum splaceni
+	 * datum splaceni
 	 */
 	@Persistent
 	private Date repaymentDate;

@@ -10,6 +10,9 @@ import javax.jdo.annotations.Persistent;
 // (detachable="true")
 public class Customer extends Person {
 
+
+	private static final long serialVersionUID = -473531119686226231L;
+
 	@Persistent
 	private List<Order> orders;
 

@@ -1,5 +1,6 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,10 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Team {
+public class Team implements Serializable{
+
+
+	private static final long serialVersionUID = -4113834555548422813L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

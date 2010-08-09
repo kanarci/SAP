@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Contact implements Serializable{
+public class Contact implements Serializable {
 
 	private static final long serialVersionUID = 4232419077572870798L;
 
@@ -39,8 +39,8 @@ public class Contact implements Serializable{
 	@Persistent(dependent = "true")
 	private Address address;
 
-	public Contact(String firstName, String sureName, String phone, String email,
-			Address address) {
+	public Contact(String firstName, String sureName, String phone,
+			String email, Address address) {
 		super();
 		this.firstName = firstName;
 		this.sureName = sureName;

@@ -1,5 +1,6 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class Goods {
+public class Goods implements Serializable{
+
+
+	private static final long serialVersionUID = -3944983861287769984L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -67,7 +71,7 @@ public class Goods {
 		this.category = category;
 		this.DPH = (double) 1000000;
 	}
-	
+
 	public Goods(String name, Text description, double price, int numOfPieces,
 			boolean visiblity, Key category) {
 		super();
@@ -76,7 +80,7 @@ public class Goods {
 		this.price = price;
 		this.numOfPieces = numOfPieces;
 		this.visiblity = visiblity;
-//		this.supplier = supplier;
+		// this.supplier = supplier;
 		this.category = new ArrayList<Key>();
 		this.category.add(category);
 		this.DPH = (double) 1000000;
@@ -151,11 +155,11 @@ public class Goods {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		String ret = " Zbozi : " + this.name + " || key " + key.toString()
-		+ "<br> Popisek: " + this.description.toString();
-		
+				+ "<br> Popisek: " + this.description.toString();
+
 		return ret;
 	}
-	
+
 }

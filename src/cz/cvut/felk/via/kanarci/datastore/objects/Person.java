@@ -1,5 +1,7 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -12,7 +14,9 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 // (detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public abstract class Person {
+public abstract class Person implements Serializable{
+
+	private static final long serialVersionUID = -2532377861287254427L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

@@ -1,8 +1,7 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
-public enum DeliveryMethod {PPL, DHL, CP, PERSONAL, MESSENGER}
+import java.io.Serializable;
 
-
-
-
-
+public enum DeliveryMethod implements Serializable{
+	PPL, DHL, CP, PERSONAL, MESSENGER
+}
