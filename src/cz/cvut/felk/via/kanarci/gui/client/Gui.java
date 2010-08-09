@@ -25,16 +25,17 @@ public class Gui implements EntryPoint {
 		final RootLayoutPanel rp = RootLayoutPanel.get();
 		final NewOrder newOrder = new NewOrder();
 		final FindOrder findOrder = new FindOrder();
+		final AddCustomer addCustomer = new AddCustomer();
 		final Menu menu = new Menu();
 
 		tabs.add(newOrder, constants.new_order());
 		tabs.add(findOrder, constants.find());
 	    tabs.add(new HTML("smazání"), constants.erase());
 	    tabs.add(new HTML("uzavření"), constants.finalizee());
-	    tabs.add(new HTML("změna zákazníka"), constants.change_client());
+	    tabs.add(addCustomer, constants.add_customer());
 
 	    dock.addNorth(new Label("logo"), 5);
-	    dock.addWest(menu, 15);
+	    dock.addWest(menu, 10);
 	    dock.add(tabs);
 	    rp.add(dock);
 	    rp.setSize("1200px", "500px");
