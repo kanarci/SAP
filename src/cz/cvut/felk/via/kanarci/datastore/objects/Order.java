@@ -18,7 +18,7 @@ public class Order {
 	private Key key;
 
 	@Persistent
-	private String state;
+	private OrderState orderState;
 
 	@Persistent
 	private Date creationDate;
@@ -39,7 +39,7 @@ public class Order {
 	private Date deliveryDate;
 
 	@Persistent
-	private String deliveryMethod;
+	private DeliveryMethod deliveryMethod;
 
 	@Persistent
 	private List<Goods> goodsInOrder;
@@ -56,33 +56,58 @@ public class Order {
 	@Persistent
 	private Key createdBy;
 
-	// TODO delivery, estimatedDelivery, courierShipment Dates
-	public Order(Date creationDate, String deliveryMethod,
-			List<Goods> goodsInOrder, Contact deliveryAddress,
-			Contact billingAddress, Key modificatedBy, Key createdBy) {
+	public Order(Date creationDate, DeliveryMethod deliveryMethod,
+			Date deliveryDate, Date estimatedDeliveryDate,
+			List<Goods> goodsInOrder, Contact deliveryContact,
+			Contact billingContact, Key modificatedBy, Key createdBy) {
 		super();
-		this.creationDate = creationDate;
+		this.creationDate = new Date();
 		this.deliveryMethod = deliveryMethod;
+		this.deliveryDate = deliveryDate;
+		this.estimatedDeliveryDate = estimatedDeliveryDate;
 		this.goodsInOrder = goodsInOrder;
-		this.deliveryContact = deliveryAddress;
-		this.billingContact = billingAddress;
+		this.deliveryContact = deliveryContact;
+		this.billingContact = billingContact;
 		this.modificationDate = new Date();
 		this.closeDate = null;
 		this.modificatedBy = modificatedBy;
-		this.state = "untouched";
+		this.orderState = OrderState.OPEN;
 		this.createdBy = createdBy;
+		this.courierShipmentDate = null;
 	}
+
+	
+	
+	public Order(String state, Date estimatedDeliveryDate,
+			Date deliveryDate, DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
+			Contact deliveryContact, Contact billingContact, Key createdBy) {
+		super();
+		this.orderState = OrderState.OPEN;
+		this.creationDate = new Date();
+		this.closeDate = null;
+		this.modificationDate = new Date();
+		this.estimatedDeliveryDate = estimatedDeliveryDate;
+		this.deliveryDate = deliveryDate;
+		this.deliveryMethod = deliveryMethod;
+		this.goodsInOrder = goodsInOrder;
+		this.deliveryContact = deliveryContact;
+		this.billingContact = billingContact;
+		this.modificatedBy = createdBy;
+		this.createdBy = createdBy;
+		this.courierShipmentDate = null;
+	}
+
 
 	public Key getKey() {
 		return key;
 	}
 
-	public String getState() {
-		return state;
+	public OrderState getState() {
+		return orderState;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setState(OrderState orderState) {
+		this.orderState = orderState;
 	}
 
 	public Date getCreationDate() {
@@ -117,11 +142,11 @@ public class Order {
 		this.goodsInOrder = goodsInOrder;
 	}
 
-	public String getDeliveryMethod() {
+	public DeliveryMethod getDeliveryMethod() {
 		return deliveryMethod;
 	}
 
-	public void setDeliveryMethod(String deliveryMethod) {
+	public void setDeliveryMethod(DeliveryMethod deliveryMethod) {
 		this.deliveryMethod = deliveryMethod;
 	}
 
@@ -185,6 +210,42 @@ public class Order {
 	public void setModificatedBy(Key modificatedBy) {
 		this.modificatedBy = modificatedBy;
 	}
+
+	public OrderState getOrderState() {
+		return orderState;
+	}
+
+
+
+	public void setOrderState(OrderState orderState) {
+		this.orderState = orderState;
+	}
+
+
+
+	public Contact getDeliveryContact() {
+		return deliveryContact;
+	}
+
+
+
+	public void setDeliveryContact(Contact deliveryContact) {
+		this.deliveryContact = deliveryContact;
+	}
+
+
+
+	public Contact getBillingContact() {
+		return billingContact;
+	}
+
+
+
+	public void setBillingContact(Contact billingContact) {
+		this.billingContact = billingContact;
+	}
+
+
 
 	@SuppressWarnings("unused")
 	private void modificated(){

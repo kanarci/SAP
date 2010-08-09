@@ -28,11 +28,11 @@ public class DatastoreServlet extends HttpServlet {
 //	    			, Integer.parseInt(req.getParameter("cp"))
 //	    			, req.getParameter("City"), Integer.parseInt(req.getParameter("ZIP")));
 	    	DatastoreUtil.createCustomer( new Contact( req.getParameter("FirstName")
-	    			, req.getParameter("SureName"), Integer.parseInt(req.getParameter("Phone"))
+	    			, req.getParameter("SureName"), req.getParameter("Phone")
 	    			, req.getParameter("CorporationName"), req.getParameter("Email")
-	    			, req.getParameter("Department"), new Address(req.getParameter("Street")
-	    					, Integer.parseInt(req.getParameter("co")), Integer.parseInt(req.getParameter("cp"))
-	    					, req.getParameter("City"), Integer.parseInt(req.getParameter("ZIP")))));
+	    			, req.getParameter("Department"), new Address(req.getParameter("City")
+	    					, req.getParameter("Street"), Integer.parseInt(req.getParameter("co"))
+	    					, Integer.parseInt(req.getParameter("cp")), Integer.parseInt(req.getParameter("ZIP")))));
 	    }
 	    else if (action.equals("Add Category")) {
 	    	Key key = null;

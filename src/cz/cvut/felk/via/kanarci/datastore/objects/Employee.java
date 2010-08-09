@@ -10,6 +10,8 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable
 public class Employee extends Person {
 
+	public static final String CURRENCY = "CZK"; 
+	
 	@Persistent
 	private double salary;
 
@@ -26,12 +28,19 @@ public class Employee extends Person {
 		super(contact);
 	}
 
+	public Employee(Contact contact, String bankAccountNumber) {
+		super(contact);
+		this.salary = 0;
+		this.bankAccountNumber = bankAccountNumber;
+		this.inTeam = null;
+	}
+	
 	public Employee(Contact contact, double salary, String bankAccountNumber,
 			Key inTeam) {
 		super(contact);
-		this.salary = salary;
+		this.salary = 0;
 		this.bankAccountNumber = bankAccountNumber;
-		this.inTeam = inTeam;
+		this.inTeam = null;
 	}
 
 	public double getsalary() {
@@ -66,6 +75,10 @@ public class Employee extends Person {
 		createdOrders.add(order);
 	}
 
+	public void addCreatedOrder(List<Key> order) {
+		createdOrders.addAll(order);
+	}
+	
 	public void removeCreatedOrder(Key order) {
 		createdOrders.remove(order);
 	}

@@ -19,11 +19,15 @@ public abstract class Invoice {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 
-	// datum splatnosti
+	/*
+	 *  datum splatnosti
+	 */
 	@Persistent
 	private Date maturityDate;
 
-	// datum splaceni
+	/*
+	 *  datum splaceni
+	 */
 	@Persistent
 	private Date repaymentDate;
 

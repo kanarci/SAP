@@ -18,15 +18,11 @@ public class Supplier {
 	private String accountNumber;
 
 	@Persistent
-	private String companyName;
-
-	@Persistent
 	private Contact contact;
 
-	public Supplier(String accountNumber, String companyName, Contact contact) {
+	public Supplier(String accountNumber, Contact contact) {
 		super();
 		this.accountNumber = accountNumber;
-		this.companyName = companyName;
 		this.contact = contact;
 	}
 
@@ -40,14 +36,6 @@ public class Supplier {
 
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
 	}
 
 	public Contact getContact() {

@@ -1,5 +1,7 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -8,7 +10,9 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Contact {
+public class Contact implements Serializable{
+
+	private static final long serialVersionUID = 4232419077572870798L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -21,7 +25,7 @@ public class Contact {
 	private String sureName;
 
 	@Persistent
-	private int phone;
+	private String phone;
 
 	@Persistent
 	private String corporationName;
@@ -35,7 +39,7 @@ public class Contact {
 	@Persistent(dependent = "true")
 	private Address address;
 
-	public Contact(String firstName, String sureName, int phone, String email,
+	public Contact(String firstName, String sureName, String phone, String email,
 			Address address) {
 		super();
 		this.firstName = firstName;
@@ -47,7 +51,7 @@ public class Contact {
 		this.department = null;
 	}
 
-	public Contact(String firstName, String sureName, int phone,
+	public Contact(String firstName, String sureName, String phone,
 			String corporationName, String email, String department,
 			Address address) {
 		super();
@@ -80,11 +84,11 @@ public class Contact {
 		this.sureName = sureName;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

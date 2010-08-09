@@ -6,51 +6,34 @@ import java.util.List;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import com.google.appengine.api.datastore.Key;
-
 @PersistenceCapable
 // (detachable="true")
 public class Customer extends Person {
 
 	@Persistent
-	private int id_customer;
+	private List<Order> orders;
 
 	@Persistent
-	private List<Key> orders;
-
-	@Persistent
-	private List<Key> invoice;
+	private List<Invoice> invoice;
 
 	public Customer(Contact contact) {
 		super(contact);
-		invoice = new ArrayList<Key>();
+		invoice = new ArrayList<Invoice>();
 	}
 
-	public int getId_customer() {
-		return id_customer;
-	}
-
-	public void setId_customer(int idcustomer) {
-		id_customer = idcustomer;
-	}
-
-	public List<Key> getOrders() {
+	public List<Order> getOrders() {
 		return orders;
 	}
 
-	public void addOrder(Key var) {
+	public void addOrder(Order var) {
 		this.orders.add(var);
 	}
 
-	public List<Key> getInvoices() {
+	public List<Invoice> getInvoices() {
 		return invoice;
 	}
 
-	// public void setInvoices(List<Key> invoice) {
-	// this.invoice = invoice;
-	// }
-	//	
-	public void addInvoice(Key var) {
+	public void addInvoice(Invoice var) {
 		this.invoice.add(var);
 	}
 

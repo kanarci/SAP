@@ -80,6 +80,18 @@ public class Category {
 		this.goodsInCategory.add(goods);
 	}
 
+	public void addGoodsToCategory(List<Key> goods) {
+		this.goodsInCategory.addAll(goods);
+	}
+	
+	public void removeGoodsFromCategory(Key goods) {
+		this.goodsInCategory.remove(goods);
+	}
+
+	public void removeGoodsFromCategory(List<Key> goods) {
+		this.goodsInCategory.remove(goods);
+	}
+
 	public String[] getBothParametersInField() {
 		String[] val = new String[2];
 		val[1] = parameterName;

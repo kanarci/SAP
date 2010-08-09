@@ -1,19 +1,15 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class Address {
-
-	 @PrimaryKey
-	 @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	 private Key key;
+//
+//	 @PrimaryKey
+//	 @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+//	 private Key key;
 
 	@Persistent
 	private String street;
@@ -34,7 +30,7 @@ public class Address {
 		super();
 	}
 
-	public Address(String street, int co, int cp, String city, int zip) {
+	public Address(String city, String street, int co, int cp, int zip) {
 		super();
 		this.street = street;
 		this.co = co;
@@ -43,13 +39,10 @@ public class Address {
 		this.zip = zip;
 	}
 
-	// public Key getKey() {
-	// return key;
-	// }
-
-	public Key getKey() {
-		return key;
-	}
+//
+//	public Key getKey() {
+//		return key;
+//	}
 
 	public String getStreet() {
 		return street;
