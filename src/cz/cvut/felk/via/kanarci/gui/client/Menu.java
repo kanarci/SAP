@@ -12,13 +12,19 @@ public class Menu extends Composite{
 	        Window.alert("You selected a menu item!");
 	      }
 	    };
+	    private Command showCustomers = new Command() {			
+			@Override
+			public void execute() {
+				Window.alert("alert");
+			}
+		};
 
 	    // Make some sub-menus that we will cascade from the top menu.
 	    public Menu() {
 			super();
 		MenuBar menu = new MenuBar(true);
 		menu.addSeparator();
-		menu.addItem("Show customers", showCustomers());
+		menu.addItem("Show customers", showCustomers);
 		menu.addSeparator();
 	    menu.addItem("Edit profile", cmd);
 	    menu.addItem("Customize", cmd);
@@ -27,10 +33,4 @@ public class Menu extends Composite{
 
 	    initWidget(menu);	    
 	  }
-
-		private Command showCustomers() {
-			// TODO Auto-generated method stub
-			Window.alert("alert");
-			return null;
-		}
 	}

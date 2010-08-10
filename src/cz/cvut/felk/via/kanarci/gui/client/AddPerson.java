@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
 import cz.cvut.felk.via.kanarci.gui.shared.Address;
@@ -17,8 +18,10 @@ import cz.cvut.felk.via.kanarci.gui.shared.Contact;
 
 
 
-public class AddCustomer extends Composite{
+public class AddPerson extends Composite{
 
+	private RadioButton customerRB = new RadioButton("person", "customer");
+	private RadioButton employeeRB = new RadioButton("person", "employee");
 	private Label firstName = new Label("First name:");
 	private Label surename = new Label("Surname:");
 	private Label company = new Label("Company:");
@@ -44,7 +47,7 @@ public class AddCustomer extends Composite{
 	
 	private final ContactSendingServiceAsync contactSendingService = GWT.create(ContactSendingService.class);
 	
-	public AddCustomer() {
+	public AddPerson() {
 		super();
 		final FlexTable flexTable = new FlexTable();
 		final HorizontalPanel hp = new HorizontalPanel();
@@ -70,14 +73,18 @@ public class AddCustomer extends Composite{
 			}
 		});
 		
+		customerRB.setFocus(true);
+		
 		houseNumberBox1.setWidth("6em");
 		houseNumberBox2.setWidth("6em");
 		
 		hp.add(houseNumberBox1);
 		hp.add(houseNumberBox2);
 		
-		flexTable.setWidget(0, 0, firstName);
-		flexTable.setWidget(0, 1, firstNameBox);
+		flexTable.setWidget(0, 0, customerRB);
+		flexTable.setWidget(0, 1, employeeRB);
+		//flexTable.setWidget(0, 0, firstName);
+		//flexTable.setWidget(0, 1, firstNameBox);
 		flexTable.setWidget(1, 0, surename);
 		flexTable.setWidget(1, 1, surenameBox);
 		flexTable.setWidget(2, 0, company);
