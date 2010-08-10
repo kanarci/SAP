@@ -38,6 +38,6 @@ public class Gui implements EntryPoint {
 	    dock.addWest(menu, 10);
 	    dock.add(tabs);
 	    rp.add(dock);
-	    rp.setSize("1200px", "500px");
+	    rp.setSize("1200px", "600px");
 	}
 }

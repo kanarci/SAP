@@ -3,6 +3,8 @@ package cz.cvut.felk.via.kanarci.gui.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -32,6 +34,8 @@ public class AddPerson extends Composite{
 	private Label street = new Label("Street:");
 	private Label houseNumber = new Label("House number:");
 	private Label zip = new Label("ZIP code:");
+	private Label accountNumber = new Label("Account Number:");
+	private Label hire = new Label("Hire:");
 	private TextBox firstNameBox = new TextBox();
 	private TextBox surenameBox = new TextBox();
 	private TextBox companyBox = new TextBox();
@@ -43,6 +47,8 @@ public class AddPerson extends Composite{
 	private TextBox houseNumberBox1 = new TextBox();
 	private TextBox houseNumberBox2 = new TextBox();
 	private TextBox zipBox = new TextBox();
+	private TextBox accountNumberBox = new TextBox();
+	private TextBox hireBox = new TextBox();
 	private Button create = new Button("Create");
 	
 	private final RPCAsync contactSendingService = GWT.create(RPC.class);
@@ -72,6 +78,28 @@ public class AddPerson extends Composite{
 				});
 			}
 		});
+		customerRB.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (customerRB.getValue()) {
+					accountNumber.setVisible(false);
+					accountNumberBox.setVisible(false);
+					hire.setVisible(false);
+					hireBox.setVisible(false);
+				}
+			}
+		});
+		employeeRB.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (employeeRB.getValue()) {
+					accountNumber.setVisible(true);
+					accountNumberBox.setVisible(true);
+					hire.setVisible(true);
+					hireBox.setVisible(true);
+				}
+			}
+		});
 		
 		customerRB.setValue(true);
 		customerRB.setFocus(true);
@@ -81,6 +109,12 @@ public class AddPerson extends Composite{
 		
 		hp.add(houseNumberBox1);
 		hp.add(houseNumberBox2);
+		
+		accountNumber.setVisible(false);
+		accountNumberBox.setVisible(false);
+		hire.setVisible(false);
+		hireBox.setVisible(false);
+		customerRB.setValue(true);
 		
 		flexTable.setWidget(0, 0, customerRB);
 		flexTable.setWidget(0, 1, employeeRB);
@@ -104,7 +138,11 @@ public class AddPerson extends Composite{
 		flexTable.setWidget(9, 1, hp);
 		flexTable.setWidget(10, 0, zip);
 		flexTable.setWidget(10, 1, zipBox);
-		flexTable.setWidget(11, 0, create);
+		flexTable.setWidget(11, 0, accountNumber);
+		flexTable.setWidget(11, 1, accountNumberBox);
+		flexTable.setWidget(12, 0, hire);
+		flexTable.setWidget(12, 1, hireBox);
+		flexTable.setWidget(13, 0, create);
 		
 		initWidget(flexTable);
 	}

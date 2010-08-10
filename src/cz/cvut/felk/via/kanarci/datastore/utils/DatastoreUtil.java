@@ -20,6 +20,7 @@ public abstract class DatastoreUtil {
 	private static <T> void makeObjectPersistent(T o){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
+			System.out.println("pm.makePersistent(o);");
 			pm.makePersistent(o);
 		}finally{
 			pm.close();
@@ -108,6 +109,7 @@ public abstract class DatastoreUtil {
 		
 		Customer cust = new Customer(contact);
 		System.out.println(contact.toString());
+		System.out.println("makeObjectPersistent(cust);");
 		makeObjectPersistent(cust);
 	}
 	
