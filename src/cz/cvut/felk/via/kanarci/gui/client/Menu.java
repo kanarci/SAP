@@ -18,7 +18,7 @@ public class Menu extends Composite{
 			super();
 		MenuBar menu = new MenuBar(true);
 		menu.addSeparator();
-		//menu.addItem("Add customer", cmd);
+		menu.addItem("Show customers", showCustomers());
 		menu.addSeparator();
 	    menu.addItem("Edit profile", cmd);
 	    menu.addItem("Customize", cmd);
@@ -27,4 +27,10 @@ public class Menu extends Composite{
 
 	    initWidget(menu);	    
 	  }
+
+		private Command showCustomers() {
+			// TODO Auto-generated method stub
+			Window.alert("alert");
+			return null;
+		}
 	}
