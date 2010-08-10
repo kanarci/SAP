@@ -3,9 +3,9 @@ package cz.cvut.felk.via.kanarci.gui.shared;
 import java.io.Serializable;
 
 
-public class Contact implements Serializable {
+public class ContactRPC implements Serializable {
 	
-	public Contact() {
+	public ContactRPC() {
 		super();
 	}
 
@@ -23,23 +23,29 @@ public class Contact implements Serializable {
 
 	private String department;
 
-	private Address address;
+	private AddressRPC address;
+	
+	private String accountNumber;
+	
+	private String hire;
 
-	public Contact(String firstName, String sureName, String phone,
-			String email, Address address) {
+	public ContactRPC(String firstName, String sureName, String phone,
+			String email, AddressRPC address) {
 		super();
 		this.firstName = firstName;
 		this.sureName = sureName;
 		this.phone = phone;
-		this.email = email;
-		this.address = address;
 		this.corporationName = null;
+		this.email = email;
 		this.department = null;
+		this.address = address;
+		this.accountNumber = null;
+		this.hire = null;
 	}
 
-	public Contact(String firstName, String sureName, String phone,
+	public ContactRPC(String firstName, String sureName, String phone,
 			String corporationName, String email, String department,
-			Address address) {
+			AddressRPC address) {
 		super();
 		this.firstName = firstName;
 		this.sureName = sureName;
@@ -48,8 +54,25 @@ public class Contact implements Serializable {
 		this.email = email;
 		this.department = department;
 		this.address = address;
+		this.accountNumber = null;
+		this.hire = null;
 	}
 
+
+	public ContactRPC(String firstName, String sureName, String phone,
+			String corporationName, String email, String department,
+			AddressRPC address, String accountNumber, String hire) {
+		super();
+		this.firstName = firstName;
+		this.sureName = sureName;
+		this.phone = phone;
+		this.corporationName = corporationName;
+		this.email = email;
+		this.department = department;
+		this.address = address;
+		this.accountNumber = accountNumber;
+		this.hire = hire;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -75,8 +98,16 @@ public class Contact implements Serializable {
 		return department;
 	}
 
-	public Address getAddress() {
+	public AddressRPC getAddress() {
 		return address;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public String getHire() {
+		return hire;
 	}
 
 	@Override
@@ -84,7 +115,8 @@ public class Contact implements Serializable {
 		return "Jmeno : " + firstName + " || Prijmeni : " + sureName
 				+ " || Telefon : " + phone + " || Email : " + email
 				+ " <br>Jmeno spolecnosti : " + corporationName
-				+ " || Oddeleni : " + department + "<br> ADRESA : "
+				+ " || Oddeleni : " + department + " || AccountNumber : "
+				+ accountNumber + " || Hire : " + hire + "<br> ADRESA : "
 				+ address.toString();
 	}
 

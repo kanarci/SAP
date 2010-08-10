@@ -15,8 +15,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
-import cz.cvut.felk.via.kanarci.gui.shared.Address;
-import cz.cvut.felk.via.kanarci.gui.shared.Contact;
+import cz.cvut.felk.via.kanarci.gui.shared.AddressRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 
 
 
@@ -61,8 +61,11 @@ public class AddPerson extends Composite{
 		create.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				Address address = new Address(cityBox.getValue(), streetBox.getValue(), Integer.parseInt(houseNumberBox1.getValue()), Integer.parseInt(houseNumberBox2.getValue()), zipBox.getValue());
-				Contact newContact = new Contact(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
+				AddressRPC address = new AddressRPC(cityBox.getValue(), streetBox.getValue(), Integer.parseInt(houseNumberBox1.getValue()), Integer.parseInt(houseNumberBox2.getValue()), zipBox.getValue());
+//				if (employeeRB.getValue()) {
+//					newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
+//				}
+				ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
 				create.setEnabled(false);
 				contactSendingService.contactSendingServer(newContact, new AsyncCallback<String>() {
 					@Override

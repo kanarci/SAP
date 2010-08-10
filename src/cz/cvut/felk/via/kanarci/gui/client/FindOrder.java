@@ -78,6 +78,7 @@ public class FindOrder extends Composite{
 				if (isCategory.getValue()) goodsCategory.setVisible(true); else {
 					goodsCategory.setVisible(false);
 					goods.setVisible(false);
+					isGoods.setValue(false);
 				}
 			}
 		});

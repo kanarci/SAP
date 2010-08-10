@@ -2,7 +2,7 @@ package cz.cvut.felk.via.kanarci.gui.shared;
 
 import java.io.Serializable;
 
-public class Address implements Serializable {
+public class AddressRPC implements Serializable {
 
 	private static final long serialVersionUID = -6287201767070877999L;
 
@@ -16,11 +16,11 @@ public class Address implements Serializable {
 
 	private String zip;
 
-	public Address() {
+	public AddressRPC() {
 		super();
 	}
 
-	public Address(String city, String street, int co, int cp, String zip) {
+	public AddressRPC(String city, String street, int co, int cp, String zip) {
 		super();
 		this.street = street;
 		this.co = co;
