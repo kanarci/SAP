@@ -11,10 +11,12 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
+
+
 @PersistenceCapable
 public class Order implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2185072106944143762L;
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

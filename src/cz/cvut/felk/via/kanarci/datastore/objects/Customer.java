@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+
 @PersistenceCapable
 // (detachable="true")
 public class Customer extends Person {

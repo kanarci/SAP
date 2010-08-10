@@ -12,8 +12,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
-import cz.cvut.felk.via.kanarci.datastore.objects.Address;
-import cz.cvut.felk.via.kanarci.datastore.objects.Contact;
+import cz.cvut.felk.via.kanarci.gui.shared.Address;
+import cz.cvut.felk.via.kanarci.gui.shared.Contact;
+
+
 
 public class AddCustomer extends Composite{
 

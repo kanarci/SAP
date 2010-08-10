@@ -7,6 +7,7 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
 
+
 @PersistenceCapable
 public class Employee extends Person {
 
