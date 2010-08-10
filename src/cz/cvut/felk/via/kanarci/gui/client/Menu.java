@@ -5,6 +5,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.MenuBar;
 
+import cz.cvut.felk.via.kanarci.datastore.utils.DatastoreUtil;
+
 public class Menu extends Composite{
 
 	    Command cmd = new Command() {
@@ -30,7 +32,7 @@ public class Menu extends Composite{
 
 		private Command showCustomers() {
 			// TODO Auto-generated method stub
-			Window.alert("alert");
+			Window.alert(DatastoreUtil.getAllContacts());
 			return null;
 		}
 	}

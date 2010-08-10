@@ -268,6 +268,22 @@ public abstract class DatastoreUtil {
 	}
 	
 	
+	public static String getAllContacts(){
+		String ret = "";
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		Query q = pm.newQuery(Contact.class);
+		List<Contact> con = (List<Contact>) q.execute();
+		
+		for(Contact c : con){
+			ret = ret.concat(c.toString());
+		}
+		
+		return ret;
+	}
+	
+	
 	
 	
 	
