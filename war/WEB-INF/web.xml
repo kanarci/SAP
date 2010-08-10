@@ -12,7 +12,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>contactSendingServlet</servlet-name>
-    <url-pattern>/cz/cvut/felk/via/kanarci/gui/contact</url-pattern>
+    <url-pattern>/gui/contact</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
