@@ -107,6 +107,7 @@ public abstract class DatastoreUtil {
 	public static void createCustomer(Contact contact){
 		
 		Customer cust = new Customer(contact);
+		System.out.println(contact.toString());
 		makeObjectPersistent(cust);
 	}
 	

@@ -45,7 +45,7 @@ public class AddPerson extends Composite{
 	private TextBox zipBox = new TextBox();
 	private Button create = new Button("Create");
 	
-	private final ContactSendingServiceAsync contactSendingService = GWT.create(ContactSendingService.class);
+	private final RPCAsync contactSendingService = GWT.create(RPC.class);
 	
 	public AddPerson() {
 		super();
@@ -73,6 +73,7 @@ public class AddPerson extends Composite{
 			}
 		});
 		
+		customerRB.setValue(true);
 		customerRB.setFocus(true);
 		
 		houseNumberBox1.setWidth("6em");
@@ -83,27 +84,27 @@ public class AddPerson extends Composite{
 		
 		flexTable.setWidget(0, 0, customerRB);
 		flexTable.setWidget(0, 1, employeeRB);
-		//flexTable.setWidget(0, 0, firstName);
-		//flexTable.setWidget(0, 1, firstNameBox);
-		flexTable.setWidget(1, 0, surename);
-		flexTable.setWidget(1, 1, surenameBox);
-		flexTable.setWidget(2, 0, company);
-		flexTable.setWidget(2, 1, companyBox);
-		flexTable.setWidget(3, 0, department);
-		flexTable.setWidget(3, 1, departmentBox);
-		flexTable.setWidget(4, 0, phone);
-		flexTable.setWidget(4, 1, phoneBox);
-		flexTable.setWidget(5, 0, email);
-		flexTable.setWidget(5, 1, emailBox);
-		flexTable.setWidget(6, 0, city);
-		flexTable.setWidget(6, 1, cityBox);
-		flexTable.setWidget(7, 0, street);
-		flexTable.setWidget(7, 1, streetBox);
-		flexTable.setWidget(8, 0, houseNumber);
-		flexTable.setWidget(8, 1, hp);
-		flexTable.setWidget(9, 0, zip);
-		flexTable.setWidget(9, 1, zipBox);
-		flexTable.setWidget(10, 0, create);
+		flexTable.setWidget(1, 0, firstName);
+		flexTable.setWidget(1, 1, firstNameBox);
+		flexTable.setWidget(2, 0, surename);
+		flexTable.setWidget(2, 1, surenameBox);
+		flexTable.setWidget(3, 0, company);
+		flexTable.setWidget(3, 1, companyBox);
+		flexTable.setWidget(4, 0, department);
+		flexTable.setWidget(4, 1, departmentBox);
+		flexTable.setWidget(5, 0, phone);
+		flexTable.setWidget(5, 1, phoneBox);
+		flexTable.setWidget(6, 0, email);
+		flexTable.setWidget(6, 1, emailBox);
+		flexTable.setWidget(7, 0, city);
+		flexTable.setWidget(7, 1, cityBox);
+		flexTable.setWidget(8, 0, street);
+		flexTable.setWidget(8, 1, streetBox);
+		flexTable.setWidget(9, 0, houseNumber);
+		flexTable.setWidget(9, 1, hp);
+		flexTable.setWidget(10, 0, zip);
+		flexTable.setWidget(10, 1, zipBox);
+		flexTable.setWidget(11, 0, create);
 		
 		initWidget(flexTable);
 	}

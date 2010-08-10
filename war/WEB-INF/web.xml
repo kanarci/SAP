@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>contactSendingServlet</servlet-name>
-    <servlet-class>cz.cvut.felk.via.kanarci.gui.server.ContactSendingServiceImpl</servlet-class>
+    <servlet-class>cz.cvut.felk.via.kanarci.gui.server.RPCImpl</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>contactSendingServlet</servlet-name>

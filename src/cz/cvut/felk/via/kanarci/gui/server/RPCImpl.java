@@ -5,10 +5,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import cz.cvut.felk.via.kanarci.datastore.objects.Address;
 import cz.cvut.felk.via.kanarci.datastore.utils.DatastoreUtil;
 import cz.cvut.felk.via.kanarci.gui.shared.Contact;
-import cz.cvut.felk.via.kanarci.gui.client.ContactSendingService;
+import cz.cvut.felk.via.kanarci.gui.client.RPC;
 
-public class ContactSendingServiceImpl extends RemoteServiceServlet
-implements ContactSendingService {
+public class RPCImpl extends RemoteServiceServlet
+implements RPC {
 
 	private static final long serialVersionUID = 4547875787007127536L;
 
@@ -22,6 +22,11 @@ implements ContactSendingService {
 						contact.getAddress().getStreet(), contact.getAddress().getCo(),
 						contact.getAddress().getCp(), contact.getAddress().getZip())));
 		return "Ok";
+	}
+
+	@Override
+	public String getContactsServer() throws IllegalArgumentException {
+		return DatastoreUtil.getAllContacts();
 	}
 
 }

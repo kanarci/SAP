@@ -8,6 +8,7 @@ import cz.cvut.felk.via.kanarci.gui.shared.Contact;
 
 
 @RemoteServiceRelativePath("contact")
-public interface ContactSendingService extends RemoteService{
+public interface RPC extends RemoteService{
 	String contactSendingServer(Contact contact) throws IllegalArgumentException;
+	String getContactsServer() throws IllegalArgumentException;
 }
