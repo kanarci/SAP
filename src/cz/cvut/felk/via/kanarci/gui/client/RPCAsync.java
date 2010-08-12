@@ -10,7 +10,7 @@ public interface RPCAsync {
 	void contactSendingServer(ContactRPC newContact, AsyncCallback<String> callback)
 	throws IllegalArgumentException;
 
-	void getContactsServer(AsyncCallback<String> callback) throws IllegalArgumentException;
+	void getCustomersServer(AsyncCallback<String> callback) throws IllegalArgumentException;
 
 	void delContactsServer(AsyncCallback<String> callback);
 

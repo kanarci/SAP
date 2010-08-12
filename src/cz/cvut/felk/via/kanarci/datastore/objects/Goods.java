@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class Goods implements Serializable{
 
-
 	private static final long serialVersionUID = -3944983861287769984L;
 
 	@PrimaryKey
@@ -46,19 +45,20 @@ public class Goods implements Serializable{
 	@Persistent
 	private List<Key> category;
 
-	// public Goods(String name, Text description, double price, int
-	// numOfPieces,
-	// Key supplier, List<Key> category) {
-	// super();
-	// this.name = name;
-	// this.description = description;
-	// this.price = price;
-	// this.numOfPieces = numOfPieces;
-	// this.supplier = supplier;
-	// this.category = category;
-	// this.visiblity = Boolean.TRUE;
-	// }
-
+	
+	public Goods(String name) {
+		super();
+		this.name = name;
+		this.description = new Text("Zbozi je vymyslene");
+		this.price = 999;
+		this.numOfPieces = 10;
+		this.visiblity = true;
+		DPH = 20;
+		this.supplier = null;
+		this.category = null;
+	}
+	
+	
 	public Goods(String name, Text description, double price, int numOfPieces,
 			boolean visiblity, Key supplier, List<Key> category) {
 		super();
@@ -69,7 +69,7 @@ public class Goods implements Serializable{
 		this.visiblity = visiblity;
 		this.supplier = supplier;
 		this.category = category;
-		this.DPH = (double) 1000000;
+		this.DPH = (double) 20;
 	}
 
 	public Goods(String name, Text description, double price, int numOfPieces,

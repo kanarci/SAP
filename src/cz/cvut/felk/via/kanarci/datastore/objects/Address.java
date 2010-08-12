@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable (detachable="true")
 public class Address implements Serializable {
 
 	 @PrimaryKey
@@ -42,10 +42,10 @@ public class Address implements Serializable {
 		this.zip = zip;
 	}
 
-	//
-	// public Key getKey() {
-	// return key;
-	// }
+	
+	 public Key getKey() {
+	 return key;
+	 }
 
 	public String getStreet() {
 		return street;

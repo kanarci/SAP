@@ -1,5 +1,7 @@
 package cz.cvut.felk.via.kanarci.gui.server;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -7,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cz.cvut.felk.via.kanarci.datastore.objects.Address;
 import cz.cvut.felk.via.kanarci.datastore.objects.Contact;
+import cz.cvut.felk.via.kanarci.datastore.objects.Customer;
 import cz.cvut.felk.via.kanarci.datastore.utils.DUF;
 import cz.cvut.felk.via.kanarci.gui.client.RPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
@@ -34,14 +37,18 @@ implements RPC {
 	}
 
 	@Override
-	public String getContactsServer() throws IllegalArgumentException {
-		String ret = null;
+	public String getCustomersServer() throws IllegalArgumentException {
+		List<Customer> retCust = new ArrayList<Customer>();
+		String retStr = "";
 		try {
-			ret = DUF.get().getAllCustomers();
+			retCust = DUF.get().getAllCustomers();
+			for(Customer cus : retCust){
+				retStr = retStr.concat(cus.toString()+"\n");
+			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Failed in session cleanup", e); 
 		}
-		return ret;
+		return retStr;
 	
 	}
 

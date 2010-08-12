@@ -7,7 +7,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable (detachable="true")
 public class Contact {
 
 	@PrimaryKey
@@ -32,7 +32,7 @@ public class Contact {
 	@Persistent
 	private String department;
 
-	@Persistent(dependent = "true")
+	@Persistent(serialized = "true", defaultFetchGroup = "true")
 	private Address address;
 
 	public Contact(String firstName, String sureName, String phone, String email,

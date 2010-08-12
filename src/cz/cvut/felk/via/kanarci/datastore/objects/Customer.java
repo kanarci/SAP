@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-// (detachable="true")
+ (detachable="true")
 public class Customer extends Person {
 
 
