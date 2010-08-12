@@ -174,14 +174,14 @@ public class FindOrder extends Composite{
 		flexTable.setWidget(7, 4, priceSmaller);
 		flexTable.setWidget(7, 5, searchButton);
 		
-		data.setText(0, 0, "Order date");
-		data.setText(0, 1, "Category");
-		data.setText(0, 2, "Goods");
-		data.setText(0, 3, "Price");
-		data.setText(0, 4, "no.");
-		data.setText(0, 5, "excl. VAT");
-		data.setText(0, 6, "VAT");
-		data.setText(0, 7, "Total price");
+		data.setText(0, 0, "timestamp");
+		data.setText(0, 1, "Created by");
+		data.setText(0, 2, "Order date");
+		data.setText(0, 3, "Customer");
+		data.setText(0, 4, "Goods");
+		data.setText(0, 5, "no.");
+		data.setText(0, 6, "Total price");
+		data.setText(0, 7, "Address");
 		data.setBorderWidth(2);
 		data.setCellPadding(4);
 		data.setVisible(false);

@@ -23,8 +23,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-import cz.cvut.felk.via.kanarci.datastore.utils.DUF;
-
 public class NewOrder extends Composite{
 
 	private NewOrderMessages messages = GWT.create(NewOrderMessages.class);
@@ -89,6 +87,7 @@ public class NewOrder extends Composite{
 		data.setWidget(1, 8, plusButton);
 		data.setBorderWidth(2);
 		data.setCellPadding(4);
+		calc();
 		
 		orderDatePicker.addValueChangeHandler(new ValueChangeHandler<Date>() {
 			@Override

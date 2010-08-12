@@ -7,9 +7,11 @@ import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 
 public interface RPCAsync {
 
-	void contactSendingServer(ContactRPC newContact, AsyncCallback<String> callback)
+	void addCustomerServer(ContactRPC newContact, AsyncCallback<String> callback)
 	throws IllegalArgumentException;
 
+	void addEmployeeServer(ContactRPC contact, AsyncCallback<String> callback);
+	
 	void getContactsServer(AsyncCallback<String> callback) throws IllegalArgumentException;
 
 	void delContactsServer(AsyncCallback<String> callback);

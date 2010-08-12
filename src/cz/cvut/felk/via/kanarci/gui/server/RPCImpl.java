@@ -19,7 +19,7 @@ implements RPC {
 	private static final Logger log = Logger.getLogger("DataNucleus.JDO");
 	
 	@Override
-	public String contactSendingServer(ContactRPC contact)
+	public String addCustomerServer(ContactRPC contact)
 			throws IllegalArgumentException {
 
 		Contact custContact = new Contact(contact.getFirstName(), contact.getSureName(),
@@ -32,7 +32,21 @@ implements RPC {
 			
 		return "Ok : "+custContact.toString();
 	}
-
+	
+	@Override
+	public String addEmployeeServer(ContactRPC contact)
+			throws IllegalArgumentException {
+		//TODO: not completly implemented
+		Contact custContact = new Contact(contact.getFirstName(), contact.getSureName(),
+				contact.getPhone(), contact.getCorporationName(), contact.getEmail(), 
+				contact.getDepartment(), new Address(contact.getAddress().getCity(), 
+						contact.getAddress().getStreet(), contact.getAddress().getCo(),
+						contact.getAddress().getCp(), contact.getAddress().getZip())); 
+		
+		DUF.get().addEmployee(custContact);
+		return null;
+	}
+	
 	@Override
 	public String getContactsServer() throws IllegalArgumentException {
 		String ret = null;

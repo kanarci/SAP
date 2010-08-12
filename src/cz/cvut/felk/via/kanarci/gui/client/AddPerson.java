@@ -58,29 +58,32 @@ public class AddPerson extends Composite{
 		super();
 		final FlexTable flexTable = new FlexTable();
 		final HorizontalPanel hp = new HorizontalPanel();
+		final AsyncCallback<String> ac = new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(String result) {
+				Window.alert(result);
+				create.setEnabled(true);
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Communication failed"+caught.getMessage());
+				create.setEnabled(true);
+			}
+		};
 		
 		create.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				AddressRPC address = new AddressRPC(cityBox.getValue(), streetBox.getValue(), Integer.parseInt(houseNumberBox1.getValue()), Integer.parseInt(houseNumberBox2.getValue()), zipBox.getValue());
 				if (employeeRB.getValue()) {
-					// TODO
+					ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address, accountNumberBox.getValue(), hireBox.getValue());
+					create.setEnabled(false);
+					contactSendingService.addEmployeeServer(newContact, ac);
+				} else {
 					ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
+					create.setEnabled(false);
+					contactSendingService.addCustomerServer(newContact, ac);
 				}
-				ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
-				create.setEnabled(false);
-				contactSendingService.contactSendingServer(newContact, new AsyncCallback<String>() {
-					@Override
-					public void onSuccess(String result) {
-						Window.alert(result);
-						create.setEnabled(true);
-					}
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Communication failed"+caught.getMessage());
-						create.setEnabled(true);
-					}
-				});
 			}
 		});
 		customerRB.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
