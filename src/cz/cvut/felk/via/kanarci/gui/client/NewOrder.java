@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
+import cz.cvut.felk.via.kanarci.datastore.utils.DUF;
+
 public class NewOrder extends Composite{
 
 	private NewOrderMessages messages = GWT.create(NewOrderMessages.class);
@@ -31,11 +33,11 @@ public class NewOrder extends Composite{
 	private Date orderDate = new Date();
 	private DateBox orderDatePicker = new DateBox(new DatePicker(), orderDate, new DateBox.DefaultFormat(DateTimeFormat.getMediumDateFormat()));
 	
-	private ListBox goodsCategory = new ListBox();
+	private ListBox customers = new ListBox();
 	private ListBox goods = new ListBox();
 	private TextBox onePrice = new TextBox();
 	private TextBox count = new TextBox();
-	private TextBox priceNOTax = new TextBox();
+	private TextBox priceNoTax = new TextBox();
 	private TextBox vat = new TextBox();
 	private TextBox priceTax = new TextBox();
 	private ArrayList<Double> orderIDs = new ArrayList<Double>();
@@ -44,44 +46,44 @@ public class NewOrder extends Composite{
 		super();
 		final FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(4);
-		Label user = new Label("Jméno Příjmení");
+		Label user = new Label("Generic Seller");
 		final Button plusButton = new Button("<b>+</b>");
 		final Button save = new Button("Save changes"); 
 		
 		orderDatePicker.setWidth("10em");
-		goodsCategory.addItem("--------");
-		goodsCategory.addItem("Cars");
-		goodsCategory.addItem("Others");
-		goods.addItem("--------");
+		customers.addItem("--------");
+		//customers.addItem(DUF.get().getAllCustomers());
+		goods.addItem("phone 1");
+		goods.addItem("phone 2");
+		goods.addItem("phone 3");
+		onePrice.setText("5000");
 		onePrice.setWidth("6em");
 		onePrice.setReadOnly(true);
+		count.setText("1");
 		count.setWidth("2em");
-		priceNOTax.setWidth("6em");
-		priceNOTax.setReadOnly(true);
+		priceNoTax.setWidth("6em");
+		priceNoTax.setReadOnly(true);
 		vat.setWidth("3em");
 		vat.setReadOnly(true);
 		priceTax.setWidth("6em");
 		priceTax.setReadOnly(true);
 		//folloving will be read from DB
-		onePrice.setText("from DB");
-		priceNOTax.setText("calculated");
-		vat.setText("20%");
-		priceTax.setText("calculated");
+		vat.setText("20");
 		
 		data.setText(0, 0, "Order date");
-		data.setText(0, 1, "Category");
+		data.setText(0, 1, "Customer");
 		data.setText(0, 2, "Goods");
 		data.setText(0, 3, "Price");
 		data.setText(0, 4, "no.");
 		data.setText(0, 5, "excl. VAT");
-		data.setText(0, 6, "VAT");
+		data.setText(0, 6, "VAT [%]");
 		data.setText(0, 7, "Total price");
 		data.setWidget(1, 0, orderDatePicker);
-		data.setWidget(1, 1, goodsCategory);
+		data.setWidget(1, 1, customers);
 		data.setWidget(1, 2, goods);
 		data.setWidget(1, 3, onePrice);
 		data.setWidget(1, 4, count);
-		data.setWidget(1, 5, priceNOTax);
+		data.setWidget(1, 5, priceNoTax);
 		data.setWidget(1, 6, vat);
 		data.setWidget(1, 7, priceTax);
 		data.setWidget(1, 8, plusButton);
@@ -101,28 +103,26 @@ public class NewOrder extends Composite{
 				int row = data.getRowCount();
 				double hash = 5;
 				hash = 17 * hash + (orderDatePicker.getValue() != null ? orderDatePicker.getValue().hashCode() : 0);
-				hash = 17 * hash + goodsCategory.getSelectedIndex();
+				hash = 17 * hash + customers.getSelectedIndex();
 				hash = 17 * hash + goods.getSelectedIndex();
 				hash = 17 * hash + (onePrice.getValue() != null ? onePrice.getValue().hashCode() : 0);
 				hash = 17 * hash + (count.getValue() != null ? count.getValue().hashCode() : 0);
-				hash = 17 * hash + (priceNOTax.getValue() != null ? priceNOTax.getValue().hashCode() : 0);
+				hash = 17 * hash + (priceNoTax.getValue() != null ? priceNoTax.getValue().hashCode() : 0);
 				hash = 17 * hash + (vat.getValue() != null ? vat.getValue().hashCode() : 0);
 				hash = 17 * hash + (priceTax.getValue() != null ? priceTax.getValue().hashCode() : 0);
 				final double finalHash = hash;
 				if (orderIDs.contains(finalHash)){
 					Window.alert(messages.duplicityOrder(orderIDs.indexOf(finalHash)+3));
-					//Window.alert("You are making duplicity order. Save our trees and make it as a single order.\n" +
-					//		"Duplicity found on line: "+ orderIDs.indexOf(finalHash)+3);
 					return;
 				}
 				orderIDs.add(finalHash);
 				data.insertRow(row);
 				data.setText(row, 0, DateTimeFormat.getMediumDateFormat().format(orderDate));
-				data.setText(row, 1, goodsCategory.getItemText(goodsCategory.getSelectedIndex()));
+				data.setText(row, 1, customers.getItemText(customers.getSelectedIndex()));
 				data.setText(row, 2, goods.getItemText(goods.getSelectedIndex()));
 				data.setText(row, 3, onePrice.getText());
 				data.setText(row, 4, count.getText());
-				data.setText(row, 5, priceNOTax.getText());
+				data.setText(row, 5, priceNoTax.getText());
 				data.setText(row, 6, vat.getText());
 				data.setText(row, 7, priceTax.getText());
 				data.setWidget(row, 8, new Button("<b>-</b>", new ClickHandler() {
@@ -136,16 +136,16 @@ public class NewOrder extends Composite{
 				}));
 			}
 		});
-		
-		goodsCategory.addChangeHandler(new ChangeHandler() {
+		/*
+		customers.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (goodsCategory.getItemText(goodsCategory.getSelectedIndex()).equals("Cars")) {
+				if (customers.getItemText(customers.getSelectedIndex()).equals("Cars")) {
 					goods.clear();
 					goods.addItem("Opel");
 					goods.addItem("Škoda");
 				}
-				else if (goodsCategory.getItemText(goodsCategory.getSelectedIndex()).equals("Others")) {
+				else if (customers.getItemText(customers.getSelectedIndex()).equals("Others")) {
 					goods.clear();
 					goods.addItem("something other");
 				}
@@ -154,8 +154,30 @@ public class NewOrder extends Composite{
 					goods.addItem("--------");
 				}
 			}
+		});*/
+		goods.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (goods.getItemText(goods.getSelectedIndex()).equals("phone 1")) {
+					onePrice.setText("5000");
+					calc();
+				}
+				else if (goods.getItemText(goods.getSelectedIndex()).equals("phone 2")) {
+					onePrice.setText("6000");
+					calc();
+				}
+				else if (goods.getItemText(goods.getSelectedIndex()).equals("phone 3")) {
+					onePrice.setText("5");
+					calc();
+				}
+			}
 		});
-		
+		count.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				calc();
+			}
+		});
 		save.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -171,32 +193,13 @@ public class NewOrder extends Composite{
 
 		initWidget(flexTable);
 	}
-	/*
-	void dataFeed(){
-		data.insertRow(data.getRowCount());
-		data.setText(1, 0, "29.2.2009");
-		data.setText(1, 1, "bla blablabla");
-		data.setText(1, 2, "1");
-		data.setText(1, 3, "5 328,45");
-		data.insertRow(data.getRowCount());
-		data.setText(2, 0, "30.2.2010");
-		data.setText(2, 1, "blabla blabla");
-		data.setText(2, 2, "2");
-		data.setText(2, 3, "3 284,55");
-		data.insertRow(data.getRowCount());
-		data.setText(3, 0, "31.2.2010");
-		data.setText(3, 1, "blablabla bla");
-		data.setText(3, 2, "3");
-		data.setText(3, 3, "2 845,53");
+	void calc(){
+		if (Integer.parseInt(count.getText()) > 0) {
+			priceNoTax.setText(Integer.toString(Integer.parseInt(count.getText())*Integer.parseInt(onePrice.getText())));
+			priceTax.setText(Double.toString(Integer.parseInt(priceNoTax.getText())*(1 + Double.parseDouble(vat.getText())/100)));
+		} else {
+			priceNoTax.setText("------");
+			priceTax.setText("------");
+		}
 	}
-	void dataFeed(String date, String label, int count, double price, double tax){
-		data.insertRow(data.getRowCount());
-		data.setText(data.getRowCount()-1, 0, date);
-		data.setText(data.getRowCount()-1, 1, label);
-		data.setText(data.getRowCount()-1, 2, Integer.toString(count));
-		data.setText(data.getRowCount()-1, 3, Double.toString(price));
-		data.setText(data.getRowCount()-1, 4, Double.toString(price * count));
-		data.setText(data.getRowCount()-1, 5, Double.toString(tax));
-		data.setText(data.getRowCount()-1, 6, Double.toString(price * count * tax / 100 + price * count));
-	}*/
 }
