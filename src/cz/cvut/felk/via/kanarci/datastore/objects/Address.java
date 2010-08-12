@@ -2,15 +2,19 @@ package cz.cvut.felk.via.kanarci.datastore.objects;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class Address implements Serializable {
-	//
-	// @PrimaryKey
-	// @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	// private Key key;
+
+	 @PrimaryKey
+	 @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	 private Key key;
 
 	private static final long serialVersionUID = 7382300149781219278L;
 

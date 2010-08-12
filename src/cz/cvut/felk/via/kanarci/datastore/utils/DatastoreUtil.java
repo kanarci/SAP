@@ -2,7 +2,10 @@ package cz.cvut.felk.via.kanarci.datastore.utils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.JDOUserException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -14,8 +17,10 @@ import com.google.appengine.api.datastore.Text;
 import cz.cvut.felk.via.kanarci.datastore.objects.*;
 import cz.cvut.felk.via.kanarci.datastore.utils.PMF;
 
-
 public abstract class DatastoreUtil {
+
+	private static final Logger log = Logger.getLogger("DataNucleus.JDO");
+
 
 	private static <T> void makeObjectPersistent(T o){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -29,12 +34,21 @@ public abstract class DatastoreUtil {
 	
 	private static void removeAllPersistentObjects(Class<?> o){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		try{
 			Query q = pm.newQuery(o);
 			q.deletePersistentAll();
 		}
 		catch(JDOUserException e){
-			System.out.println(" error: neni co deletovat");
+			System.out.println(" error: nebylo co deletovat");
+			log.log(Level.SEVERE, "Failed in all customers delete", e); 
+			try{
+				Query q = pm.newQuery(o);
+				q.deletePersistentAll();
+			}
+			catch(JDOUserException ex){
+				System.out.println(" error: stale neni co deletovat");
+			}
 		}
 		finally{
 			pm.close();	
@@ -91,19 +105,19 @@ public abstract class DatastoreUtil {
 		makeObjectPersistent(cat);
 	}
 	
-	public static void createContact(String firstName, String sureName, String phone
-			, String email,	Address address){
-		
-		Contact con = new Contact(firstName, sureName, phone, email, address);
-		makeObjectPersistent(con);
-	}
-	
-	public static void createContact(String firstName, String sureName, String phone,
-			String corporationName, String email, String department, Address address){
-		
-		Contact con = new Contact(firstName, sureName, phone, corporationName, email, department, address);
-		makeObjectPersistent(con);
-	}	
+//	public static void createContact(String firstName, String sureName, String phone
+//			, String email,	Address address){
+//		
+//		Contact con = new Contact(firstName, sureName, phone, email, address);
+//		makeObjectPersistent(con);
+//	}
+//	
+//	public static void createContact(String firstName, String sureName, String phone,
+//			String corporationName, String email, String department, Address address){
+//		
+//		Contact con = new Contact(firstName, sureName, phone, corporationName, email, department, address);
+//		makeObjectPersistent(con);
+//	}	
 
 	public static void createCustomer(Contact contact){
 		
@@ -271,18 +285,22 @@ public abstract class DatastoreUtil {
 	}
 	
 	
-	public static String getAllContacts(){
+	@SuppressWarnings("unchecked")
+	public static String getAllCustomers(){
 		String ret = "";
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		Query q = pm.newQuery(Contact.class);
-		List<Contact> con = (List<Contact>) q.execute();
+		Query q = pm.newQuery(Customer.class);
+		List<Customer> cus = (List<Customer>) q.execute();
 		
-		for(Contact c : con){
-			ret = ret.concat(c.toString());
+
+		int i = 1;
+		for(Customer c : cus){
+			ret = ret.concat(i + " " + c.toString()+ "\n");
+			i++;
 		}
-		
+		pm.close();
 		return ret;
 	}
 	

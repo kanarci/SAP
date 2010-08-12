@@ -3,6 +3,8 @@ package cz.cvut.felk.via.kanarci.gui.shared;
 import java.io.Serializable;
 
 
+
+
 public class ContactRPC implements Serializable {
 	
 	public ContactRPC() {

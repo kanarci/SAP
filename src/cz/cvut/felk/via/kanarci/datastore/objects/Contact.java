@@ -1,7 +1,5 @@
 package cz.cvut.felk.via.kanarci.datastore.objects;
 
-import java.io.Serializable;
-
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -10,9 +8,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Contact implements Serializable {
-
-	private static final long serialVersionUID = 4232419077572870798L;
+public class Contact {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -39,8 +35,8 @@ public class Contact implements Serializable {
 	@Persistent(dependent = "true")
 	private Address address;
 
-	public Contact(String firstName, String sureName, String phone,
-			String email, Address address) {
+	public Contact(String firstName, String sureName, String phone, String email,
+			Address address) {
 		super();
 		this.firstName = firstName;
 		this.sureName = sureName;
@@ -52,8 +48,7 @@ public class Contact implements Serializable {
 	}
 
 	public Contact(String firstName, String sureName, String phone,
-			String corporationName, String email, String department,
-			Address address) {
+			String corporationName, String email, String department, Address address) {
 		super();
 		this.firstName = firstName;
 		this.sureName = sureName;
@@ -123,14 +118,12 @@ public class Contact implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	@Override
-	public String toString() {
-		return "Jmeno : " + firstName + " || Prijmeni : " + sureName
-				+ " || Telefon : " + phone + " || Email : " + email
-				+ " <br>Jmeno spolecnosti : " + corporationName
-				+ " || Oddeleni : " + department + "<br> ADRESA : "
-				+ address.toString();
-	}
+	
+    @Override
+    public String toString(){
+		return "Jmeno : " + firstName + " || Prijmeni : " + sureName + " || Telefon : " + phone 
+		+ " || Email : " + email + " <br>Jmeno spolecnosti : " + corporationName + " || Oddeleni : " + department +
+		"<br> ADRESA : " + address.toString() ;
+    }
 
 }

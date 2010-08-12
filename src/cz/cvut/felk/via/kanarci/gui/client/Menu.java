@@ -32,6 +32,25 @@ public class Menu extends Composite{
 				});				
 			}
 		};
+		
+	    private Command deleteCustomers = new Command() {			
+			@Override
+			public void execute() {
+				final RPCAsync delContactServer = GWT.create(RPC.class);
+				delContactServer.delContactsServer(new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						Window.alert("Ok: "+result);
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+					}
+				});				
+			}
+		};
 
 	    // Make some sub-menus that we will cascade from the top menu.
 	    public Menu() {
@@ -39,6 +58,7 @@ public class Menu extends Composite{
 		MenuBar menu = new MenuBar(true);
 		menu.addSeparator();
 		menu.addItem("Show customers", showCustomers);
+		menu.addItem("Delete customers", deleteCustomers);
 		menu.addSeparator();
 	    menu.addItem("Edit profile", cmd);
 	    menu.addItem("Customize", cmd);

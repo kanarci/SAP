@@ -6,39 +6,46 @@ import java.util.List;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 // (detachable="true")
 public class Customer extends Person {
 
 
-	private static final long serialVersionUID = -473531119686226231L;
+	private static final long serialVersionUID = 4963844968764606571L;
 
 	@Persistent
-	private List<Order> orders;
+	private List<Key> orders;
 
 	@Persistent
-	private List<Invoice> invoice;
+	private List<Key> invoice;
 
 	public Customer(Contact contact) {
 		super(contact);
-		invoice = new ArrayList<Invoice>();
+		invoice = new ArrayList<Key>();
 	}
 
-	public List<Order> getOrders() {
+	public List<Key> getOrders() {
 		return orders;
 	}
 
-	public void addOrder(Order var) {
+	public void addOrder(Key var){
 		this.orders.add(var);
 	}
 
-	public List<Invoice> getInvoices() {
+	public List<Key> getInvoices() {
 		return invoice;
 	}
 
-	public void addInvoice(Invoice var) {
+//	public void setInvoices(List<Key> invoice) {
+//		this.invoice = invoice;
+//	}
+//	
+	public void addInvoice(Key var){
 		this.invoice.add(var);
 	}
+	
+
 
 }

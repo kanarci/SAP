@@ -12,4 +12,6 @@ public interface RPCAsync {
 
 	void getContactsServer(AsyncCallback<String> callback) throws IllegalArgumentException;
 
+	void delContactsServer(AsyncCallback<String> callback);
+
 }

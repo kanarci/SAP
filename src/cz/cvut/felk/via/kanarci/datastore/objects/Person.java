@@ -45,6 +45,10 @@ public abstract class Person implements Serializable{
 
 	@Override
 	public String toString() {
-		return this.contactInfo.toString();
+		if (contactInfo == null) {
+			return " je null";
+		} else {
+			return this.contactInfo.toString();
+		}
 	}
 }
