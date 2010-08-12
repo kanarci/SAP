@@ -64,17 +64,11 @@ public class AddPerson extends Composite{
 			public void onClick(ClickEvent event) {
 				AddressRPC address = new AddressRPC(cityBox.getValue(), streetBox.getValue(), Integer.parseInt(houseNumberBox1.getValue()), Integer.parseInt(houseNumberBox2.getValue()), zipBox.getValue());
 				if (employeeRB.getValue()) {
+					// TODO
 					ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
 				}
 				ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
 				create.setEnabled(false);
-//				contactSendingService.contactSendingServer(firstNameBox.getValue(), 
-//						surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), 
-//						emailBox.getValue(), departmentBox.getValue(), 
-//						cityBox.getValue(), streetBox.getValue(), 
-//						Integer.parseInt(houseNumberBox1.getValue()), 
-//						Integer.parseInt(houseNumberBox2.getValue()), 
-//						zipBox.getValue(), new AsyncCallback<String>() {
 				contactSendingService.contactSendingServer(newContact, new AsyncCallback<String>() {
 					@Override
 					public void onSuccess(String result) {

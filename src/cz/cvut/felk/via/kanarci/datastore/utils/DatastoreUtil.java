@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.JDOHelper;
 import javax.jdo.JDOUserException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -17,22 +16,25 @@ import com.google.appengine.api.datastore.Text;
 import cz.cvut.felk.via.kanarci.datastore.objects.*;
 import cz.cvut.felk.via.kanarci.datastore.utils.PMF;
 
-public abstract class DatastoreUtil {
+public class DatastoreUtil implements IDatastoreUtil{
 
-	private static final Logger log = Logger.getLogger("DataNucleus.JDO");
+	private final Logger log = Logger.getLogger("DataNucleus.JDO");
 
+	// default constructor
+	public DatastoreUtil() {
+		super();
+	}
 
-	private static <T> void makeObjectPersistent(T o){
+	private <T> void makeObjectPersistent(T o){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
-			System.out.println("pm.makePersistent(o);");
 			pm.makePersistent(o);
 		}finally{
 			pm.close();
 		}
 	}
 	
-	private static void removeAllPersistentObjects(Class<?> o){
+	private void deleteAllPersistentObjects(Class<?> o){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		try{
@@ -57,90 +59,85 @@ public abstract class DatastoreUtil {
 
 	
 	@SuppressWarnings({ "unchecked" })
-	private static <T> T getUniqueObjectForIdentifier(T o,
-			String property, String identifier){
-
+	private <T> T getUniqueObjectForIdentifier(T o,	String property, String identifier){
 		
 		T obj = null;
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Transaction tx = pm.currentTransaction();
 		try {
-            tx.begin();
-    
-            Query q = pm.newQuery(o.getClass());
-            q.setFilter(property + " == " + identifier);
-//            q.declareParameters("String fnParam");
-            q.setUnique(true);
-            T qobj = (T) q.execute();
-            obj = pm.detachCopy(qobj);
-            tx.commit();
-        } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            pm.close();
-        }
-        return obj;
+			tx.begin();
+  
+			Query q = pm.newQuery(o.getClass());
+			q.setFilter(property + " == " + identifier);
+			q.setUnique(true);
+			T qobj = (T) q.execute();
+			obj = pm.detachCopy(qobj);
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return obj;
 	}
 	
 	
 	/* ------------------------------------------------------------ */
-	public static void createAddress(String street, int co, int cp, String city, String zip){
+	public void addAddress(String street, int co, int cp, String city, String zip){
 		
 		Address adr = new Address(city, street, co, cp, zip);
 		makeObjectPersistent(adr);
 	}
 	
-	public static void createCategory(String name, Key supremeCategory){
+	public void addCategory(String name, Key supremeCategory){
 		
 		Category cat = new Category(name, supremeCategory);	
 		makeObjectPersistent(cat);
 	}
 	
-	public static void createCategory(String name, Key supremeCategory, String parameterName
+	public void addCategory(String name, Key supremeCategory, String parameterName
 			, String parameterValue){
 		
 		Category cat = new Category(name, supremeCategory, parameterName, parameterValue);
 		makeObjectPersistent(cat);
 	}
 	
-//	public static void createContact(String firstName, String sureName, String phone
-//			, String email,	Address address){
-//		
-//		Contact con = new Contact(firstName, sureName, phone, email, address);
-//		makeObjectPersistent(con);
-//	}
-//	
-//	public static void createContact(String firstName, String sureName, String phone,
-//			String corporationName, String email, String department, Address address){
-//		
-//		Contact con = new Contact(firstName, sureName, phone, corporationName, email, department, address);
-//		makeObjectPersistent(con);
-//	}	
+	public void addContact(String firstName, String sureName, String phone
+			, String email,	Address address){
+		
+		Contact con = new Contact(firstName, sureName, phone, email, address);
+		makeObjectPersistent(con);
+	}
+	
+	public void addContact(String firstName, String sureName, String phone,
+			String corporationName, String email, String department, Address address){
+		
+		Contact con = new Contact(firstName, sureName, phone, corporationName, email, department, address);
+		makeObjectPersistent(con);
+	}	
 
-	public static void createCustomer(Contact contact){
+	public void addCustomer(Contact contact){
 		
 		Customer cust = new Customer(contact);
-		System.out.println(contact.toString());
-		System.out.println("makeObjectPersistent(cust);");
 		makeObjectPersistent(cust);
 	}
 	
-	public static void createEmployee( Contact contact){
+	public void addEmployee( Contact contact){
 		
 		Employee emp = new Employee(contact);
 		makeObjectPersistent(emp);
 	}
 	
-	public static void createEmployee( Contact contact, double salary
+	public void addEmployee( Contact contact, double salary
 			, String bankAccountNumber, Key inTeam){
 		
 		Employee emp = new Employee(contact, salary, bankAccountNumber, inTeam);
 		makeObjectPersistent(emp);
 	}
 	
-	public static void createGoods(String name, Text description, double price
+	public void addGoods(String name, Text description, double price
 			, int numOfPieces, boolean visiblity, Key supplier, List<Key> category){
 
 		Goods goods = new Goods(name, description, price, numOfPieces, visiblity
@@ -148,58 +145,58 @@ public abstract class DatastoreUtil {
 		makeObjectPersistent(goods);
 	}
 	
-	public static void createGoods(String name, Text description, double price
+	public void addGoods(String name, Text description, double price
 			, int numOfPieces, boolean visiblity, Key category){
 
 		Goods goods = new Goods(name, description, price, numOfPieces, visiblity, category);
 		makeObjectPersistent(goods);
 	}
 	
-	public static void createInvoiceCustomer(Date maturityDate, Order orderInvoice){
+	public void addInvoiceCustomer(Date maturityDate, Order orderInvoice){
 		
 		Invoice_customer icust = new Invoice_customer(maturityDate, orderInvoice);
 		makeObjectPersistent(icust);
 	}
 
-	public static void createInvoiceSupplier(Supplier supplier, Date maturityDate, Order orderInvoice){
+	public void addInvoiceSupplier(Supplier supplier, Date maturityDate, Order orderInvoice){
 		
 		Invoice_supplier isup = new Invoice_supplier(supplier, maturityDate, orderInvoice);
 		makeObjectPersistent(isup);
 	}
 
-	public static void createOrder(String state, Date estimatedDeliveryDate,
+	public void addOrder(String state, Date estimatedDeliveryDate,
 			Date deliveryDate, DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
-			Contact deliveryContact, Contact billingContact, Key createdBy){
+			Contact deliveryContact, Contact billingContact, Key adddBy){
 		
 		Order order = new Order(state,estimatedDeliveryDate, deliveryDate, 
 				deliveryMethod, goodsInOrder, deliveryContact, billingContact,
-				createdBy);
+				adddBy);
 		makeObjectPersistent(order);
 	}
 	
-	public static void createOrder(Date creationDate, DeliveryMethod deliveryMethod,
+	public void addOrder(Date creationDate, DeliveryMethod deliveryMethod,
 			Date deliveryDate, Date estimatedDeliveryDate,
 			List<Goods> goodsInOrder, Contact deliveryContact,
-			Contact billingContact, Key modificatedBy, Key createdBy){
+			Contact billingContact, Key modificatedBy, Key adddBy){
 		
 		Order order = new Order(creationDate, deliveryMethod,
 				deliveryDate, estimatedDeliveryDate, goodsInOrder, deliveryContact,
-				billingContact, modificatedBy, createdBy);
+				billingContact, modificatedBy, adddBy);
 		makeObjectPersistent(order);
 	}
 
-	public static void createSupplier(String accountNumber, String companyName, Contact contact){
+	public void addSupplier(String accountNumber, String companyName, Contact contact){
 		
 		Supplier sup = new Supplier(accountNumber, contact);
 		makeObjectPersistent(sup);		
 	}
 	
-	public static void createTeam(String name){
+	public void addTeam(String name){
 		Team team = new Team(name);
 		makeObjectPersistent(team);		
 	}
 	
-	public static void createTeam(String name, List<Employee> employeesInTeam){		
+	public void addTeam(String name, List<Employee> employeesInTeam){		
 		
 		Team team = new Team(name, employeesInTeam);
 		makeObjectPersistent(team);	
@@ -208,53 +205,53 @@ public abstract class DatastoreUtil {
 	
 	/* ------------------------------------------------------------ */	
 	
-	public static void removeAllAddress(){
-		removeAllPersistentObjects(Address.class);
+	public void deleteAllAddress(){
+		deleteAllPersistentObjects(Address.class);
 	}
 	
-	public static void removeAllCategories(){
-		removeAllPersistentObjects(Category.class);
+	public void deleteAllCategories(){
+		deleteAllPersistentObjects(Category.class);
 	}
 	
-	public static void removeAllContacts(){
-		removeAllPersistentObjects(Contact.class);
+	public void deleteAllContacts(){
+		deleteAllPersistentObjects(Contact.class);
 	}
 	
-	public static void removeAllCustomers(){
-		removeAllPersistentObjects(Customer.class);
+	public void deleteAllCustomers(){
+		deleteAllPersistentObjects(Customer.class);
 	}
 	
-	public static void removeAllEmployees(){
-		removeAllPersistentObjects(Employee.class);
+	public void deleteAllEmployees(){
+		deleteAllPersistentObjects(Employee.class);
 	}
 	
-	public static void removeAllGoods(){
-		removeAllPersistentObjects(Goods.class);
+	public void deleteAllGoods(){
+		deleteAllPersistentObjects(Goods.class);
 	}
 	
-	public static void removeAllInvoiceCustomers(){
-		removeAllPersistentObjects(Invoice_customer.class);
+	public void deleteAllInvoiceCustomers(){
+		deleteAllPersistentObjects(Invoice_customer.class);
 	}
 	
-	public static void removeAllInvoiceSuppliers(){
-		removeAllPersistentObjects(Invoice_supplier.class);
+	public void deleteAllInvoiceSuppliers(){
+		deleteAllPersistentObjects(Invoice_supplier.class);
 	}
 	
-	public static void removeAllOrders(){
-		removeAllPersistentObjects(Order.class);
+	public void deleteAllOrders(){
+		deleteAllPersistentObjects(Order.class);
 	}
 	
-	public static void removeAllSuppliers(){
-		removeAllPersistentObjects(Supplier.class);
+	public void deleteAllSuppliers(){
+		deleteAllPersistentObjects(Supplier.class);
 	}
 	
-	public static void removeAllTeams(){
-		removeAllPersistentObjects(Team.class);
+	public void deleteAllTeams(){
+		deleteAllPersistentObjects(Team.class);
 	}
 	
 	/* ------------------------------------------------------------ */
 	
-	public static Employee getEmployeeForFirstName(String firstName){
+	public Employee getEmployeeForFirstName(String firstName){
 
 		String property = "firstName";
 		Employee emp = getUniqueObjectForIdentifier(new Employee(null), property, firstName);
@@ -267,26 +264,26 @@ public abstract class DatastoreUtil {
 //		
 //		Transaction tx = pm.currentTransaction();
 //		try {
-//            tx.begin();
-//    
-//            Query q = pm.newQuery(Employee.class);
-//            q.setFilter("firstName == fnParam");
-//            q.declareParameters("String fnParam");
-//            q.setUnique(true);
-//            Employee emp = (Employee)q.execute(firstName);
-//            e = pm.detachCopy(emp);
-//            tx.commit();
-//        } finally {
-//            if (tx.isActive()) {
-//                tx.rollback();
-//            }
-//        }
-//        return e;
+//      tx.begin();
+//  
+//      Query q = pm.newQuery(Employee.class);
+//      q.setFilter("firstName == fnParam");
+//      q.declareParameters("String fnParam");
+//      q.setUnique(true);
+//      Employee emp = (Employee)q.execute(firstName);
+//      e = pm.detachCopy(emp);
+//      tx.commit();
+//    } finally {
+//      if (tx.isActive()) {
+//        tx.rollback();
+//      }
+//    }
+//    return e;
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public static String getAllCustomers(){
+	public String getAllCustomers(){
 		String ret = "";
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -302,6 +299,66 @@ public abstract class DatastoreUtil {
 		}
 		pm.close();
 		return ret;
+	}
+
+	@Override
+	public String getAllCategories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllContacts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllEmployees() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllGoods() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllInvoices_customer(Key key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllInvoices_supplier(Key key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllOrders() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllOrders(Key key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllSuppliers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAllTeams() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
