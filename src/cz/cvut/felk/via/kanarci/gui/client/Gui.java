@@ -26,6 +26,7 @@ public class Gui implements EntryPoint {
 		final NewOrder newOrder = new NewOrder();
 		final FindOrder findOrder = new FindOrder();
 		final AddPerson AddPerson = new AddPerson();
+		final Category cathegory = new Category();
 		final Menu menu = new Menu();
 
 		tabs.add(newOrder, constants.new_order());
@@ -33,6 +34,7 @@ public class Gui implements EntryPoint {
 	    tabs.add(new HTML("smazání"), constants.erase());
 	    tabs.add(new HTML("uzavření"), constants.finalizee());
 	    tabs.add(AddPerson, constants.add_person());
+	    tabs.add(cathegory, constants.category());
 
 	    dock.addNorth(new Label("logo"), 5);
 	    dock.addWest(menu, 10);
