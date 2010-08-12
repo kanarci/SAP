@@ -19,4 +19,7 @@ public interface GuiConstants extends Constants {
 	@DefaultStringValue("[Add person]")
 	String add_person();
 
+	@DefaultStringValue("[Category]")
+	String category();
+
 }
