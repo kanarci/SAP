@@ -22,6 +22,8 @@ public class Category extends Composite{
 		super();
 		final FlexTable flexTable = new FlexTable();
 		
+		//goodsCategory.addItem(item)
+		
 		flexTable.setWidget(0, 0, new HTML("<u>Category</u>:"));
 		flexTable.setWidget(1, 0, goodsCategory);
 		flexTable.setWidget(1, 1, newCategoryName);

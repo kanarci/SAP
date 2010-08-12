@@ -13,15 +13,18 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 public class FindOrder extends Composite{
 	
+	private Grid data = new Grid(1, 9);
 	private Date searchDate = new Date();
 	private DateBox searchDatePicker = new DateBox(new DatePicker(), searchDate, new DateBox.DefaultFormat(DateTimeFormat.getMediumDateFormat()));
 	
@@ -43,6 +46,7 @@ public class FindOrder extends Composite{
 	
 	public FindOrder() {
 		super();
+		final VerticalPanel vp = new VerticalPanel();
 		final FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(4);
 		Label user = new Label("Jméno Příjmení");
@@ -147,6 +151,7 @@ public class FindOrder extends Composite{
 			@Override
 			public void onClick(ClickEvent event) {
 				//TODO: search procedure
+				data.setVisible(true);
 			}
 		});
 		
@@ -168,7 +173,21 @@ public class FindOrder extends Composite{
 		flexTable.setWidget(7, 3, isPriceSmaller);
 		flexTable.setWidget(7, 4, priceSmaller);
 		flexTable.setWidget(7, 5, searchButton);
+		
+		data.setText(0, 0, "Order date");
+		data.setText(0, 1, "Category");
+		data.setText(0, 2, "Goods");
+		data.setText(0, 3, "Price");
+		data.setText(0, 4, "no.");
+		data.setText(0, 5, "excl. VAT");
+		data.setText(0, 6, "VAT");
+		data.setText(0, 7, "Total price");
+		data.setBorderWidth(2);
+		data.setCellPadding(4);
+		data.setVisible(false);
 
-		initWidget(flexTable);
+		vp.add(flexTable);
+		vp.add(data);
+		initWidget(vp);
 	}
 }
