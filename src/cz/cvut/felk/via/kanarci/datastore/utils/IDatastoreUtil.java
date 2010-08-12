@@ -13,6 +13,8 @@ public interface IDatastoreUtil {
 
 	public void addAddress(String street, int co, int cp, String city, String zip);
 	
+	public void addCategory(String name);
+	
 	public void addCategory(String name, Key supremeCategory);
 	
 	public void addCategory(String name, Key supremeCategory, String parameterName

@@ -97,6 +97,11 @@ public class DatastoreUtil implements IDatastoreUtil{
 		makeObjectPersistent(cat);
 	}
 	
+	public void addCategory(String name){
+		
+		
+	}
+	
 	public void addCategory(String name, Key supremeCategory, String parameterName
 			, String parameterValue){
 		
