@@ -12,8 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 
-@PersistenceCapable
- (detachable="true")
+@PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class Person implements Serializable{
 

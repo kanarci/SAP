@@ -29,6 +29,9 @@ public interface IDatastoreUtil {
 	public void addCustomer(Contact contact);
 	
 	public void addEmployee( Contact contact);
+
+	public void addEmployee( Contact contact, double salary
+			, String bankAccountNumber);
 	
 	public void addEmployee( Contact contact, double salary
 			, String bankAccountNumber, Key inTeam);

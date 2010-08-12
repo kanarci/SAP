@@ -165,6 +165,12 @@ public class DatastoreUtil implements IDatastoreUtil{
 	}
 	
 	public void addEmployee( Contact contact, double salary
+			, String bankAccountNumber){
+		Employee emp = new Employee(contact, salary, bankAccountNumber);
+		makeObjectPersistent(emp);
+	}
+	
+	public void addEmployee( Contact contact, double salary
 			, String bankAccountNumber, Key inTeam){
 		
 		Employee emp = new Employee(contact, salary, bankAccountNumber, inTeam);
@@ -311,8 +317,9 @@ public class DatastoreUtil implements IDatastoreUtil{
 			List<Customer> qret = (List<Customer>) q.execute(); 
 
 			for(Customer c : qret){
-
-		    	ret.add(new Customer(pm.detachCopy(c.getContact())));
+				Customer var = pm.detachCopy(c);
+				var.getContact().setAddress(c.getContact().getAddress());
+				ret.add(var);
 		    }
 		} finally {
 		    pm.close();
