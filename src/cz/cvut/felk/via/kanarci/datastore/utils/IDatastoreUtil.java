@@ -29,9 +29,14 @@ public interface IDatastoreUtil {
 	public void addCustomer(Contact contact);
 	
 	public void addEmployee( Contact contact);
+
+	public void addEmployee( Contact contact, double salary
+			, String bankAccountNumber);
 	
 	public void addEmployee( Contact contact, double salary
 			, String bankAccountNumber, Key inTeam);
+
+	public void addGoods(String name);
 	
 	public void addGoods(String name, Text description, double price
 			, int numOfPieces, boolean visiblity, Key supplier, List<Key> category);
@@ -87,34 +92,34 @@ public interface IDatastoreUtil {
 	
 //	public String getAllAddress();
 	
-	public String getAllCategories();
+	public List<Category> getAllCategories();
 
-	public String getAllContacts();
+	public List<Contact> getAllContacts();
 	
-	public String getAllCustomers();
+	public List<Customer> getAllCustomers();
 	
-	public String getAllEmployees();
+	public List<Employee> getAllEmployees();
 	
-	public String getAllGoods();
+	public List<Goods> getAllGoods();
 	
-	public String getAllInvoices_customer(Key key);
+	public List<Invoice_customer> getAllInvoices_customer(Key key);
 	
-	public String getAllInvoices_supplier(Key key);
+	public List<Invoice_supplier> getAllInvoices_supplier(Key key);
 	
-	public String getAllOrders();
+	public List<Order> getAllOrders();
 
-	public String getAllOrders(Key key);
+	/**
+	 * 
+	 * @param key User key
+	 * @return User's orders
+	 */
+	public List<Order> getAllOrders(Key key);
 	
-	public String getAllSuppliers();
+	public List<Supplier> getAllSuppliers();
 	
-	public String getAllTeams();
-	
-	
-	
+	public List<Team> getAllTeams();
 	
 	
 	/* ------------------------------------------------------------ */
 	
-	
-	public Employee getEmployeeForFirstName(String firstName);
 }

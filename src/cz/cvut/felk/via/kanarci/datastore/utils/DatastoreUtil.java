@@ -1,5 +1,7 @@
 package cz.cvut.felk.via.kanarci.datastore.utils;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,6 +13,7 @@ import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 import cz.cvut.felk.via.kanarci.datastore.objects.*;
@@ -57,8 +60,7 @@ public class DatastoreUtil implements IDatastoreUtil{
 		}
 	}
 
-	
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "unused" })
 	private <T> T getUniqueObjectForIdentifier(T o,	String property, String identifier){
 		
 		T obj = null;
@@ -83,6 +85,32 @@ public class DatastoreUtil implements IDatastoreUtil{
 		return obj;
 	}
 	
+	@SuppressWarnings({ "unchecked" })
+	private <T> List<T> getAllObjects(Class<T> o){
+
+//		System.out.println()
+		List<T>  ret;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+  
+			Query q = pm.newQuery(o);
+			List<T> qobj = (List<T>) q.execute();
+//			ret = pm.detachCopyAll();
+//			ret = Lists.newArrayList(pm.detachCopyAll(qobj)); 
+			ret = new ArrayList<T>(pm.detachCopyAll(qobj)); 
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		
+		return ret;
+	}
 	
 	/* ------------------------------------------------------------ */
 	public void addAddress(String street, int co, int cp, String city, String zip){
@@ -91,15 +119,16 @@ public class DatastoreUtil implements IDatastoreUtil{
 		makeObjectPersistent(adr);
 	}
 	
+	public void addCategory(String name){
+		
+		Category cat = new Category(name, KeyFactory.createKey("Category", "Root"));
+		makeObjectPersistent(cat);
+	}
+	
 	public void addCategory(String name, Key supremeCategory){
 		
 		Category cat = new Category(name, supremeCategory);	
 		makeObjectPersistent(cat);
-	}
-	
-	public void addCategory(String name){
-		
-		
 	}
 	
 	public void addCategory(String name, Key supremeCategory, String parameterName
@@ -136,12 +165,23 @@ public class DatastoreUtil implements IDatastoreUtil{
 	}
 	
 	public void addEmployee( Contact contact, double salary
+			, String bankAccountNumber){
+		Employee emp = new Employee(contact, salary, bankAccountNumber);
+		makeObjectPersistent(emp);
+	}
+	
+	public void addEmployee( Contact contact, double salary
 			, String bankAccountNumber, Key inTeam){
 		
 		Employee emp = new Employee(contact, salary, bankAccountNumber, inTeam);
 		makeObjectPersistent(emp);
 	}
 	
+	public void addGoods(String name){
+		Goods goods = new Goods(name);
+		makeObjectPersistent(goods);
+	}
+			
 	public void addGoods(String name, Text description, double price
 			, int numOfPieces, boolean visiblity, Key supplier, List<Key> category){
 
@@ -256,112 +296,84 @@ public class DatastoreUtil implements IDatastoreUtil{
 	
 	/* ------------------------------------------------------------ */
 	
-	public Employee getEmployeeForFirstName(String firstName){
-
-		String property = "firstName";
-		Employee emp = getUniqueObjectForIdentifier(new Employee(null), property, firstName);
-		return emp;
-		
-//		return getUniqueObjectForIdentifier(Employee, property, identifier);
-		
-//		Employee e = null;
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		
-//		Transaction tx = pm.currentTransaction();
-//		try {
-//      tx.begin();
-//  
-//      Query q = pm.newQuery(Employee.class);
-//      q.setFilter("firstName == fnParam");
-//      q.declareParameters("String fnParam");
-//      q.setUnique(true);
-//      Employee emp = (Employee)q.execute(firstName);
-//      e = pm.detachCopy(emp);
-//      tx.commit();
-//    } finally {
-//      if (tx.isActive()) {
-//        tx.rollback();
-//      }
-//    }
-//    return e;
-	}
-	
-	
 	@SuppressWarnings("unchecked")
-	public String getAllCustomers(){
-		String ret = "";
+	public List<Customer> getAllCustomers(){
+//		return getAllObjects(Customer.class);
+		List<Customer> ret = new ArrayList<Customer>();
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		Query q = pm.newQuery(Customer.class);
-		List<Customer> cus = (List<Customer>) q.execute();
+		pm.setCopyOnAttach(true);
 		
+//		List<Customer> cus = (List<Customer>) q.execute();
+//		
+//		ret = new ArrayList<Customer>(pm.detachCopyAll(cus)); 
+//			    
+		try {
 
-		int i = 1;
-		for(Customer c : cus){
-			ret = ret.concat(i + " " + c.toString()+ "\n");
-			i++;
-		}
-		pm.close();
-		return ret;
+
+			pm.setMultithreaded(true);  
+			Query q = pm.newQuery(Customer.class);
+			List<Customer> qret = (List<Customer>) q.execute(); 
+
+			for(Customer c : qret){
+				Customer var = pm.detachCopy(c);
+				var.getContact().setAddress(c.getContact().getAddress());
+				ret.add(var);
+		    }
+		} finally {
+		    pm.close();
+		}	    
+
+	    return ret;
 	}
 
-	@Override
-	public String getAllCategories() {
+	public  List<Category> getAllCategories() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllContacts() {
+	public  List<Contact> getAllContacts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllEmployees() {
+	public  List<Employee> getAllEmployees() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllGoods() {
+	public  List<Goods> getAllGoods() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllInvoices_customer(Key key) {
+	public  List<Invoice_customer> getAllInvoices_customer(Key key) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllInvoices_supplier(Key key) {
+	public  List<Invoice_supplier> getAllInvoices_supplier(Key key) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllOrders() {
+	public  List<Order> getAllOrders() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllOrders(Key key) {
+	public List<Order> getAllOrders(Key key) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllSuppliers() {
+	public  List<Supplier> getAllSuppliers() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public String getAllTeams() {
+	public  List<Team> getAllTeams() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -46,6 +46,13 @@ public class Employee extends Person {
 		this.inTeam = null;
 	}
 
+	public Employee(Contact contact, double salary, String bankAccountNumber) {
+		super(contact);
+		this.salary = salary;
+		this.bankAccountNumber = bankAccountNumber;
+		this.inTeam = null;
+	}
+
 	public double getsalary() {
 		return salary;
 	}
