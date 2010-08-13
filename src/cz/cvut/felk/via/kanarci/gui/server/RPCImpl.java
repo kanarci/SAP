@@ -13,6 +13,8 @@ import cz.cvut.felk.via.kanarci.datastore.objects.Customer;
 import cz.cvut.felk.via.kanarci.datastore.utils.DUF;
 import cz.cvut.felk.via.kanarci.gui.client.RPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 
 public class RPCImpl extends RemoteServiceServlet
 implements RPC {
@@ -72,6 +74,24 @@ implements RPC {
 		DUF.get().deleteAllCustomers();
 			
 		return "Vsichni smazani ";
+	}
+
+	@Override
+	public List<CustomerRPC> getAllCustomersServer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addNewOrder(OrderRPC order) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<OrderRPC> getAllOrdersServer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
