@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 
 public class CustomerRPC implements Serializable{
 
@@ -28,6 +30,11 @@ public class CustomerRPC implements Serializable{
 		super();
 		this.contactInfo = contactInfo;
 		orders = new ArrayList<OrderRPC>();
+	}
+
+
+	public CustomerRPC() {
+		super();
 	}
 
 

@@ -87,7 +87,7 @@ public class OrderRPC implements Serializable{
 	}
 	
 	
-	public OrderRPC(){
+	public OrderRPC() {
 		super();
 	}
 
