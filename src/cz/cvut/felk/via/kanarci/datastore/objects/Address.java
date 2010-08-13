@@ -41,11 +41,28 @@ public class Address implements Serializable {
 		this.city = city;
 		this.zip = zip;
 	}
-
 	
-	 public Key getKey() {
+	 public Address(Key key, String street, int co, int cp, String city,
+			String zip) {
+		super();
+		this.key = key;
+		this.street = street;
+		this.co = co;
+		this.cp = cp;
+		this.city = city;
+		this.zip = zip;
+	}
+
+
+
+
+	public Key getKey() {
 	 return key;
 	 }
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
 
 	public String getStreet() {
 		return street;

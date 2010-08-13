@@ -76,7 +76,7 @@ public class AddPerson extends Composite{
 			public void onClick(ClickEvent event) {
 				AddressRPC address = new AddressRPC(cityBox.getValue(), streetBox.getValue(), Integer.parseInt(houseNumberBox1.getValue()), Integer.parseInt(houseNumberBox2.getValue()), zipBox.getValue());
 				if (employeeRB.getValue()) {
-					ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address, accountNumberBox.getValue(), hireBox.getValue());
+					ContactRPC newContact = new ContactRPC(firstNameBox.getValue(), surenameBox.getValue(), phoneBox.getValue(), companyBox.getValue(), emailBox.getValue(), departmentBox.getValue(), address);
 					create.setEnabled(false);
 					contactSendingService.addEmployeeServer(newContact, ac);
 				} else {

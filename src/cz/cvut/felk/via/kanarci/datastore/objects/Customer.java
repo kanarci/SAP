@@ -24,6 +24,13 @@ public class Customer extends Person {
 	public Customer(Contact contact) {
 		super(contact);
 		invoice = new ArrayList<Key>();
+		orders = new ArrayList<Order>();
+	}
+
+	public Customer(Key key, Contact contactInfo) {
+		super(key, contactInfo);
+		invoice = new ArrayList<Key>();
+		orders = new ArrayList<Order>();
 	}
 
 	public List<Order> getOrders() {

@@ -86,6 +86,22 @@ public class Goods implements Serializable{
 		this.DPH = (double) 1000000;
 	}
 
+	public Goods(Key key, String name, Text description, double price,
+			int numOfPieces, boolean visiblity, double dPH, Key supplier,
+			List<Key> category) {
+		super();
+		this.key = key;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.numOfPieces = numOfPieces;
+		this.visiblity = visiblity;
+		DPH = dPH;
+		this.supplier = supplier;
+		this.category = category;
+	}
+
+
 	public Key getKey() {
 		return key;
 	}
@@ -122,7 +138,7 @@ public class Goods implements Serializable{
 		this.numOfPieces = numOfPieces;
 	}
 
-	public boolean isVisiblity() {
+	public boolean getVisiblity() {
 		return visiblity;
 	}
 
@@ -160,6 +176,16 @@ public class Goods implements Serializable{
 				+ "<br> Popisek: " + this.description.toString();
 
 		return ret;
+	}
+
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
+
+	public void setDPH(double dPH) {
+		DPH = dPH;
 	}
 
 }

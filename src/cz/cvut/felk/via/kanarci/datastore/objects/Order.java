@@ -99,6 +99,31 @@ public class Order implements Serializable{
 		this.createdBy = createdBy;
 		this.courierShipmentDate = null;
 	}
+	
+	
+
+	public Order(Key key, OrderState orderState, Date creationDate,
+			Date closeDate, Date modificationDate, Date courierShipmentDate,
+			Date estimatedDeliveryDate, Date deliveryDate,
+			DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
+			Contact deliveryContact, Contact billingContact, Key modificatedBy,
+			Key createdBy) {
+		super();
+		this.key = key;
+		this.orderState = orderState;
+		this.creationDate = creationDate;
+		this.closeDate = closeDate;
+		this.modificationDate = modificationDate;
+		this.courierShipmentDate = courierShipmentDate;
+		this.estimatedDeliveryDate = estimatedDeliveryDate;
+		this.deliveryDate = deliveryDate;
+		this.deliveryMethod = deliveryMethod;
+		this.goodsInOrder = goodsInOrder;
+		this.deliveryContact = deliveryContact;
+		this.billingContact = billingContact;
+		this.modificatedBy = modificatedBy;
+		this.createdBy = createdBy;
+	}
 
 	public Key getKey() {
 		return key;

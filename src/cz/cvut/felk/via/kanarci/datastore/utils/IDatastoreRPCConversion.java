@@ -4,11 +4,10 @@ import java.util.List;
 
 import cz.cvut.felk.via.kanarci.gui.shared.*;
 import cz.cvut.felk.via.kanarci.datastore.objects.*;
-import cz.cvut.felk.via.kanarci.datastore.objects.OrderState;
 
 public interface IDatastoreRPCConversion {
 
-	public CustomerRPC custToRPC(Customer cust);
+	public CustomerRPC customerToRPC(Customer cust);
 	
 	public ContactRPC contactToRPC(Contact con);
 	
@@ -18,9 +17,13 @@ public interface IDatastoreRPCConversion {
 
 	public AddressRPC addressToRPC(Address adr);
 
+	public DeliveryMethodRPC deliveryMethodToRPC(DeliveryMethod deliveryMethod);
+
+	public OrderStateRPC orderStateToRPC(OrderState orderState);
+
 	/* ---------------------------------------------------------- */
 	
-	public List<CustomerRPC> custToRPC(List<Customer> cust);
+	public List<CustomerRPC> customerToRPC(List<Customer> cust);
 	
 	public List<ContactRPC> contactToRPC(List<Contact> con);
 	
@@ -28,11 +31,9 @@ public interface IDatastoreRPCConversion {
 
 	public List<OrderRPC> OrderToRPC(List<Order> orders);
 
-	public List<AddressRPC> addressToRPC(List<Address> adr);
-
 	/* ---------------------------------------------------------- */
 	
-	public Customer custFromRPC(CustomerRPC cust);
+	public Customer customerFromRPC(CustomerRPC cust);
 	
 	public Contact contactFromRPC(ContactRPC con);
 	
@@ -42,15 +43,20 @@ public interface IDatastoreRPCConversion {
 
 	public Address addressFromRPC(AddressRPC adr);
 
+	public DeliveryMethod deliveryMethodFromRPC(DeliveryMethodRPC deliveryMethod);
+
+	public OrderState orderStateFromRPC(OrderStateRPC orderState);
+	
 	/* ---------------------------------------------------------- */
 	
-	public List<Customer> custFromRPC(List<CustomerRPC> cust);
+	public List<Customer> customerFromRPC(List<CustomerRPC> cust);
 	
 	public List<Contact> contactFromRPC(List<ContactRPC> con);
 	
 	public List<Goods> goodsFromRPC(List<GoodsRPC> goods);
 
 	public List<Order> OrderFromRPC(List<OrderRPC> orders);
-
-	public List<Address> addressFromRPC(List<AddressRPC> adr);
+	
+	/* ---------------------------------------------------------- */
+	
 }

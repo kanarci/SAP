@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import cz.cvut.felk.via.kanarci.gui.shared.DeliveryMethodRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.OrderStateRPC;
+
+
 public class OrderRPC implements Serializable{
 	
 	private static final long serialVersionUID = -929213912260916018L;
 
 	private String key;
 		
-	private OrderStateRPC orderState;
+	private OrderStateRPC orderStateRPC;
 	
 	private Date creationDate;
 	
@@ -24,7 +28,7 @@ public class OrderRPC implements Serializable{
 	
 	private Date deliveryDate;
 	
-	private DeliveryMethodRPC deliveryMethod;
+	private DeliveryMethodRPC deliveryMethodRPC;
 	
 	private List<GoodsRPC> goodsInOrder;
 	
@@ -36,22 +40,22 @@ public class OrderRPC implements Serializable{
 	
 	private String createdBy;
 
-	public OrderRPC(String key, OrderStateRPC orderState, Date creationDate,
+	public OrderRPC(String key, OrderStateRPC orderStateRPC, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethodRPC deliveryMethod, List<GoodsRPC> goodsInOrder,
+			DeliveryMethodRPC deliveryMethodRPC, List<GoodsRPC> goodsInOrder,
 			ContactRPC deliveryContact, ContactRPC billingContact,
 			String modificatedBy, String createdBy) {
 		super();
 		this.key = key;
-		this.orderState = orderState;
+		this.orderStateRPC = orderStateRPC;
 		this.creationDate = creationDate;
 		this.closeDate = closeDate;
 		this.modificationDate = modificationDate;
 		this.courierShipmentDate = courierShipmentDate;
 		this.estimatedDeliveryDate = estimatedDeliveryDate;
 		this.deliveryDate = deliveryDate;
-		this.deliveryMethod = deliveryMethod;
+		this.deliveryMethodRPC = deliveryMethodRPC;
 		this.goodsInOrder = goodsInOrder;
 		this.deliveryContact = deliveryContact;
 		this.billingContact = billingContact;
@@ -59,22 +63,22 @@ public class OrderRPC implements Serializable{
 		this.createdBy = createdBy;
 	}
 	
-	public OrderRPC(OrderStateRPC orderState, Date creationDate,
+	public OrderRPC(OrderStateRPC orderStateRPC, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethodRPC deliveryMethod, List<GoodsRPC> goodsInOrder,
+			DeliveryMethodRPC deliveryMethodRPC, List<GoodsRPC> goodsInOrder,
 			ContactRPC deliveryContact, ContactRPC billingContact,
 			String modificatedBy, String createdBy) {
 		super();
 		this.key = "";
-		this.orderState = orderState;
+		this.orderStateRPC = orderStateRPC;
 		this.creationDate = creationDate;
 		this.closeDate = closeDate;
 		this.modificationDate = modificationDate;
 		this.courierShipmentDate = courierShipmentDate;
 		this.estimatedDeliveryDate = estimatedDeliveryDate;
 		this.deliveryDate = deliveryDate;
-		this.deliveryMethod = deliveryMethod;
+		this.deliveryMethodRPC = deliveryMethodRPC;
 		this.goodsInOrder = goodsInOrder;
 		this.deliveryContact = deliveryContact;
 		this.billingContact = billingContact;
@@ -96,11 +100,11 @@ public class OrderRPC implements Serializable{
 	}
 
 	public OrderStateRPC getOrderState() {
-		return orderState;
+		return orderStateRPC;
 	}
 
-	public void setOrderState(OrderStateRPC orderState) {
-		this.orderState = orderState;
+	public void setOrderState(OrderStateRPC orderStateRPC) {
+		this.orderStateRPC = orderStateRPC;
 	}
 
 	public Date getCreationDate() {
@@ -152,11 +156,11 @@ public class OrderRPC implements Serializable{
 	}
 
 	public DeliveryMethodRPC getDeliveryMethod() {
-		return deliveryMethod;
+		return deliveryMethodRPC;
 	}
 
-	public void setDeliveryMethod(DeliveryMethodRPC deliveryMethod) {
-		this.deliveryMethod = deliveryMethod;
+	public void setDeliveryMethod(DeliveryMethodRPC deliveryMethodRPC) {
+		this.deliveryMethodRPC = deliveryMethodRPC;
 	}
 
 	public List<GoodsRPC> getGoodsInOrder() {

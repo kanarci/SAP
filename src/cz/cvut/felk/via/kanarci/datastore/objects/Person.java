@@ -30,6 +30,12 @@ public abstract class Person implements Serializable{
 		this.contactInfo = contact;
 	}
 
+	public Person(Key key, Contact contactInfo) {
+		super();
+		this.key = key;
+		this.contactInfo = contactInfo;
+	}
+
 	public Key getKey() {
 		return key;
 	}

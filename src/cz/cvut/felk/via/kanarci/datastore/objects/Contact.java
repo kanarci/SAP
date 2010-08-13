@@ -59,6 +59,20 @@ public class Contact {
 		this.address = address;
 	}
 
+	public Contact(Key key, String firstName, String sureName, String phone,
+			String corporationName, String email, String department,
+			Address address) {
+		super();
+		this.key = key;
+		this.firstName = firstName;
+		this.sureName = sureName;
+		this.phone = phone;
+		this.corporationName = corporationName;
+		this.email = email;
+		this.department = department;
+		this.address = address;
+	}
+
 	public Key getKey() {
 		return key;
 	}

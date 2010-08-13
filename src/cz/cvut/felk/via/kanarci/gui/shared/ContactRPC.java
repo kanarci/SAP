@@ -9,6 +9,8 @@ public class ContactRPC implements Serializable {
 	
 	private static final long serialVersionUID = -3886050400928774965L;
 
+	private String Key;
+	
 	private String firstName;
 
 	private String sureName;
@@ -58,7 +60,7 @@ public class ContactRPC implements Serializable {
 	 * @param email
 	 * @param department
 	 * @param address
-	 */
+//	 */
 	public ContactRPC(String firstName, String sureName, String phone,
 			String corporationName, String email, String department,
 			AddressRPC address) {
@@ -86,20 +88,6 @@ public class ContactRPC implements Serializable {
 	 * @param accountNumber
 	 * @param hire
 	 */
-	public ContactRPC(String firstName, String sureName, String phone,
-			String corporationName, String email, String department,
-			AddressRPC address, String accountNumber, String hire) {
-		super();
-		this.firstName = firstName;
-		this.sureName = sureName;
-		this.phone = phone;
-		this.corporationName = corporationName;
-		this.email = email;
-		this.department = department;
-		this.address = address;
-//		this.accountNumber = accountNumber;
-//		this.hire = hire;
-	}
 	
 	//TODO
 	/**
@@ -107,6 +95,24 @@ public class ContactRPC implements Serializable {
 	 */
 	public ContactRPC() {
 		super();
+	}
+
+	public ContactRPC(String key, String firstName, String sureName,
+			String phone, String corporationName, String email,
+			String department, AddressRPC address) {
+		super();
+		Key = key;
+		this.firstName = firstName;
+		this.sureName = sureName;
+		this.phone = phone;
+		this.corporationName = corporationName;
+		this.email = email;
+		this.department = department;
+		this.address = address;
+	}
+
+	public String getKey() {
+		return Key;
 	}
 
 	public String getFirstName() {
