@@ -25,8 +25,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
+import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.DeliveryMethodRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.OrderStateRPC;
 
 public class NewOrder extends Composite{
 
@@ -132,7 +136,16 @@ public class NewOrder extends Composite{
 					Window.alert(messages.duplicityOrder(orderIDs.indexOf(finalHash)+3));
 					return;
 				}
-				//final OrderRPC order = new 
+				List<String> s = new ArrayList<String>();
+				s.add("cat");
+				List<GoodsRPC> g = new ArrayList<GoodsRPC>();
+				g.add(new GoodsRPC("666", goods.getValue(goods.getSelectedIndex()), "description",
+						Double.parseDouble(onePrice.getValue()), Integer.parseInt(count.getValue()),
+						true, Double.parseDouble(vat.getValue()), "666", s));
+				final OrderRPC order = new OrderRPC(OrderStateRPC.OPEN, new Date(), new Date(), new Date(),
+						new Date(), new Date(), orderDate, DeliveryMethodRPC.PPL, g, new ContactRPC(),
+						new ContactRPC(), "Generic Seller", "Generic Seller"); 
+				orderList.add(order);
 				
 				orderIDs.add(finalHash);
 				data.insertRow(row);
@@ -202,6 +215,18 @@ public class NewOrder extends Composite{
 			public void onClick(ClickEvent event) {
 				Window.alert("This will save your orders to DB  (will means in future, not yet)");
 				//TODO: save to DB
+				rpc.addNewOrders(orderList, new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						Window.alert("Ok");
+					}
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("fail: "+caught.toString());
+					}
+				});
 			}
 		});
 		

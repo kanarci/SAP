@@ -5,6 +5,11 @@ import java.util.List;
 
 public class GoodsRPC implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8133921748739994928L;
+
 	private String key;
 	
 	private String name;
