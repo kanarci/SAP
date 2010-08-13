@@ -18,6 +18,13 @@ public class CustomerRPC implements Serializable{
 		this.contactInfo = contactInfo;
 		this.orders = orders;
 	}
+	
+
+	public CustomerRPC(ContactRPC contactInfo) {
+		super();
+		this.contactInfo = contactInfo;
+	}
+
 
 	public String getKey() {
 		return key;

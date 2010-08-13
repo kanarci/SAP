@@ -11,7 +11,7 @@ public class OrderRPC implements Serializable{
 	
 	private String key;
 		
-	private OrderState orderState;
+	private OrderStateRPC orderState;
 	
 	private Date creationDate;
 	
@@ -37,7 +37,7 @@ public class OrderRPC implements Serializable{
 	
 	private String createdBy;
 
-	public OrderRPC(String key, OrderState orderState, Date creationDate,
+	public OrderRPC(String key, OrderStateRPC orderState, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
 			DeliveryMethod deliveryMethod, List<GoodsRPC> goodsInOrder,
@@ -59,6 +59,10 @@ public class OrderRPC implements Serializable{
 		this.modificatedBy = modificatedBy;
 		this.createdBy = createdBy;
 	}
+	
+	public OrderRPC(){
+		super();
+	}
 
 	public String getKey() {
 		return key;
@@ -68,11 +72,11 @@ public class OrderRPC implements Serializable{
 		this.key = key;
 	}
 
-	public OrderState getOrderState() {
+	public OrderStateRPC getOrderState() {
 		return orderState;
 	}
 
-	public void setOrderState(OrderState orderState) {
+	public void setOrderState(OrderStateRPC orderState) {
 		this.orderState = orderState;
 	}
 
