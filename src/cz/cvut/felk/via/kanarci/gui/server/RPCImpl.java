@@ -10,6 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import cz.cvut.felk.via.kanarci.datastore.objects.Address;
 import cz.cvut.felk.via.kanarci.datastore.objects.Contact;
 import cz.cvut.felk.via.kanarci.datastore.objects.Customer;
+import cz.cvut.felk.via.kanarci.datastore.utils.DRPCC;
 import cz.cvut.felk.via.kanarci.datastore.utils.DUF;
 import cz.cvut.felk.via.kanarci.gui.client.RPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
@@ -36,20 +37,23 @@ implements RPC {
 		DUF.get().addCustomer(custContact);
 			
 		return "Ok : "+custContact.toString();
+		//replace with following & make this method void
+		//DUF.get().addCustomer(DRPCC.get().contactFromRPC(contact));
 	}
 	
 	@Override
-	public String addEmployeeServer(ContactRPC contact)
-			throws IllegalArgumentException {
-		//TODO: not completly implemented
+	public String addEmployeeServer(ContactRPC contact, String accountNumber,
+			Double hire) throws IllegalArgumentException {
 		Contact custContact = new Contact(contact.getFirstName(), contact.getSureName(),
 				contact.getPhone(), contact.getCorporationName(), contact.getEmail(), 
 				contact.getDepartment(), new Address(contact.getAddress().getCity(), 
 						contact.getAddress().getStreet(), contact.getAddress().getCo(),
 						contact.getAddress().getCp(), contact.getAddress().getZip())); 
 		
-		DUF.get().addEmployee(custContact);
-		return null;
+		DUF.get().addEmployee(custContact, hire, accountNumber);
+		return "Ok: "+custContact.toString()+" hire: "+hire+" account number: "+accountNumber;		
+		//replace with following & make this method void
+		//DUF.get().addEmployee(DRPCC.get().contactFromRPC(contact), hire, accountNumber);
 	}
 	
 	@Override
@@ -78,21 +82,18 @@ implements RPC {
 
 	@Override
 	public List<CustomerRPC> getAllCustomersServer() {
-		// TODO Auto-generated method stub
-		return null;
+		return DRPCC.get().custToRPC(DUF.get().getAllCustomers());
 	}
 
 	@Override
 	public List<OrderRPC> getAllOrdersServer() {
-		// TODO Auto-generated method stub
-		return null;
+		return DRPCC.get().OrderToRPC(DUF.get().getAllOrders());
 	}
 
 	@Override
 	public void addNewOrders(List<OrderRPC> orders)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		DRPCC.get().OrderFromRPC(orders);
 	}
 
 }

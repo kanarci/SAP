@@ -14,7 +14,8 @@ public interface RPCAsync {
 	void addCustomerServer(ContactRPC newContact, AsyncCallback<String> callback)
 	throws IllegalArgumentException;
 
-	void addEmployeeServer(ContactRPC contact, AsyncCallback<String> callback);
+	void addEmployeeServer(ContactRPC contact, String accounNumber,
+			Double hire, AsyncCallback<String> callback);
 	
 	void getContactsServer(AsyncCallback<String> callback) throws IllegalArgumentException;
 
