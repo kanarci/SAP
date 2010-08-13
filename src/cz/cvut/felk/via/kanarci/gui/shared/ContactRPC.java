@@ -23,9 +23,9 @@ public class ContactRPC implements Serializable {
 
 	private AddressRPC address;
 	
-	private String accountNumber;
-	
-	private String hire;
+//	private String accountNumber;
+//	
+//	private String hire;
 
 	/**
 	 * Create new Customer Contact
@@ -45,8 +45,8 @@ public class ContactRPC implements Serializable {
 		this.email = email;
 		this.department = null;
 		this.address = address;
-		this.accountNumber = null;
-		this.hire = null;
+//		this.accountNumber = null;
+//		this.hire = null;
 	}
 
 	/**
@@ -70,8 +70,8 @@ public class ContactRPC implements Serializable {
 		this.email = email;
 		this.department = department;
 		this.address = address;
-		this.accountNumber = null;
-		this.hire = null;
+//		this.accountNumber = null;
+//		this.hire = null;
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class ContactRPC implements Serializable {
 		this.email = email;
 		this.department = department;
 		this.address = address;
-		this.accountNumber = accountNumber;
-		this.hire = hire;
+//		this.accountNumber = accountNumber;
+//		this.hire = hire;
 	}
 	
 	//TODO
@@ -137,13 +137,13 @@ public class ContactRPC implements Serializable {
 		return address;
 	}
 
-	public String getAccountNumber() {
-		return accountNumber;
-	}
-
-	public String getHire() {
-		return hire;
-	}
+//	public String getAccountNumber() {
+//		return accountNumber;
+//	}
+//
+//	public String getHire() {
+//		return hire;
+//	}
 
 	@Override
 	public String toString() {
@@ -151,8 +151,7 @@ public class ContactRPC implements Serializable {
 				+ " || Telefon : " + phone + " || Email : " + email
 				+ " <br>Jmeno spolecnosti : " + corporationName
 				+ " || Oddeleni : " + department + " || AccountNumber : "
-				+ accountNumber + " || Hire : " + hire + "<br> ADRESA : "
-				+ address.toString();
+				+ "\nADRESA : "	+ address.toString();
 	}
 
 }

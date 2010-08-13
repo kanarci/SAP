@@ -59,6 +59,30 @@ public class OrderRPC implements Serializable{
 		this.createdBy = createdBy;
 	}
 	
+	public OrderRPC(OrderStateRPC orderState, Date creationDate,
+			Date closeDate, Date modificationDate, Date courierShipmentDate,
+			Date estimatedDeliveryDate, Date deliveryDate,
+			DeliveryMethodRPC deliveryMethod, List<GoodsRPC> goodsInOrder,
+			ContactRPC deliveryContact, ContactRPC billingContact,
+			String modificatedBy, String createdBy) {
+		super();
+		this.key = "";
+		this.orderState = orderState;
+		this.creationDate = creationDate;
+		this.closeDate = closeDate;
+		this.modificationDate = modificationDate;
+		this.courierShipmentDate = courierShipmentDate;
+		this.estimatedDeliveryDate = estimatedDeliveryDate;
+		this.deliveryDate = deliveryDate;
+		this.deliveryMethod = deliveryMethod;
+		this.goodsInOrder = goodsInOrder;
+		this.deliveryContact = deliveryContact;
+		this.billingContact = billingContact;
+		this.modificatedBy = modificatedBy;
+		this.createdBy = createdBy;
+	}
+	
+	
 	public OrderRPC(){
 		super();
 	}
