@@ -7,10 +7,6 @@ import java.io.Serializable;
 
 public class ContactRPC implements Serializable {
 	
-	public ContactRPC() {
-		super();
-	}
-
 	private static final long serialVersionUID = -3886050400928774965L;
 
 	private String firstName;
@@ -31,6 +27,14 @@ public class ContactRPC implements Serializable {
 	
 	private String hire;
 
+	/**
+	 * Create new Customer Contact
+	 * @param firstName
+	 * @param sureName
+	 * @param phone
+	 * @param email
+	 * @param address
+	 */
 	public ContactRPC(String firstName, String sureName, String phone,
 			String email, AddressRPC address) {
 		super();
@@ -45,6 +49,16 @@ public class ContactRPC implements Serializable {
 		this.hire = null;
 	}
 
+	/**
+	 * Create new Customer in Corporation
+	 * @param firstName
+	 * @param sureName
+	 * @param phone
+	 * @param corporationName
+	 * @param email
+	 * @param department
+	 * @param address
+	 */
 	public ContactRPC(String firstName, String sureName, String phone,
 			String corporationName, String email, String department,
 			AddressRPC address) {
@@ -60,7 +74,18 @@ public class ContactRPC implements Serializable {
 		this.hire = null;
 	}
 
-
+	/**
+	 * Create new Employee
+	 * @param firstName
+	 * @param sureName
+	 * @param phone
+	 * @param corporationName
+	 * @param email
+	 * @param department
+	 * @param address
+	 * @param accountNumber
+	 * @param hire
+	 */
 	public ContactRPC(String firstName, String sureName, String phone,
 			String corporationName, String email, String department,
 			AddressRPC address, String accountNumber, String hire) {
@@ -74,6 +99,14 @@ public class ContactRPC implements Serializable {
 		this.address = address;
 		this.accountNumber = accountNumber;
 		this.hire = hire;
+	}
+	
+	//TODO
+	/**
+	 * Test only constructor !!!
+	 */
+	public ContactRPC() {
+		super();
 	}
 
 	public String getFirstName() {

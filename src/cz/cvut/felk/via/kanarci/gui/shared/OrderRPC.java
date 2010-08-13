@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import cz.cvut.felk.via.kanarci.datastore.objects.DeliveryMethod;
-import cz.cvut.felk.via.kanarci.datastore.objects.OrderState;
-
 public class OrderRPC implements Serializable{
 	
+	private static final long serialVersionUID = -929213912260916018L;
+
 	private String key;
 		
 	private OrderStateRPC orderState;
@@ -25,7 +24,7 @@ public class OrderRPC implements Serializable{
 	
 	private Date deliveryDate;
 	
-	private DeliveryMethod deliveryMethod;
+	private DeliveryMethodRPC deliveryMethod;
 	
 	private List<GoodsRPC> goodsInOrder;
 	
@@ -40,7 +39,7 @@ public class OrderRPC implements Serializable{
 	public OrderRPC(String key, OrderStateRPC orderState, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethod deliveryMethod, List<GoodsRPC> goodsInOrder,
+			DeliveryMethodRPC deliveryMethod, List<GoodsRPC> goodsInOrder,
 			ContactRPC deliveryContact, ContactRPC billingContact,
 			String modificatedBy, String createdBy) {
 		super();
@@ -128,11 +127,11 @@ public class OrderRPC implements Serializable{
 		this.deliveryDate = deliveryDate;
 	}
 
-	public DeliveryMethod getDeliveryMethod() {
+	public DeliveryMethodRPC getDeliveryMethod() {
 		return deliveryMethod;
 	}
 
-	public void setDeliveryMethod(DeliveryMethod deliveryMethod) {
+	public void setDeliveryMethod(DeliveryMethodRPC deliveryMethod) {
 		this.deliveryMethod = deliveryMethod;
 	}
 

@@ -6,6 +6,8 @@ import java.util.List;
 
 public class CustomerRPC implements Serializable{
 	
+	private static final long serialVersionUID = -6440441293020632856L;
+
 	private String key;
 	
 	private ContactRPC contactInfo;

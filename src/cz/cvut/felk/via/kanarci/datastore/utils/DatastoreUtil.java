@@ -1,7 +1,6 @@
 package cz.cvut.felk.via.kanarci.datastore.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +22,9 @@ public class DatastoreUtil implements IDatastoreUtil{
 
 	private final Logger log = Logger.getLogger("DataNucleus.JDO");
 
-	// default constructor
+	/**
+	 * Default constructor
+	 */
 	public DatastoreUtil() {
 		super();
 	}
