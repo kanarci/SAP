@@ -8,7 +8,7 @@ import javax.jdo.annotations.Persistent;
 import com.google.appengine.api.datastore.Key;
 
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Employee extends Person {
 
 	private static final long serialVersionUID = -9086503663117226332L;

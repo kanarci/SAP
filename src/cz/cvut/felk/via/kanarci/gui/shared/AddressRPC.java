@@ -5,8 +5,6 @@ import java.io.Serializable;
 public class AddressRPC implements Serializable {
 
 	private static final long serialVersionUID = -6287201767070877999L;
-
-	private String key;
 	
 	private String street;
 
@@ -22,19 +20,8 @@ public class AddressRPC implements Serializable {
 		super();
 	}
 
-	public AddressRPC(String key, String city, String street, int co, int cp, String zip) {
+	public AddressRPC( String city, String street, int co, int cp, String zip) {
 		super();
-		this.key = key;
-		this.street = street;
-		this.co = co;
-		this.cp = cp;
-		this.city = city;
-		this.zip = zip;
-	}
-	
-	public AddressRPC(String city, String street, int co, int cp, String zip) {
-		super();
-//		this.key = key;
 		this.street = street;
 		this.co = co;
 		this.cp = cp;
@@ -42,10 +29,6 @@ public class AddressRPC implements Serializable {
 		this.zip = zip;
 	}
 
-
-	public String getKey() {
-		return key;
-	}
 
 	public String getStreet() {
 		return street;

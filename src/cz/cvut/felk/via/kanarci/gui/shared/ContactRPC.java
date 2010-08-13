@@ -3,8 +3,6 @@ package cz.cvut.felk.via.kanarci.gui.shared;
 import java.io.Serializable;
 
 
-
-
 public class ContactRPC implements Serializable {
 	
 	private static final long serialVersionUID = -3886050400928774965L;

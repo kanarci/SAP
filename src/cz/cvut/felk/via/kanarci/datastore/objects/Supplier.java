@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Supplier implements Serializable{
 
 	private static final long serialVersionUID = -6996667178762282000L;

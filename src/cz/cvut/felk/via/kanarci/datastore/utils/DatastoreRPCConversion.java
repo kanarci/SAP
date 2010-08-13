@@ -63,14 +63,12 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	@Override
 	public AddressRPC addressToRPC(Address adr) {
-		return new AddressRPC(KeyFactory.keyToString(adr.getKey()),adr.getCity(), 
-				adr.getStreet(), adr.getCo(), adr.getCp(), adr.getZip());
+		return new AddressRPC(adr.getCity(), adr.getStreet(), adr.getCo(), adr.getCp(), adr.getZip());
 	}
 
 	@Override
 	public ContactRPC contactToRPC(Contact con) {
-		AddressRPC adr = new AddressRPC(KeyFactory.keyToString(con.getAddress().getKey()),
-				con.getAddress().getCity(), con.getAddress().getStreet(), 
+		AddressRPC adr = new AddressRPC( con.getAddress().getCity(), con.getAddress().getStreet(), 
 				con.getAddress().getCo(), con.getAddress().getCp(), con.getAddress().getZip());
 		return new ContactRPC(KeyFactory.keyToString(con.getKey()),con.getFirstName(), con.getSureName(),
 				con.getPhone(), con.getCorporationName(), con.getEmail(), 
@@ -152,7 +150,7 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	@Override
 	public Address addressFromRPC(AddressRPC adr) {
-		return new Address(KeyFactory.stringToKey(adr.getKey()), adr.getStreet(), adr.getCo(),
+		return new Address(adr.getStreet(), adr.getCo(),
 				adr.getCp(), adr.getCity(), adr.getZip());
 	}
 

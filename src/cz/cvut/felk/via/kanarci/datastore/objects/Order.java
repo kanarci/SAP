@@ -13,7 +13,7 @@ import com.google.appengine.api.datastore.Key;
 
 
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Order implements Serializable{
 
 	private static final long serialVersionUID = -2185072106944143762L;

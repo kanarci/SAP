@@ -31,6 +31,7 @@ public class DatastoreUtil implements IDatastoreUtil{
 
 	private <T> void makeObjectPersistent(T o){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		try{
 			pm.makePersistent(o);
 		}finally{
@@ -93,7 +94,7 @@ public class DatastoreUtil implements IDatastoreUtil{
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		pm.getFetchPlan().setMaxFetchDepth(3);
+		pm.getFetchPlan().setMaxFetchDepth(4);
 	    
 		try {
 			Query q = pm.newQuery(o);

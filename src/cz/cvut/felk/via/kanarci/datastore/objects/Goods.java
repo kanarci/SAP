@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Goods implements Serializable{
 
 	private static final long serialVersionUID = -3944983861287769984L;

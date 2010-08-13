@@ -42,19 +42,14 @@ public class Address implements Serializable {
 		this.zip = zip;
 	}
 	
-	 public Address(Key key, String street, int co, int cp, String city,
-			String zip) {
+	 public Address(String street, int co, int cp, String city,	String zip) {
 		super();
-		this.key = key;
 		this.street = street;
 		this.co = co;
 		this.cp = cp;
 		this.city = city;
 		this.zip = zip;
 	}
-
-
-
 
 	public Key getKey() {
 	 return key;
@@ -107,6 +102,6 @@ public class Address implements Serializable {
 	@Override
 	public String toString() {
 		return "City : " + city + " || Street : " + street + " " + co + "/"
-				+ cp + " || ZIP : " + zip;
+				+ cp + " || ZIP : " + zip ;
 	}
 }

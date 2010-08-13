@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-@PersistenceCapable
+@PersistenceCapable(detachable = "true")
 public class Invoice_supplier extends Invoice {
 
 

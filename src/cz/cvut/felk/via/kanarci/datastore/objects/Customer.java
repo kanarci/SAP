@@ -8,17 +8,16 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
- (detachable="true")
+@PersistenceCapable (detachable="true")
 public class Customer extends Person {
 
 
 	private static final long serialVersionUID = 4963844968764606571L;
 
-	@Persistent
+	@Persistent(defaultFetchGroup = "true")
 	private List<Order> orders;
 
-	@Persistent
+	@Persistent(defaultFetchGroup = "true")
 	private List<Key> invoice;
 
 	public Customer(Contact contact) {

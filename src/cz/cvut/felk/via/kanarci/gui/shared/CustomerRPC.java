@@ -1,11 +1,13 @@
 package cz.cvut.felk.via.kanarci.gui.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class CustomerRPC implements Serializable{
-	
+
+
 	private static final long serialVersionUID = -6440441293020632856L;
 
 	private String key;
@@ -25,6 +27,7 @@ public class CustomerRPC implements Serializable{
 	public CustomerRPC(ContactRPC contactInfo) {
 		super();
 		this.contactInfo = contactInfo;
+		orders = new ArrayList<OrderRPC>();
 	}
 
 
