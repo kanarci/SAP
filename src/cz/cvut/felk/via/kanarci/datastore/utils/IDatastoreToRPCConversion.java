@@ -4,6 +4,7 @@ import java.util.List;
 
 import cz.cvut.felk.via.kanarci.gui.shared.*;
 import cz.cvut.felk.via.kanarci.datastore.objects.*;
+import cz.cvut.felk.via.kanarci.datastore.objects.OrderState;
 
 public interface IDatastoreToRPCConversion {
 
