@@ -26,6 +26,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 
 public class NewOrder extends Composite{
 
@@ -43,6 +44,7 @@ public class NewOrder extends Composite{
 	private TextBox vat = new TextBox();
 	private TextBox priceTax = new TextBox();
 	private ArrayList<Double> orderIDs = new ArrayList<Double>();
+	private List<OrderRPC> orderList = new ArrayList<OrderRPC>();
 	
 	public NewOrder() {
 		super();
@@ -130,6 +132,8 @@ public class NewOrder extends Composite{
 					Window.alert(messages.duplicityOrder(orderIDs.indexOf(finalHash)+3));
 					return;
 				}
+				//final OrderRPC order = new 
+				
 				orderIDs.add(finalHash);
 				data.insertRow(row);
 				data.setText(row, 0, DateTimeFormat.getMediumDateFormat().format(orderDate));

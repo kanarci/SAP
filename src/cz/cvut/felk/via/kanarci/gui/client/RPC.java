@@ -19,5 +19,5 @@ public interface RPC extends RemoteService{
 	String delContactsServer();
 	List<CustomerRPC> getAllCustomersServer();
 	List<OrderRPC> getAllOrdersServer();
-	void addNewOrder(OrderRPC order) throws IllegalArgumentException;
+	void addNewOrders(List<OrderRPC> orders) throws IllegalArgumentException;
 }
