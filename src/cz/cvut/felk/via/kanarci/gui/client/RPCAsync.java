@@ -22,8 +22,8 @@ public interface RPCAsync {
 
 	void getAllCustomersServer(AsyncCallback<List<CustomerRPC>> callback);
 
-	void addNewOrder(OrderRPC order, AsyncCallback<Void> callback);
-
 	void getAllOrdersServer(AsyncCallback<List<OrderRPC>> callback);
+
+	void addNewOrders(List<OrderRPC> orders, AsyncCallback<Void> callback);
 
 }

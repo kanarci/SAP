@@ -83,15 +83,16 @@ implements RPC {
 	}
 
 	@Override
-	public void addNewOrder(OrderRPC order) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<OrderRPC> getAllOrdersServer() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void addNewOrders(List<OrderRPC> orders)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
