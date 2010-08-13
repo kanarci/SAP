@@ -82,7 +82,7 @@ implements RPC {
 
 	@Override
 	public List<CustomerRPC> getAllCustomersServer() {
-		return DRPCC.get().custToRPC(DUF.get().getAllCustomers());
+		return DRPCC.get().customerToRPC(DUF.get().getAllCustomers());
 	}
 
 	@Override
