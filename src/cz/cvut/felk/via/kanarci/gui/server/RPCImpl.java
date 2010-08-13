@@ -51,7 +51,7 @@ implements RPC {
 	}
 	
 	@Override
-	public String getCustomersServer() throws IllegalArgumentException {
+	public String getContactsServer() throws IllegalArgumentException {
 		List<Customer> retCust = new ArrayList<Customer>();
 		String retStr = "";
 		try {

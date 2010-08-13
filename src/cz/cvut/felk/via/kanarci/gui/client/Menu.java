@@ -18,7 +18,7 @@ public class Menu extends Composite{
 			@Override
 			public void execute() {
 				final RPCAsync getContactServer = GWT.create(RPC.class);
-				getContactServer.getCustomersServer(new AsyncCallback<String>() {
+				getContactServer.getContactsServer(new AsyncCallback<String>() {
 					
 					@Override
 					public void onSuccess(String result) {
