@@ -16,7 +16,7 @@ public class Customer extends Person {
 	private static final long serialVersionUID = 4963844968764606571L;
 
 	@Persistent
-	private List<Key> orders;
+	private List<Order> orders;
 
 	@Persistent
 	private List<Key> invoice;
@@ -26,11 +26,11 @@ public class Customer extends Person {
 		invoice = new ArrayList<Key>();
 	}
 
-	public List<Key> getOrders() {
+	public List<Order> getOrders() {
 		return orders;
 	}
 
-	public void addOrder(Key var){
+	public void addOrder(Order var){
 		this.orders.add(var);
 	}
 

@@ -88,28 +88,24 @@ public class DatastoreUtil implements IDatastoreUtil{
 	@SuppressWarnings({ "unchecked" })
 	private <T> List<T> getAllObjects(Class<T> o){
 
-//		System.out.println()
-		List<T>  ret;
+		List<T> ret;
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Transaction tx = pm.currentTransaction();
+
+		pm.getFetchPlan().setMaxFetchDepth(3);
+	    
 		try {
-			tx.begin();
-  
 			Query q = pm.newQuery(o);
-			List<T> qobj = (List<T>) q.execute();
-//			ret = pm.detachCopyAll();
-//			ret = Lists.newArrayList(pm.detachCopyAll(qobj)); 
-			ret = new ArrayList<T>(pm.detachCopyAll(qobj)); 
-			tx.commit();
+			List<T> qret = (List<T>) q.execute(); 
+			ret =  new ArrayList<T>(pm.detachCopyAll(qret));
+//			for(T c : qret){
+//				T var = pm.detachCopy(c);
+//				ret.add(var);
+//		    }
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		
-		return ret;
+		    pm.close();
+		}	    
+	    return ret;
 	}
 	
 	/* ------------------------------------------------------------ */
@@ -296,36 +292,8 @@ public class DatastoreUtil implements IDatastoreUtil{
 	
 	/* ------------------------------------------------------------ */
 	
-	@SuppressWarnings("unchecked")
 	public List<Customer> getAllCustomers(){
-//		return getAllObjects(Customer.class);
-		List<Customer> ret = new ArrayList<Customer>();
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		pm.setCopyOnAttach(true);
-		
-//		List<Customer> cus = (List<Customer>) q.execute();
-//		
-//		ret = new ArrayList<Customer>(pm.detachCopyAll(cus)); 
-//			    
-		try {
-
-
-			pm.setMultithreaded(true);  
-			Query q = pm.newQuery(Customer.class);
-			List<Customer> qret = (List<Customer>) q.execute(); 
-
-			for(Customer c : qret){
-				Customer var = pm.detachCopy(c);
-				var.getContact().setAddress(c.getContact().getAddress());
-				ret.add(var);
-		    }
-		} finally {
-		    pm.close();
-		}	    
-
-	    return ret;
+		return getAllObjects(Customer.class);
 	}
 
 	public  List<Category> getAllCategories() {
@@ -334,18 +302,15 @@ public class DatastoreUtil implements IDatastoreUtil{
 	}
 
 	public  List<Contact> getAllContacts() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAllObjects(Contact.class);
 	}
 
 	public  List<Employee> getAllEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAllObjects(Employee.class);
 	}
 
 	public  List<Goods> getAllGoods() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAllObjects(Goods.class);
 	}
 
 	public  List<Invoice_customer> getAllInvoices_customer(Key key) {
@@ -359,8 +324,7 @@ public class DatastoreUtil implements IDatastoreUtil{
 	}
 
 	public  List<Order> getAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAllObjects(Order.class);
 	}
 
 	public List<Order> getAllOrders(Key key) {
@@ -369,13 +333,11 @@ public class DatastoreUtil implements IDatastoreUtil{
 	}
 
 	public  List<Supplier> getAllSuppliers() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAllObjects(Supplier.class);
 	}
 
 	public  List<Team> getAllTeams() {
-		// TODO Auto-generated method stub
-		return null;
+		return getAllObjects(Team.class);
 	}
 	
 	
