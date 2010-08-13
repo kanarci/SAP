@@ -2,6 +2,7 @@ package cz.cvut.felk.via.kanarci.gui.client;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -12,6 +13,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -22,6 +24,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
+
+import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
 
 public class NewOrder extends Composite{
 
@@ -46,11 +50,23 @@ public class NewOrder extends Composite{
 		flexTable.setCellPadding(4);
 		Label user = new Label("Generic Seller");
 		final Button plusButton = new Button("<b>+</b>");
-		final Button save = new Button("Save changes"); 
+		final Button save = new Button("Save changes");
+		final RPCAsync rpc = GWT.create(RPC.class);
+		
+		rpc.getAllCustomersServer(new AsyncCallback<List<CustomerRPC>>() {
+			@Override
+			public void onSuccess(List<CustomerRPC> result) {
+				for (CustomerRPC cust : result) {
+					customers.addItem(cust.getContactInfo().getSureName() + ", " + cust.getContactInfo().getFirstName());
+				}
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				customers.addItem("--------");
+			}
+		});
 		
 		orderDatePicker.setWidth("10em");
-		customers.addItem("--------");
-		//customers.addItem(DUF.get().getAllCustomers());
 		goods.addItem("phone 1");
 		goods.addItem("phone 2");
 		goods.addItem("phone 3");
@@ -181,6 +197,7 @@ public class NewOrder extends Composite{
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.alert("This will save your orders to DB  (will means in future, not yet)");
+				//TODO: save to DB
 			}
 		});
 		

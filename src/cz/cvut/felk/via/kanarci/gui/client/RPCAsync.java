@@ -1,8 +1,12 @@
 package cz.cvut.felk.via.kanarci.gui.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 
 
 public interface RPCAsync {
@@ -15,5 +19,11 @@ public interface RPCAsync {
 	void getContactsServer(AsyncCallback<String> callback) throws IllegalArgumentException;
 
 	void delContactsServer(AsyncCallback<String> callback);
+
+	void getAllCustomersServer(AsyncCallback<List<CustomerRPC>> callback);
+
+	void addNewOrder(OrderRPC order, AsyncCallback<Void> callback);
+
+	void getAllOrdersServer(AsyncCallback<List<OrderRPC>> callback);
 
 }

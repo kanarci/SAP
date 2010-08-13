@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import cz.cvut.felk.via.kanarci.datastore.objects.DeliveryMethod;
-import cz.cvut.felk.via.kanarci.datastore.objects.OrderState;
 
 public class OrderRPC implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6326984437548944723L;
+
 	private String key;
 		
 	private OrderStateRPC orderState;
