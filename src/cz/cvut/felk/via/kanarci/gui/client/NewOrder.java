@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
+import cz.cvut.felk.via.kanarci.gui.client.interfaces.ITab;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.DeliveryMethodRPC;
@@ -32,7 +33,7 @@ import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderStateRPC;
 
-public class NewOrder extends Composite{
+public class NewOrder extends Composite implements ITab{
 
 	private NewOrderMessages messages = GWT.create(NewOrderMessages.class);
 	
@@ -159,12 +160,12 @@ public class NewOrder extends Composite{
 				data.setText(row, 7, priceTax.getText());
 				data.setWidget(row, 8, new Button("<b>-</b>", new ClickHandler() {
 					
-					@Override
-					public void onClick(ClickEvent event) {
-						int removeIndex = orderIDs.indexOf(finalHash);
-						orderIDs.remove(removeIndex);
-						data.removeRow(removeIndex+2);
-					}
+				@Override
+				public void onClick(ClickEvent event) {
+					int removeIndex = orderIDs.indexOf(finalHash);
+					orderIDs.remove(removeIndex);
+					data.removeRow(removeIndex+2);
+				}
 				}));
 			}
 		});
@@ -238,6 +239,9 @@ public class NewOrder extends Composite{
 
 		initWidget(flexTable);
 	}
+
+	
+	
 	void calc(){
 		if (Integer.parseInt(count.getText()) > 0) {
 			priceNoTax.setText(Integer.toString(Integer.parseInt(count.getText())*Integer.parseInt(onePrice.getText())));
@@ -246,5 +250,13 @@ public class NewOrder extends Composite{
 			priceNoTax.setText("------");
 			priceTax.setText("------");
 		}
+	}
+
+
+
+	@Override
+	public void refreshContent() {
+		// TODO Auto-generated method stub
+		
 	}
 }

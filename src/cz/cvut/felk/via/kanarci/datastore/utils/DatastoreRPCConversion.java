@@ -8,6 +8,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 import cz.cvut.felk.via.kanarci.datastore.objects.Address;
+import cz.cvut.felk.via.kanarci.datastore.objects.Category;
 import cz.cvut.felk.via.kanarci.datastore.objects.Contact;
 import cz.cvut.felk.via.kanarci.datastore.objects.Customer;
 import cz.cvut.felk.via.kanarci.datastore.objects.DeliveryMethod;
@@ -15,6 +16,7 @@ import cz.cvut.felk.via.kanarci.datastore.objects.Goods;
 import cz.cvut.felk.via.kanarci.datastore.objects.Order;
 import cz.cvut.felk.via.kanarci.datastore.objects.OrderState;
 import cz.cvut.felk.via.kanarci.gui.shared.AddressRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.DeliveryMethodRPC;
@@ -30,37 +32,52 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	/* ------------------------------------------------------------ */
 
-	private List<String> keyToString(List<Key> category) {
+	private List<String> keyToString(List<Key> keyList) {
 		List<String> ret = new ArrayList<String>();
-		for(Key k : category){
-			ret.add(KeyFactory.keyToString(k));
+		for(Key k : keyList){
+			ret.add(keyToString(k));
 		}
 		return ret;
 	}	
 	
-	private List<Key> stringToKey(List<String> category) {
+	private List<Key> stringToKey(List<String> stringList) {
 		List<Key> ret = new ArrayList<Key>();
-		for(String s : category){
-			ret.add(KeyFactory.stringToKey(s));
+		for(String s : stringList){
+			ret.add(stringToKey(s));
 		}
 		return ret;
+	}
+	
+	private String keyToString(Key key){
+		if(key == null){
+			return "";
+		}else{
+			return KeyFactory.keyToString(key);
+		}
+	}
+	
+	private Key stringToKey(String string){
+		if(string == null || string.equals("")){
+			return null;
+		}else{
+			return KeyFactory.stringToKey(string);
+		}
 	}
 	
 	/* ------------------------------------------------------------ */
 	
 	@Override
-	public OrderRPC OrderToRPC(Order order) {
-		return new OrderRPC(KeyFactory.keyToString(order.getKey()), 
+	public OrderRPC orderToRPC(Order order) {
+		return new OrderRPC(keyToString(order.getKey()), 
 				orderStateToRPC(order.getOrderState()), order.getCreationDate(), order.getCloseDate(), 
 				order.getModificationDate(), order.getCourierShipmentDate(), 
 				order.getEstimatedDeliveryDate(), order.getDeliveryDate(), 
 				deliveryMethodToRPC(order.getDeliveryMethod()), goodsToRPC(order.getGoodsInOrder()), 
 				contactToRPC(order.getDeliveryContact()), 
-				contactToRPC(order.getBillingContact()), KeyFactory.keyToString(order.getModificatedBy()), 
-				KeyFactory.keyToString(order.getCreatedBy()));
+				contactToRPC(order.getBillingContact()), keyToString(order.getModificatedBy()), 
+				keyToString(order.getCreatedBy()));
 	}
 	
-
 	@Override
 	public AddressRPC addressToRPC(Address adr) {
 		return new AddressRPC(adr.getCity(), adr.getStreet(), adr.getCo(), adr.getCp(), adr.getZip());
@@ -70,22 +87,22 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 	public ContactRPC contactToRPC(Contact con) {
 		AddressRPC adr = new AddressRPC( con.getAddress().getCity(), con.getAddress().getStreet(), 
 				con.getAddress().getCo(), con.getAddress().getCp(), con.getAddress().getZip());
-		return new ContactRPC(KeyFactory.keyToString(con.getKey()),con.getFirstName(), con.getSureName(),
+		return new ContactRPC(keyToString(con.getKey()),con.getFirstName(), con.getSureName(),
 				con.getPhone(), con.getCorporationName(), con.getEmail(), 
 				con.getDepartment(), adr);
 	}
 
 	@Override
 	public CustomerRPC customerToRPC(Customer cust) {
-		return new CustomerRPC(KeyFactory.keyToString(cust.getKey()),
-				contactToRPC(cust.getContact()), OrderToRPC(cust.getOrders()));
+		return new CustomerRPC(keyToString(cust.getKey()),
+				contactToRPC(cust.getContact()), orderToRPC(cust.getOrders()));
 	}
 
 	@Override
 	public GoodsRPC goodsToRPC(Goods goods) {
-		return new GoodsRPC(KeyFactory.keyToString(goods.getKey()), goods.getName(), 
+		return new GoodsRPC(keyToString(goods.getKey()), goods.getName(), 
 				goods.getDescription().toString(), goods.getPrice(), goods.getNumOfPieces(), 
-				goods.getVisiblity(), goods.getDPH(), KeyFactory.keyToString(goods.getSupplier()), 
+				goods.getVisiblity(), goods.getDPH(), keyToString(goods.getSupplier()), 
 				keyToString(goods.getCategory()));
 	}
 
@@ -97,13 +114,20 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 		return OrderStateRPC.valueOf(orderState.name());
 	}
 	
+	@Override
+	public CategoryRPC categoryToRPC(Category cat){
+		return new CategoryRPC(keyToString(cat.getKey()), cat.getName(), 
+				keyToString(cat.getSupremeCategory()), cat.getParameterName(), 
+				cat.getParameterValue());
+	}
+	
 	/* ------------------------------------------------------------ */
 	
 	@Override
-	public List<OrderRPC> OrderToRPC(List<Order> orders) {
+	public List<OrderRPC> orderToRPC(List<Order> orders) {
 		List<OrderRPC> ret = new ArrayList<OrderRPC>();
 		for(Order o : orders){
-			ret.add(OrderToRPC(o));
+			ret.add(orderToRPC(o));
 		}
 		return ret;
 	}
@@ -135,17 +159,28 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 		return ret;
 	}
 
+	@Override
+	public List<CategoryRPC> categoryToRPC(List<Category> cat){
+		List<CategoryRPC> ret = new ArrayList<CategoryRPC>();
+		if(cat != null){
+			for(Category c : cat){
+				ret.add(categoryToRPC(c));
+			}
+		} 
+		return ret;		
+	}
+	
 	/* ------------------------------------------------------------ */
 	
 	@Override
-	public Order OrderFromRPC(OrderRPC order) {
-		return new Order(KeyFactory.stringToKey(order.getKey()), orderStateFromRPC(order.getOrderState()), 
+	public Order orderFromRPC(OrderRPC order) {
+		return new Order(stringToKey(order.getKey()), orderStateFromRPC(order.getOrderState()), 
 				order.getCreationDate(), order.getCloseDate(),order.getModificationDate(), 
 				order.getCourierShipmentDate(),	order.getEstimatedDeliveryDate(), 
 				order.getDeliveryDate(), deliveryMethodFromRPC(order.getDeliveryMethod()), 
 				goodsFromRPC(order.getGoodsInOrder()), contactFromRPC(order.getDeliveryContact()), 
-				contactFromRPC(order.getBillingContact()), KeyFactory.stringToKey(order.getModificatedBy()),
-				KeyFactory.stringToKey(order.getCreatedBy()));
+				contactFromRPC(order.getBillingContact()), stringToKey(order.getModificatedBy()),
+				stringToKey(order.getCreatedBy()));
 	}
 
 	@Override
@@ -156,21 +191,21 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	@Override
 	public Contact contactFromRPC(ContactRPC con) {
-		return new Contact(KeyFactory.stringToKey(con.getKey()), con.getFirstName(), con.getSureName(), 
+		return new Contact(stringToKey(con.getKey()), con.getFirstName(), con.getSureName(), 
 				con.getPhone(), con.getCorporationName(), con.getEmail(), con.getDepartment(), 
 				addressFromRPC(con.getAddress()));
 	}
 
 	@Override
 	public Customer customerFromRPC(CustomerRPC cust) {
-		return new Customer(KeyFactory.stringToKey(cust.getKey()), contactFromRPC(cust.getContactInfo()));
+		return new Customer(stringToKey(cust.getKey()), contactFromRPC(cust.getContactInfo()));
 	}
 
 	@Override
 	public Goods goodsFromRPC(GoodsRPC goods) {
-		return new Goods(KeyFactory.stringToKey(goods.getKey()), goods.getName(),
+		return new Goods(stringToKey(goods.getKey()), goods.getName(),
 				new Text(goods.getDescription()), goods.getPrice(), goods.getNumOfPieces(), 
-				goods.getVisiblity(), goods.getDPH(), KeyFactory.stringToKey(goods.getSupplier()),
+				goods.getVisiblity(), goods.getDPH(), stringToKey(goods.getSupplier()),
 				stringToKey(goods.getCategory()));		
 	}
 
@@ -181,17 +216,32 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 	public OrderState orderStateFromRPC(OrderStateRPC orderState) {
 		return OrderState.valueOf(orderState.name());
 	}
-	/* ------------------------------------------------------------ */
 
 	@Override
-	public List<Order> OrderFromRPC(List<OrderRPC> orders) {
+	public Category categoryFromRPC(CategoryRPC cat){
+		if(cat.getGoodsInCategory() == null){
+			return new Category(stringToKey(cat.getKey()), cat.getName(), 
+					stringToKey(cat.getSupremeCategory()), cat.getParameterName(), 
+					cat.getParameterValue());
+		} else {
+			return new Category(stringToKey(cat.getKey()),cat.getName(),
+					stringToKey(cat.getSupremeCategory()), stringToKey(cat.getGoodsInCategory()), 
+					cat.getParameterName(), cat.getParameterValue());
+		}
+	}
+	/* ------------------------------------------------------------ */
+
+	
+	@Override
+	public List<Order> orderFromRPC(List<OrderRPC> orders) {
 		List<Order> ret = new ArrayList<Order>();
 		for(OrderRPC o : orders){
-			ret.add(OrderFromRPC(o));
+			ret.add(orderFromRPC(o));
 		}
 		return ret;
 	}
 
+	
 	@Override
 	public List<Contact> contactFromRPC(List<ContactRPC> con) {
 		List<Contact> ret = new ArrayList<Contact>();
@@ -201,6 +251,7 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 		return ret;
 	}
 
+	
 	@Override
 	public List<Customer> customerFromRPC(List<CustomerRPC> cust) {
 		List<Customer> ret = new ArrayList<Customer>();
@@ -209,6 +260,7 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 		}
 		return ret;
 	}
+	
 	
 	@Override
 	public List<Goods> goodsFromRPC(List<GoodsRPC> goods) {
@@ -219,5 +271,13 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 		return ret;
 	}
 
+	@Override
+	public List<Category> categoryFromRPC(List<CategoryRPC> cat){
+		List<Category> ret = new ArrayList<Category>();
+		for(CategoryRPC c : cat){
+			ret.add(categoryFromRPC(c));
+		}
+		return ret;		
+	}
 	/* ------------------------------------------------------------- */
 }

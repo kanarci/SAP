@@ -57,6 +57,30 @@ public class Category implements Serializable{
 		this.goodsInCategory = new ArrayList<Key>();
 	}
 
+
+	public Category(Key key, String name, Key supremeCategory,
+			List<Key> goodsInCategory, String parameterName,
+			String parameterValue) {
+		super();
+		this.key = key;
+		this.name = name;
+		this.supremeCategory = supremeCategory;
+		this.goodsInCategory = goodsInCategory;
+		this.parameterName = parameterName;
+		this.parameterValue = parameterValue;
+	}
+
+	public Category(Key key, String name, Key supremeCategory,
+			String parameterName,String parameterValue) {
+		super();
+		this.key = key;
+		this.name = name;
+		this.supremeCategory = supremeCategory;
+		this.goodsInCategory = new ArrayList<Key>();
+		this.parameterName = parameterName;
+		this.parameterValue = parameterValue;
+	}
+	
 	public Key getKey() {
 		return key;
 	}
@@ -104,11 +128,19 @@ public class Category implements Serializable{
 		return val;
 	}
 
-	public void setParametrName(String parameterName) {
+	public String getParameterName() {
+		return parameterName;
+	}
+
+	public void setParameterName(String parameterName) {
 		this.parameterName = parameterName;
 	}
 
-	public void setParametrValue(String parameterValue) {
+	public String getParameterValue() {
+		return parameterValue;
+	}
+
+	public void setParameterValue(String parameterValue) {
 		this.parameterValue = parameterValue;
 	}
 

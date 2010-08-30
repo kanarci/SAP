@@ -5,11 +5,10 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
-
-
 
 @RemoteServiceRelativePath("contact")
 public interface RPC extends RemoteService{
@@ -20,4 +19,7 @@ public interface RPC extends RemoteService{
 	List<CustomerRPC> getAllCustomersServer();
 	List<OrderRPC> getAllOrdersServer();
 	void addNewOrders(List<OrderRPC> orders) throws IllegalArgumentException;
+	List<CategoryRPC> getAllCategoriesServer();
+	void addNewCategory(CategoryRPC cat);
+	void delCategory(CategoryRPC cat);
 }

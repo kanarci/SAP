@@ -16,12 +16,13 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
 //import cz.cvut.felk.via.kanarci.datastore.objects.Address;
+import cz.cvut.felk.via.kanarci.gui.client.interfaces.ITab;
 import cz.cvut.felk.via.kanarci.gui.shared.AddressRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 
 
 
-public class AddPerson extends Composite{
+public class AddPerson extends Composite implements ITab{
 
 	private RadioButton customerRB = new RadioButton("person", "customer");
 	private RadioButton employeeRB = new RadioButton("person", "employee");
@@ -153,5 +154,11 @@ public class AddPerson extends Composite{
 		flexTable.setWidget(13, 0, create);
 		
 		initWidget(flexTable);
+	}
+
+	@Override
+	public void refreshContent() {
+		// TODO Auto-generated method stub
+		
 	}
 }

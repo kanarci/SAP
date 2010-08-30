@@ -22,7 +22,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-public class FindOrder extends Composite{
+import cz.cvut.felk.via.kanarci.gui.client.interfaces.ITab;
+
+public class FindOrder extends Composite implements ITab{
 	
 	private Grid data = new Grid(1, 9);
 	private Date searchDate = new Date();
@@ -189,5 +191,12 @@ public class FindOrder extends Composite{
 		vp.add(flexTable);
 		vp.add(data);
 		initWidget(vp);
+	}
+
+
+	@Override
+	public void refreshContent() {
+		// TODO Auto-generated method stub
+		
 	}
 }

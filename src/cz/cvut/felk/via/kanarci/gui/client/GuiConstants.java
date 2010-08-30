@@ -21,5 +21,8 @@ public interface GuiConstants extends Constants {
 
 	@DefaultStringValue("[Category]")
 	String category();
+	
+	@DefaultStringValue("[Goods]")
+	String goods();
 
 }

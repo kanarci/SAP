@@ -13,6 +13,7 @@ import cz.cvut.felk.via.kanarci.datastore.objects.Customer;
 import cz.cvut.felk.via.kanarci.datastore.utils.DRPCC;
 import cz.cvut.felk.via.kanarci.datastore.utils.DUF;
 import cz.cvut.felk.via.kanarci.gui.client.RPC;
+import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
@@ -87,13 +88,31 @@ implements RPC {
 
 	@Override
 	public List<OrderRPC> getAllOrdersServer() {
-		return DRPCC.get().OrderToRPC(DUF.get().getAllOrders());
+		return DRPCC.get().orderToRPC(DUF.get().getAllOrders());
 	}
 
 	@Override
 	public void addNewOrders(List<OrderRPC> orders)
 			throws IllegalArgumentException {
-		DRPCC.get().OrderFromRPC(orders);
+		DRPCC.get().orderFromRPC(orders);
+	}
+
+	@Override
+	public List<CategoryRPC> getAllCategoriesServer() {
+		return DRPCC.get().categoryToRPC(DUF.get().getAllCategories());
+	}
+
+	@Override
+	public void addNewCategory(CategoryRPC cat) {
+		DUF.get().addCategory(DRPCC.get().categoryFromRPC(cat));
+		System.out.println("Category added");
+	}
+
+	@Override
+	public void delCategory(CategoryRPC cat) {
+		System.out.println("RPC del category");
+		DUF.get().deleteCategory(DRPCC.get().categoryFromRPC(cat));
+		
 	}
 
 }

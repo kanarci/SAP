@@ -13,13 +13,15 @@ public interface IDatastoreRPCConversion {
 	
 	public GoodsRPC goodsToRPC(Goods goods);
 
-	public OrderRPC OrderToRPC(Order order);
+	public OrderRPC orderToRPC(Order order);
 
 	public AddressRPC addressToRPC(Address adr);
 
 	public DeliveryMethodRPC deliveryMethodToRPC(DeliveryMethod deliveryMethod);
 
 	public OrderStateRPC orderStateToRPC(OrderState orderState);
+	
+	public CategoryRPC categoryToRPC(Category cat);	
 
 	/* ---------------------------------------------------------- */
 	
@@ -29,7 +31,9 @@ public interface IDatastoreRPCConversion {
 	
 	public List<GoodsRPC> goodsToRPC(List<Goods> goods);
 
-	public List<OrderRPC> OrderToRPC(List<Order> orders);
+	public List<OrderRPC> orderToRPC(List<Order> orders);
+	
+	public List<CategoryRPC> categoryToRPC(List<Category> cat);
 
 	/* ---------------------------------------------------------- */
 	
@@ -39,13 +43,15 @@ public interface IDatastoreRPCConversion {
 	
 	public Goods goodsFromRPC(GoodsRPC goods);
 
-	public Order OrderFromRPC(OrderRPC order);
+	public Order orderFromRPC(OrderRPC order);
 
 	public Address addressFromRPC(AddressRPC adr);
 
 	public DeliveryMethod deliveryMethodFromRPC(DeliveryMethodRPC deliveryMethod);
 
 	public OrderState orderStateFromRPC(OrderStateRPC orderState);
+	
+	public Category categoryFromRPC(CategoryRPC cat);
 	
 	/* ---------------------------------------------------------- */
 	
@@ -55,7 +61,9 @@ public interface IDatastoreRPCConversion {
 	
 	public List<Goods> goodsFromRPC(List<GoodsRPC> goods);
 
-	public List<Order> OrderFromRPC(List<OrderRPC> orders);
+	public List<Order> orderFromRPC(List<OrderRPC> orders);
+	
+	public List<Category> categoryFromRPC(List<CategoryRPC> cat);
 	
 	/* ---------------------------------------------------------- */
 	
