@@ -84,6 +84,25 @@ public class DatastoreUtil implements IDatastoreUtil{
 		
 	}
 	
+//	@SuppressWarnings("unchecked")
+//	private <T> void updatePersistentObject(T o, Key key){
+//		System.out.println("Deleting & updating object " + o.getClass().getSimpleName() + " with key " + KeyFactory.keyToString(key));
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
+//		
+//		try{
+//			T obj = (T) pm.getObjectById(o.getClass(), key);
+//			pm.deletePersistent(obj);
+//			System.out.println(" Object wiped out from datastore");
+//		}
+//		catch(JDOUserException ex){
+//			System.out.println(" Object was not deleted from datastore");
+//		}
+//		finally{
+//			pm.close();
+//		}
+//		
+//	}
+	
 	@SuppressWarnings({ "unchecked", "unused" })
 	private <T> T getUniqueObjectForIdentifier(T o,	String property, String identifier){
 		
@@ -477,7 +496,7 @@ public class DatastoreUtil implements IDatastoreUtil{
 	
 	@Override
 	public void deleteAddress(Address adr) {
-		// TODO Auto-generated method stub
+		deletePersistentObject(adr, adr.getKey());
 		
 	}
 
@@ -488,25 +507,25 @@ public class DatastoreUtil implements IDatastoreUtil{
 
 	@Override
 	public void deleteContact(Contact con) {
-		// TODO Auto-generated method stub
+		deletePersistentObject(con, con.getKey());
 		
 	}
 
 	@Override
 	public void deleteCustomer(Customer cust) {
-		// TODO Auto-generated method stub
+		deletePersistentObject(cust, cust.getKey());
 		
 	}
 
 	@Override
 	public void deleteEmployee(Employee emp) {
-		// TODO Auto-generated method stub
+		deletePersistentObject(emp, emp.getKey());
 		
 	}
 
 	@Override
 	public void deleteGoods(Goods goods) {
-		// TODO Auto-generated method stub
+		deletePersistentObject(goods, goods.getKey());
 		
 	}
 
@@ -524,7 +543,7 @@ public class DatastoreUtil implements IDatastoreUtil{
 
 	@Override
 	public void deleteOrder(Order order) {
-		// TODO Auto-generated method stub
+		deletePersistentObject(order, order.getKey());
 		
 	}
 
@@ -536,6 +555,72 @@ public class DatastoreUtil implements IDatastoreUtil{
 
 	@Override
 	public void deleteTeam(Team team) {
+		deletePersistentObject(team, team.getKey());
+		
+	}
+
+	@Override
+	public void updateAddress(Address adr) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateCategory(Category cat) {
+//		deletePersistentObject(cat, cat.getKey());
+		makeObjectPersistent(cat);
+	}
+
+	@Override
+	public void updateContact(Contact con) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateCustomer(Customer cust) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmployee(Employee emp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateGoods(Goods goods) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateInvoiceCustomer(Invoice_customer invc) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateInvoiceSupplier(Invoice_supplier invs) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateOrder(Order order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateSupplier(Supplier supplier) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateTeam(Team team) {
 		// TODO Auto-generated method stub
 		
 	}

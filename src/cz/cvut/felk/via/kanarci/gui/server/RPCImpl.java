@@ -115,4 +115,11 @@ implements RPC {
 		
 	}
 
+	@Override
+	public void updateCategory(CategoryRPC cat) {
+		System.out.println(" RPC update category");
+		DUF.get().updateCategory(DRPCC.get().categoryFromRPC(cat));
+		
+	}
+
 }

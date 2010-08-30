@@ -30,8 +30,19 @@ public class Goods extends Composite implements ITab{
 	
 	public Goods() {
 		super();
-		
+
+
 		//goodsCategory.addItem(item)
+
+		
+		initWidget(createGoodsPanel());
+		
+		refreshCategory();	
+	}
+
+	
+	private Widget createGoodsPanel(){
+		
 		// Add FlexTable elements
 		flexTable.setWidget(0, 0, new HTML("<u>Category</u>:"));
 		flexTable.setWidget(1, 0, goodsCategory);
@@ -42,21 +53,11 @@ public class Goods extends Composite implements ITab{
 		flexTable.setWidget(3, 0, goods);
 		flexTable.setWidget(3, 1, newGoodsName);
 		flexTable.setWidget(3, 2, addGoodsButton);
-		flexTable.setWidget(3, 3, removeGoodsButton);
-		
-		initWidget(flexTable);
-		
-		refreshCategory();	
-	}
-
-	
-	private Widget createGoodsPanel(){
+		flexTable.setWidget(3, 3, removeGoodsButton);		
 		
 		
 		
-		
-		
-		return null;
+		return flexTable;
 	}
 	
 	

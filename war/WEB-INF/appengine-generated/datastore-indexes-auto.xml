@@ -1,24 +1,17 @@
-<!-- Indices written at Mon, 30 Aug 2010 12:11:02 UTC -->
+<!-- Indices written at Mon, 30 Aug 2010 13:37:10 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 6 times in query history -->
-    <datastore-index kind="Order" ancestor="true" source="auto">
-        <property name="orders_INTEGER_IDX" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Category" ancestor="false" source="auto">
-        <property name="name" direction="desc"/>
-        <property name="parameterName" direction="desc"/>
-        <property name="parameterValue" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Category" ancestor="false" source="auto">
         <property name="name" direction="asc"/>
         <property name="parameterName" direction="asc"/>
         <property name="parameterValue" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Order" ancestor="true" source="auto">
+        <property name="orders_INTEGER_IDX" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>

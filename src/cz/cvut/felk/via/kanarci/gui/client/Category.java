@@ -76,22 +76,21 @@ public class Category extends Composite implements ITab{
 		// Create a table to layout the form options
 		FlexTable layout = new FlexTable();
 		layout.setCellSpacing(6);
-		layout.setWidth("300px");
+		layout.setWidth("250px");
 		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
 		// Add a title to the form
 		cellFormatter.setColSpan(0, 0, 2);
-		cellFormatter.setHorizontalAlignment(0, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		cellFormatter.setHorizontalAlignment(1, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		cellFormatter.setHorizontalAlignment(0, 0,	HasHorizontalAlignment.ALIGN_LEFT);
+		cellFormatter.setHorizontalAlignment(1, 0,	HasHorizontalAlignment.ALIGN_CENTER);
 
 		// Add some standard form options
 		layout.setHTML(0, 0, "<br s><b>Category name:</b></br>");
+		catName.setWidth("200px");
 		layout.setWidget(1, 1, catName);
 
 		// Create some advanced options
-		Grid advancedOptions = new Grid(2, 3);
+		Grid advancedOptions = new Grid(2, 2);
 		advancedOptions.setCellSpacing(6);
 		advancedOptions.setHTML(0, 0, "<b>Name</b>");
 		advancedOptions.setWidget(0, 1, name);
@@ -133,13 +132,66 @@ public class Category extends Composite implements ITab{
 				});
 			}
 		});
-		layout.setWidget(3, 1, addCat);
-		cellFormatter.setHorizontalAlignment(3, 1,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		
+		Button editOK = new Button("<b>OK</b>");
+		editOK.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				CategoryRPC cat = updateSelectedItem(getSelectedItem());
+				System.out.println(" Edit ok clicked");
+				rpc.updateCategory(cat, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("fail: "+caught.toString());						
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+//						Window.alert("Edit successfull");
+						refreshCategoryTree();
+					}
+				});
+			}
+		});
+		
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		hPanel.add(editOK);
+		hPanel.add(addCat);
+//		layout.setWidget(3, 1, hPanel);
+//		cellFormatter.setHorizontalAlignment(3, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 
 		// Wrap the contents in a DecoratorPanel
-		return layout;
+		Grid editGrid = new Grid(2,1);
+		editGrid.setWidget(0, 0, layout);
+		editGrid.setWidget(1, 0, hPanel);
+		editGrid.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		return editGrid;
 
+	}
+
+	protected CategoryRPC updateSelectedItem(CategoryRPC selectedItem) {
+		selectedItem.setName(catName.getText());
+		
+		if(name.getText() == null){
+			selectedItem.setParameterName("");	
+		}
+		else{
+			selectedItem.setParameterName(name.getText());
+		}
+		
+		if(value.getText() == null){
+			selectedItem.setParameterValue("");
+		}
+		else{
+			selectedItem.setParameterValue(value.getText());
+		}
+		
+		return selectedItem;
 	}
 
 	private Widget createOldCategoryForm() {
@@ -243,7 +295,6 @@ public class Category extends Composite implements ITab{
 		});
 		
 	}
-	
 	
 	private CategoryRPC getSelectedItem(){
 		

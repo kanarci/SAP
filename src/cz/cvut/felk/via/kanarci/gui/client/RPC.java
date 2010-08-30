@@ -22,4 +22,5 @@ public interface RPC extends RemoteService{
 	List<CategoryRPC> getAllCategoriesServer();
 	void addNewCategory(CategoryRPC cat);
 	void delCategory(CategoryRPC cat);
+	void updateCategory(CategoryRPC cat);
 }

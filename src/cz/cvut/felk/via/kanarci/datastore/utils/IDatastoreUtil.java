@@ -74,6 +74,30 @@ public interface IDatastoreUtil {
 
 	/* ------------------------------------------------------------ */
 
+	public void updateAddress(Address adr);
+
+	public void updateCategory(Category cat);
+
+	public void updateContact(Contact con);
+
+	public void updateCustomer(Customer cust);
+
+	public void updateEmployee(Employee emp);
+
+	public void updateGoods(Goods goods);
+
+	public void updateInvoiceCustomer(Invoice_customer invc);
+
+	public void updateInvoiceSupplier(Invoice_supplier invs);
+
+	public void updateOrder(Order order);
+
+	public void updateSupplier(Supplier supplier);
+
+	public void updateTeam(Team team);	
+
+	/* ------------------------------------------------------------ */
+
 	public void deleteAllAddress();
 
 	public void deleteAllCategories();

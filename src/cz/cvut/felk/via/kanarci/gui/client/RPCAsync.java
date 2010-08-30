@@ -34,4 +34,6 @@ public interface RPCAsync {
 
 	void delCategory(CategoryRPC cat, AsyncCallback<Void> callback);
 
+	void updateCategory(CategoryRPC cat, AsyncCallback<Void> asyncCallback);
+
 }
