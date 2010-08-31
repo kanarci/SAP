@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 
 
@@ -35,5 +36,12 @@ public interface RPCAsync {
 	void delCategory(CategoryRPC cat, AsyncCallback<Void> callback);
 
 	void updateCategory(CategoryRPC cat, AsyncCallback<Void> asyncCallback);
+
+	void getAllGoodsServer(CategoryRPC selectedCategory,
+			AsyncCallback<List<GoodsRPC>> asyncCallback);
+
+	void addNewGoods(GoodsRPC goods, AsyncCallback<Void> asyncCallback);
+
+
 
 }

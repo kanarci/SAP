@@ -32,7 +32,7 @@ public class Gui implements EntryPoint {
 		final Category cathegory = new Category();
 		final Goods goods = new Goods();
 		final Menu menu = new Menu();
-
+		
 		tabs.add(newOrder, constants.new_order());
 		tabs.add(findOrder, constants.find());
 	    tabs.add(new HTML("smazání"), constants.erase());

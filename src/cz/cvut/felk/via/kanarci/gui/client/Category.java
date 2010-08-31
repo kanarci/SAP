@@ -14,9 +14,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,28 +24,26 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import cz.cvut.felk.via.kanarci.gui.client.interfaces.ITab;
+import cz.cvut.felk.via.kanarci.gui.client.widgets.CategoryTree;
 import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 
 public class Category extends Composite implements ITab{
-
 	
 	final HorizontalPanel hPanel = new HorizontalPanel();
 	final RPCAsync rpc = GWT.create(RPC.class);
 	final TextBox catName = new TextBox();
 	final TextBox name = new TextBox();
 	final TextBox value = new TextBox();
-	final Tree staticTree = new Tree();
+	final CategoryTree staticTree = new CategoryTree();
 	final Button refreshCat = new Button("<b>Refresh</b>");
 	final Button deleteCat = new Button("<b>Delete</b>");
 	
-	private List<CategoryRPC> categories = new ArrayList<CategoryRPC>();
-	private List<TreeItemLink> catTree = new ArrayList<TreeItemLink>();
-//	private Hashtable<String, Integer> catTree = new Hashtable<String, Integer>();
+//	private List<CategoryRPC> categories = new ArrayList<CategoryRPC>();
+//	private List<TreeItemLink> catTree = new ArrayList<TreeItemLink>();
 
 	
 	/**
@@ -57,8 +55,8 @@ public class Category extends Composite implements ITab{
 		DecoratorPanel oldCategoryDecorator = new DecoratorPanel();
 		DecoratorPanel newCategoryDecorator = new DecoratorPanel();
 		
-		oldCategoryDecorator.setWidget(createOldCategoryForm());
-		newCategoryDecorator.setWidget(createNewCategoryForm());
+		oldCategoryDecorator.setWidget(createCategoryTree());
+		newCategoryDecorator.setWidget(createCategoryEdit());
 		
 		Grid grid = new Grid(2, 2);
 		grid.setCellPadding(2);
@@ -68,11 +66,15 @@ public class Category extends Composite implements ITab{
 		grid.setWidget(1, 0, oldCategoryDecorator);
 		grid.setHTML(0, 1, "<b>Edit</b>");
 		grid.setWidget(1, 1, newCategoryDecorator);
-		initWidget(grid);
+		
+		DockPanel dPanel = new DockPanel();
+		dPanel.add(grid, DockPanel.CENTER);
+		
+		initWidget(dPanel);
 
 	}
 
-	private Widget createNewCategoryForm() {
+	private Widget createCategoryEdit() {
 		// Create a table to layout the form options
 		FlexTable layout = new FlexTable();
 		layout.setCellSpacing(6);
@@ -194,8 +196,8 @@ public class Category extends Composite implements ITab{
 		return selectedItem;
 	}
 
-	private Widget createOldCategoryForm() {
-		staticTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+	private Widget createCategoryTree() {
+		staticTree.categoryTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
@@ -206,8 +208,9 @@ public class Category extends Composite implements ITab{
 				value.setText(cat.getParameterValue());
 			}
 		});
-		staticTree.setAnimationEnabled(true);
-		refreshCategoryTree();
+		staticTree.categoryTree.setAnimationEnabled(true);
+
+//		refreshCategoryTree();
 		
 		refreshCat.addClickHandler(new ClickHandler() {
 			
@@ -244,26 +247,27 @@ public class Category extends Composite implements ITab{
 
 	protected void refreshCategoryTree() {
 		
-		rpc.getAllCategoriesServer(new AsyncCallback<List<CategoryRPC>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("fail: "+caught.toString());				
-			}
-
-			@Override
-			public void onSuccess(List<CategoryRPC> result) {
-				categories = result;
-				staticTree.removeItems();
-				catTree.clear();
-				for(CategoryRPC cat : categories){				
-					TreeItem ti = new TreeItem(cat.getName() + " : " + cat.getParameterName() + " - " + cat.getParameterValue());
-//					catTree.put(ti.getHTML(), categories.indexOf(cat));
-					catTree.add(new TreeItemLink(categories.indexOf(cat), ti.getHTML()));
-					staticTree.addItem(ti);
-				}
-			}
-		});
+		staticTree.refreshContent();
+//		rpc.getAllCategoriesServer(new AsyncCallback<List<CategoryRPC>>() {
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Window.alert("fail: "+caught.toString());				
+//			}
+//
+//			@Override
+//			public void onSuccess(List<CategoryRPC> result) {
+//				categories = result;
+//				staticTree.removeItems();
+//				catTree.clear();
+//				for(CategoryRPC cat : categories){				
+//					TreeItem ti = new TreeItem(cat.getName() + " : " + cat.getParameterName() + " - " + cat.getParameterValue());
+////					catTree.put(ti.getHTML(), categories.indexOf(cat));
+//					catTree.add(new TreeItemLink(categories.indexOf(cat), ti.getHTML()));
+//					staticTree.addItem(ti);
+//				}
+//			}
+//		});
 	}
 
 	@Override
@@ -298,23 +302,27 @@ public class Category extends Composite implements ITab{
 	
 	private CategoryRPC getSelectedItem(){
 		
-		String html = staticTree.getSelectedItem().getHTML();
-		int index = -1;
-		int i = -1;
-		for(TreeItemLink ti : catTree){
-			i++;
-			if(ti.text.equals(html)){
-				index = i;
-				break;
-			}
-		}
-			
-		if(index == -1){
-			Window.alert("Category cannot be deleted ");	
-			return null;
-		}
-		
-		return categories.get(index);	
+		return staticTree.getSelectedItem();
+////		return (CategoryRPC) staticTree.getSelectedItem();
+//		
+//		
+//		String html = staticTree.getSelectedItem().getHTML();
+//		int index = -1;
+//		int i = -1;
+//		for(TreeItemLink ti : catTree){
+//			i++;
+//			if(ti.text.equals(html)){
+//				index = i;
+//				break;
+//			}
+//		}
+//			
+//		if(index == -1){
+//			Window.alert("Category cannot be deleted ");	
+//			return null;
+//		}
+//		
+//		return categories.get(index);	
 	}
 	
 	

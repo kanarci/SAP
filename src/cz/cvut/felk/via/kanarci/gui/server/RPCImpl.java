@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cz.cvut.felk.via.kanarci.datastore.objects.Address;
@@ -16,6 +18,7 @@ import cz.cvut.felk.via.kanarci.gui.client.RPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 
 public class RPCImpl extends RemoteServiceServlet
@@ -121,5 +124,19 @@ implements RPC {
 		DUF.get().updateCategory(DRPCC.get().categoryFromRPC(cat));
 		
 	}
+
+	@Override
+	public List<GoodsRPC> getAllGoodsServer(CategoryRPC selectedCategory) {
+		System.out.println(" RPC get all goods from category ");
+		return DRPCC.get().goodsToRPC(DUF.get().getAllGoods(DRPCC.get().categoryFromRPC(selectedCategory)));
+	}
+
+	@Override
+	public void addNewGoods(GoodsRPC goods) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+		
+	}
+
 
 }

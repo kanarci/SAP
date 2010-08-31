@@ -57,6 +57,7 @@ public class Category implements Serializable{
 		this.goodsInCategory = new ArrayList<Key>();
 	}
 
+	
 
 	public Category(Key key, String name, Key supremeCategory,
 			List<Key> goodsInCategory, String parameterName,
@@ -81,6 +82,11 @@ public class Category implements Serializable{
 		this.parameterValue = parameterValue;
 	}
 	
+	public Category() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Key getKey() {
 		return key;
 	}

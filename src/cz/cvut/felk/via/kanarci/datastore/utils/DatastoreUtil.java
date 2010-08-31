@@ -1,6 +1,7 @@
 package cz.cvut.felk.via.kanarci.datastore.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -103,30 +104,30 @@ public class DatastoreUtil implements IDatastoreUtil{
 //		
 //	}
 	
-	@SuppressWarnings({ "unchecked", "unused" })
-	private <T> T getUniqueObjectForIdentifier(T o,	String property, String identifier){
-		
-		T obj = null;
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
- 
-			Query q = pm.newQuery(o.getClass());
-			q.setFilter(property + " == " + identifier);
-			q.setUnique(true);
-			T qobj = (T) q.execute();
-			obj = pm.detachCopy(qobj);
-			tx.commit();
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return obj;
-	}
+//	@SuppressWarnings({ "unchecked", "unused" })
+//	private <T> T getUniqueObjectForIdentifier(T o,	String property, String identifier){
+//		
+//		T obj = null;
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
+//		
+//		Transaction tx = pm.currentTransaction();
+//		try {
+//			tx.begin();
+// 
+//			Query q = pm.newQuery(o.getClass());
+//			q.setFilter(property + " == " + identifier);
+//			q.setUnique(true);
+//			T qobj = (T) q.execute();
+//			obj = pm.detachCopy(qobj);
+//			tx.commit();
+//		} finally {
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
+//			pm.close();
+//		}
+//		return obj;
+//	}
 	
 	@SuppressWarnings({ "unchecked" })
 	private <T> List<T> getAllObjects(Class<T> o){
@@ -179,6 +180,54 @@ public class DatastoreUtil implements IDatastoreUtil{
 		}	  
 	  return ret;
 	}	
+	
+	@SuppressWarnings("unchecked")
+	private <T> T getObjectForKey(Class<T> o, Key key) {
+		
+		if(key == null){
+			return null;
+		}
+		
+//		System.out.println("getObjectForKey - key "+key.toString());
+//		System.out.println("getObjectForKey - key "+KeyFactory.keyToString(key));
+//		System.out.println("getObjectForKey - class "+o.getSimpleName());
+//		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		pm.getFetchPlan().setMaxFetchDepth(4);
+	  
+		T obj;
+		try {
+			obj = (T) pm.getObjectById(o, key);
+//			pm.getObjectById(o.getSimpleName(), key);
+			obj = pm.detachCopy(obj);
+		} finally {
+		  pm.close();
+		}	
+		
+		return obj;
+	}
+	
+
+	private <T> List<T> getObjectsForKey(Class<T> o, List<Key> goodsInCategory) {
+
+		List<T> ret = new ArrayList<T>();
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+
+		pm.getFetchPlan().setMaxFetchDepth(4);
+		
+		try {
+			Query query = pm.newQuery(o.getClass(), ":p.contains(key)");
+			query.execute(goodsInCategory);
+			ret = pm.detachCopy(ret);
+		} finally {
+		  pm.close();
+		}
+		
+		return ret;
+	}
+	
 	
 	/* ------------------------------------------------------------ */
 	
@@ -460,6 +509,16 @@ public class DatastoreUtil implements IDatastoreUtil{
 	@Override
 	public List<Goods> getAllGoods() {
 		return getAllObjects(Goods.class);
+	}
+	
+	@Override
+	public List<Goods> getAllGoods(Category cat){
+//		System.out.println("getAllGoods(cat) - Encoded key "+cat.getKey() );
+		Category updCat = this.getObjectForKey(Category.class, cat.getKey());
+		if(updCat == null || updCat.getGoodsInCategory().isEmpty()){
+			return new ArrayList<Goods>(); 
+		}
+		return getObjectsForKey(Goods.class, updCat.getGoodsInCategory());
 	}
 
 	@Override

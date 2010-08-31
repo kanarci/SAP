@@ -1,92 +1,319 @@
 package cz.cvut.felk.via.kanarci.gui.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 import cz.cvut.felk.via.kanarci.gui.client.interfaces.ITab;
+import cz.cvut.felk.via.kanarci.gui.client.widgets.CategoryListBox;
+import cz.cvut.felk.via.kanarci.gui.client.widgets.CategoryTree;
+import cz.cvut.felk.via.kanarci.gui.client.widgets.GoodsList;
 import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.Constants;
+import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 
-public class Goods extends Composite implements ITab{
+public class Goods extends Composite implements ITab {
 
-	private ListBox goodsCategory = new ListBox();
-	private ListBox goods = new ListBox();
-	private TextBox newCategoryName = new TextBox();
-	private TextBox newGoodsName = new TextBox();
-	private Button addCategoryButton = new Button("<b>+</b>");
-	private Button removeCategoryButton = new Button("<b>-</b>");
-	private Button addGoodsButton = new Button("<b>+</b>");
-	private Button removeGoodsButton = new Button("<b>-</b>");
+	// private ListBox goodsCategory = new ListBox();
+	private TextBox goodsName = new TextBox();
+	private TextBox goodsDescription = new TextBox();
+	private TextBox goodsPrice = new TextBox();
+	private TextBox goodsCount = new TextBox();
+	private ListBox goodsVAT = new ListBox();
+	private CategoryListBox goodsCategories = new CategoryListBox();
+	private Button goodsAddCategory = new Button("<b>+</b>");
+	private Button goodsRemoveCategory = new Button("<b>-</b>");
+	private Button goodsAdd = new Button("<b>Add</b>");
+	private Button goodsRemove = new Button("<b>OK</b>");
+
 	final RPCAsync rpc = GWT.create(RPC.class);
 	final FlexTable flexTable = new FlexTable();
-	
+
+	final GoodsList gList = new GoodsList();
+
+	final CategoryTree categoryTree = new CategoryTree();
+
+//	private List<CategoryRPC> categoriesGoods = new ArrayList<CategoryRPC>();
+//	private List<TreeItemLink> categoriesGoodsItems = new ArrayList<TreeItemLink>();
+
 	public Goods() {
 		super();
 
+		DockPanel dPanel = new DockPanel();
+		dPanel.add(createGoodsPanel(), DockPanel.NORTH);
+		initWidget(dPanel);
+		// initWidget(createGoodsPanel());
 
-		//goodsCategory.addItem(item)
-
-		
-		initWidget(createGoodsPanel());
-		
-		refreshCategory();	
+		// refreshContent();
 	}
 
-	
-	private Widget createGoodsPanel(){
-		
-		// Add FlexTable elements
-		flexTable.setWidget(0, 0, new HTML("<u>Category</u>:"));
-		flexTable.setWidget(1, 0, goodsCategory);
-		flexTable.setWidget(1, 1, newCategoryName);
-		flexTable.setWidget(1, 2, addCategoryButton);
-		flexTable.setWidget(1, 3, removeCategoryButton);
-		flexTable.setWidget(2, 0, new HTML("<u>Goods</u>:"));
-		flexTable.setWidget(3, 0, goods);
-		flexTable.setWidget(3, 1, newGoodsName);
-		flexTable.setWidget(3, 2, addGoodsButton);
-		flexTable.setWidget(3, 3, removeGoodsButton);		
-		
-		
-		
-		return flexTable;
+	private Widget createGoodsPanel() {
+
+		Grid grid = new Grid(3, 1);
+		grid.setWidget(0, 0, new HTML("<b>Nové Zboží</b>"));
+		grid.setWidget(1, 0, createGoods());
+		grid.setWidget(2, 0, viewGoods());
+		grid.getRowFormatter().setVerticalAlign(1,
+				HasVerticalAlignment.ALIGN_TOP);
+		grid.getRowFormatter().setVerticalAlign(2,
+				HasVerticalAlignment.ALIGN_TOP);
+
+		return grid;
 	}
-	
-	
-	private void refreshCategory() {
-		rpc.getAllCategoriesServer(new AsyncCallback<List<CategoryRPC>>() {
+
+	private Widget viewGoods() {
+
+		DecoratorPanel dec = new DecoratorPanel();
+		Grid grid = new Grid(2, 2);
+		grid.setWidget(0, 0, createCategoryTree());
+		grid.setWidget(0, 1, createGoodsInCategoryList());
+
+		dec.add(grid);
+		return dec;
+	}
+
+	private Widget createGoodsInCategoryList() {
+		return this.gList;
+	}
+
+	private Widget createCategoryTree() {
+		categoryTree.categoryTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				goodsCategory.clear();
-				goodsCategory.addItem("--------");
+			public void onSelection(SelectionEvent<TreeItem> event) {
+				// TODO Auto-generated method stub
+				CategoryRPC cat = getSelectedItem();
+				gList.setSelectedCategory(cat);
+				gList.refreshContent();
 			}
+		});
+		categoryTree.categoryTree.setAnimationEnabled(true);
+		// refreshCategoryTree();
+
+		ScrollPanel staticTreeWrapper = new ScrollPanel(categoryTree);
+		staticTreeWrapper.setSize("300px", "300px");
+
+		return staticTreeWrapper;
+	}
+
+	private Widget createGoods() {
+
+		DecoratorPanel dec = new DecoratorPanel();
+
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.add(goodsPrice);
+		hPanel.add(new HTML(",- Kč"));
+		
+		flexTable.setWidget(0, 0, new HTML("Name"));
+		flexTable.setWidget(0, 1, new HTML("Description"));
+		flexTable.setWidget(0, 2, new HTML("Price"));
+		flexTable.setWidget(0, 3, new HTML("Count"));
+		flexTable.setWidget(0, 4, new HTML("VAT"));
+		flexTable.setWidget(0, 5, new HTML("Category"));
+
+		flexTable.setWidget(1, 0, goodsName);
+		flexTable.setWidget(1, 1, goodsDescription);
+		flexTable.setWidget(1, 2, hPanel);
+		flexTable.setWidget(1, 3, goodsCount);
+		flexTable.setWidget(1, 4, goodsVAT);
+		flexTable.setWidget(1, 5, goodsCategoryWidget());
+		flexTable.setWidget(1, 6, goodsEditAddWidget());
+
+		goodsPrice.setWidth("50px");
+		goodsCount.setWidth("50px");
+		
+		// fill VAT values
+		for (String s : Constants.getVAT()) {
+			goodsVAT.addItem(s);
+		}
+
+		dec.add(flexTable);
+
+		return dec;
+	}
+
+	private Widget goodsEditAddWidget() {
+
+		goodsAdd.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onSuccess(List<CategoryRPC> result) {
-				goodsCategory.clear();
-				for (CategoryRPC cat : result) {
-					goodsCategory.addItem(cat.getName() + "-" + cat.getParameterName() +" ("+ cat.getParameterValue()+")");
+			public void onClick(ClickEvent event) {
+
+				double price = 0;
+				int numOfPieces = 0;
+				double DPH = 0;
+				try {
+					price = Double.parseDouble(goodsPrice.getText());
+					numOfPieces = Integer.parseInt(goodsCount.getText());
+					DPH = Double.parseDouble(goodsVAT.getItemText(goodsVAT
+							.getSelectedIndex()));
+				} catch (NumberFormatException e) {
+//					e.printStackTrace();
+					Window.alert(" Number conversion error :");
+					return;
 				}
 				
+
+//				GoodsRPC goods = new GoodsRPC(goodsName.getText(),
+//						goodsDescription.getText(), price, numOfPieces, DPH,
+//						categoriesGoods);
+//				rpc.addNewGoods(goods, new AsyncCallback<Void>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						Window.alert(" Goods was not saved ... :");
+//
+//					}
+//
+//					@Override
+//					public void onSuccess(Void result) {
+//						// TODO Auto-generated method stub
+//
+//					}
+//				});
+
 			}
-		});	
-		
+		});
+
+		goodsRemove.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		Grid grid = new Grid(2, 1);
+		grid.setWidget(0, 0, goodsAdd);
+		grid.setWidget(1, 0, goodsRemove);
+
+		goodsAdd.setWidth("50px");
+		goodsRemove.setWidth("50px");
+
+		return grid;
 	}
 
+	private Widget goodsCategoryWidget() {
+		this.goodsAddCategory.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				CategoryRPC cat = getSelectedItem();
+				
+				goodsCategories.addItem(cat);
+				
+//				TODO
+//				categoriesGoods.add(cat);
+//				goodsCategories.addItem(cat);
+				// categoriesGoodsItems.add(new TreeItemLink(goodsCategories.,
+				// text))
+
+			}
+		});
+		this.goodsRemoveCategory.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		goodsAddCategory.setWidth("30px");
+		goodsRemoveCategory.setWidth("30px");
+
+		HorizontalPanel hPanel = new HorizontalPanel();
+		Grid grid = new Grid(2, 1);
+		grid.setWidget(0, 0, goodsAddCategory);
+		grid.setWidget(1, 0, goodsRemoveCategory);
+
+		hPanel.add(goodsCategories);
+		hPanel.setCellVerticalAlignment(goodsCategories,
+				HasVerticalAlignment.ALIGN_MIDDLE);
+
+		hPanel.add(grid);
+
+		return hPanel;
+	}
 
 	@Override
 	public void refreshContent() {
-		refreshCategory();
-		
+
+		refreshCategoryTree();
+		gList.refreshContent();
+
+	}
+
+	private void refreshCategoryTree() {
+
+		categoryTree.refreshContent();
+//		rpc.getAllCategoriesServer(new AsyncCallback<List<CategoryRPC>>() {
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Window.alert("fail: " + caught.toString());
+//			}
+//
+//			@Override
+//			public void onSuccess(List<CategoryRPC> result) {
+//				categories = result;
+//				categoryTree.removeItems();
+//				catTree.clear();
+//				for (CategoryRPC cat : categories) {
+//					TreeItem ti = new TreeItem(cat.getName() + " : "
+//							+ cat.getParameterName() + " - "
+//							+ cat.getParameterValue());
+//					// catTree.put(ti.getHTML(), categories.indexOf(cat));
+//					catTree.add(new TreeItemLink(categories.indexOf(cat), ti
+//							.getHTML()));
+//					categoryTree.addItem(ti);
+//				}
+//			}
+//		});
+	}
+
+	private CategoryRPC getSelectedItem() {
+
+		return categoryTree.getSelectedItem();
+//		String html = categoryTree.getSelectedItem().getHTML();
+//		int index = -1;
+//		int i = -1;
+//		for (TreeItemLink ti : catTree) {
+//			i++;
+//			if (ti.text.equals(html)) {
+//				index = i;
+//				break;
+//			}
+//		}
+//
+//		if (index == -1) {
+//			Window.alert("Category cannot be found ");
+//			return null;
+//		}
+//
+//		return categories.get(index);
 	}
 }

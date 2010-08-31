@@ -100,6 +100,8 @@ public class Goods implements Serializable{
 		this.supplier = supplier;
 		this.category = category;
 	}
+	
+	
 
 
 	public Key getKey() {

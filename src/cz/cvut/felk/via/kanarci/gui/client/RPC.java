@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import cz.cvut.felk.via.kanarci.gui.shared.CategoryRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.ContactRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.CustomerRPC;
+import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 import cz.cvut.felk.via.kanarci.gui.shared.OrderRPC;
 
 @RemoteServiceRelativePath("contact")
@@ -23,4 +24,7 @@ public interface RPC extends RemoteService{
 	void addNewCategory(CategoryRPC cat);
 	void delCategory(CategoryRPC cat);
 	void updateCategory(CategoryRPC cat);
+	List<GoodsRPC> getAllGoodsServer(CategoryRPC selectedCategory);
+	void addNewGoods(GoodsRPC goods);
+	
 }

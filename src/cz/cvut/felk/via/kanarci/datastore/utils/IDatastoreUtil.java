@@ -157,6 +157,8 @@ public interface IDatastoreUtil {
 	public List<Employee> getAllEmployees();
 
 	public List<Goods> getAllGoods();
+	
+	public List<Goods> getAllGoods(Category cat);
 
 	public List<Invoice_customer> getAllInvoices_customer(Key key);
 

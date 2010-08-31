@@ -40,6 +40,30 @@ public class GoodsRPC implements Serializable{
 		this.category = category;
 	}
 
+	
+	
+	public GoodsRPC(String name, String description, double price,
+			int numOfPieces, double dPH, List<String> category) {
+		super();
+//		this.key = key;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.numOfPieces = numOfPieces;
+		this.visiblity = true;
+		this.DPH = dPH;
+//		this.supplier = supplier;
+		this.category = category;
+	}
+
+
+
+	public GoodsRPC() {
+		super();
+	}
+
+
+
 	public String getKey() {
 		return key;
 	}
