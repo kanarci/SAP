@@ -1,14 +1,12 @@
 package cz.cvut.felk.via.kanarci.gui.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -23,8 +21,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 import cz.cvut.felk.via.kanarci.gui.client.interfaces.ITab;
 import cz.cvut.felk.via.kanarci.gui.client.widgets.CategoryListBox;
@@ -46,7 +42,7 @@ public class Goods extends Composite implements ITab {
 	private Button goodsAddCategory = new Button("<b>+</b>");
 	private Button goodsRemoveCategory = new Button("<b>-</b>");
 	private Button goodsAdd = new Button("<b>Add</b>");
-	private Button goodsRemove = new Button("<b>OK</b>");
+	private Button goodsOK = new Button("<b>OK</b>");
 
 	final RPCAsync rpc = GWT.create(RPC.class);
 	final FlexTable flexTable = new FlexTable();
@@ -55,8 +51,9 @@ public class Goods extends Composite implements ITab {
 
 	final CategoryTree categoryTree = new CategoryTree();
 
-//	private List<CategoryRPC> categoriesGoods = new ArrayList<CategoryRPC>();
-//	private List<TreeItemLink> categoriesGoodsItems = new ArrayList<TreeItemLink>();
+	// private List<CategoryRPC> categoriesGoods = new ArrayList<CategoryRPC>();
+	// private List<TreeItemLink> categoriesGoodsItems = new
+	// ArrayList<TreeItemLink>();
 
 	public Goods() {
 		super();
@@ -99,16 +96,17 @@ public class Goods extends Composite implements ITab {
 	}
 
 	private Widget createCategoryTree() {
-		categoryTree.categoryTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+		categoryTree.categoryTree
+				.addSelectionHandler(new SelectionHandler<TreeItem>() {
 
-			@Override
-			public void onSelection(SelectionEvent<TreeItem> event) {
-				// TODO Auto-generated method stub
-				CategoryRPC cat = getSelectedItem();
-				gList.setSelectedCategory(cat);
-				gList.refreshContent();
-			}
-		});
+					@Override
+					public void onSelection(SelectionEvent<TreeItem> event) {
+						// TODO Auto-generated method stub
+						CategoryRPC cat = getSelectedItem();
+						gList.setSelectedCategory(cat);
+						gList.refreshContent();
+					}
+				});
 		categoryTree.categoryTree.setAnimationEnabled(true);
 		// refreshCategoryTree();
 
@@ -125,7 +123,7 @@ public class Goods extends Composite implements ITab {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(goodsPrice);
 		hPanel.add(new HTML(",- Kč"));
-		
+
 		flexTable.setWidget(0, 0, new HTML("Name"));
 		flexTable.setWidget(0, 1, new HTML("Description"));
 		flexTable.setWidget(0, 2, new HTML("Price"));
@@ -143,7 +141,7 @@ public class Goods extends Composite implements ITab {
 
 		goodsPrice.setWidth("50px");
 		goodsCount.setWidth("50px");
-		
+
 		// fill VAT values
 		for (String s : Constants.getVAT()) {
 			goodsVAT.addItem(s);
@@ -170,34 +168,33 @@ public class Goods extends Composite implements ITab {
 					DPH = Double.parseDouble(goodsVAT.getItemText(goodsVAT
 							.getSelectedIndex()));
 				} catch (NumberFormatException e) {
-//					e.printStackTrace();
+					// e.printStackTrace();
 					Window.alert(" Number conversion error :");
 					return;
 				}
-				
 
-//				GoodsRPC goods = new GoodsRPC(goodsName.getText(),
-//						goodsDescription.getText(), price, numOfPieces, DPH,
-//						categoriesGoods);
-//				rpc.addNewGoods(goods, new AsyncCallback<Void>() {
-//
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						Window.alert(" Goods was not saved ... :");
-//
-//					}
-//
-//					@Override
-//					public void onSuccess(Void result) {
-//						// TODO Auto-generated method stub
-//
-//					}
-//				});
+				GoodsRPC goods = new GoodsRPC(goodsName.getText(),
+						goodsDescription.getText(), price, numOfPieces, DPH,
+						goodsCategories.getCategories());
+				rpc.addNewGoods(goods, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(" Goods was not saved ... :");
+
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						refreshContent();
+					}
+				});
 
 			}
 		});
 
-		goodsRemove.addClickHandler(new ClickHandler() {
+		goodsOK.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -208,10 +205,10 @@ public class Goods extends Composite implements ITab {
 
 		Grid grid = new Grid(2, 1);
 		grid.setWidget(0, 0, goodsAdd);
-		grid.setWidget(1, 0, goodsRemove);
+		grid.setWidget(1, 0, goodsOK);
 
 		goodsAdd.setWidth("50px");
-		goodsRemove.setWidth("50px");
+		goodsOK.setWidth("50px");
 
 		return grid;
 	}
@@ -222,14 +219,8 @@ public class Goods extends Composite implements ITab {
 			@Override
 			public void onClick(ClickEvent event) {
 				CategoryRPC cat = getSelectedItem();
-				
+
 				goodsCategories.addItem(cat);
-				
-//				TODO
-//				categoriesGoods.add(cat);
-//				goodsCategories.addItem(cat);
-				// categoriesGoodsItems.add(new TreeItemLink(goodsCategories.,
-				// text))
 
 			}
 		});
@@ -237,7 +228,7 @@ public class Goods extends Composite implements ITab {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				goodsCategories.removeSelectedItem();
 
 			}
 		});
@@ -264,56 +255,58 @@ public class Goods extends Composite implements ITab {
 
 		refreshCategoryTree();
 		gList.refreshContent();
+		goodsCategories.addItems(categoryTree.getCategoryForKey(goodsCategories
+				.getCategories()));
 
 	}
 
 	private void refreshCategoryTree() {
 
 		categoryTree.refreshContent();
-//		rpc.getAllCategoriesServer(new AsyncCallback<List<CategoryRPC>>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				Window.alert("fail: " + caught.toString());
-//			}
-//
-//			@Override
-//			public void onSuccess(List<CategoryRPC> result) {
-//				categories = result;
-//				categoryTree.removeItems();
-//				catTree.clear();
-//				for (CategoryRPC cat : categories) {
-//					TreeItem ti = new TreeItem(cat.getName() + " : "
-//							+ cat.getParameterName() + " - "
-//							+ cat.getParameterValue());
-//					// catTree.put(ti.getHTML(), categories.indexOf(cat));
-//					catTree.add(new TreeItemLink(categories.indexOf(cat), ti
-//							.getHTML()));
-//					categoryTree.addItem(ti);
-//				}
-//			}
-//		});
+		// rpc.getAllCategoriesServer(new AsyncCallback<List<CategoryRPC>>() {
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// Window.alert("fail: " + caught.toString());
+		// }
+		//
+		// @Override
+		// public void onSuccess(List<CategoryRPC> result) {
+		// categories = result;
+		// categoryTree.removeItems();
+		// catTree.clear();
+		// for (CategoryRPC cat : categories) {
+		// TreeItem ti = new TreeItem(cat.getName() + " : "
+		// + cat.getParameterName() + " - "
+		// + cat.getParameterValue());
+		// // catTree.put(ti.getHTML(), categories.indexOf(cat));
+		// catTree.add(new TreeItemLink(categories.indexOf(cat), ti
+		// .getHTML()));
+		// categoryTree.addItem(ti);
+		// }
+		// }
+		// });
 	}
 
 	private CategoryRPC getSelectedItem() {
 
 		return categoryTree.getSelectedItem();
-//		String html = categoryTree.getSelectedItem().getHTML();
-//		int index = -1;
-//		int i = -1;
-//		for (TreeItemLink ti : catTree) {
-//			i++;
-//			if (ti.text.equals(html)) {
-//				index = i;
-//				break;
-//			}
-//		}
-//
-//		if (index == -1) {
-//			Window.alert("Category cannot be found ");
-//			return null;
-//		}
-//
-//		return categories.get(index);
+		// String html = categoryTree.getSelectedItem().getHTML();
+		// int index = -1;
+		// int i = -1;
+		// for (TreeItemLink ti : catTree) {
+		// i++;
+		// if (ti.text.equals(html)) {
+		// index = i;
+		// break;
+		// }
+		// }
+		//
+		// if (index == -1) {
+		// Window.alert("Category cannot be found ");
+		// return null;
+		// }
+		//
+		// return categories.get(index);
 	}
 }

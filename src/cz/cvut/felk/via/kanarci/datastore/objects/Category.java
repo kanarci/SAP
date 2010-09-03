@@ -42,8 +42,8 @@ public class Category implements Serializable{
 		this.name = name;
 		this.supremeCategory = supremeCategory;
 		this.goodsInCategory = new ArrayList<Key>();
-		this.parameterName = null;
-		this.parameterValue = null;
+		this.parameterName = "";
+		this.parameterValue = "";
 	}
 
 	public Category(String name, Key supremeCategory, String parameterName,
@@ -108,14 +108,23 @@ public class Category implements Serializable{
 	}
 
 	public List<Key> getGoodsInCategory() {
+		if(goodsInCategory == null){
+			goodsInCategory = new ArrayList<Key>();
+		}
 		return goodsInCategory;
 	}
 
 	public void addGoodsToCategory(Key goods) {
+		if(goodsInCategory == null){
+			goodsInCategory = new ArrayList<Key>();
+		}
 		this.goodsInCategory.add(goods);
 	}
 
 	public void addGoodsToCategory(List<Key> goods) {
+		if(goodsInCategory == null){
+			goodsInCategory = new ArrayList<Key>();
+		}
 		this.goodsInCategory.addAll(goods);
 	}
 

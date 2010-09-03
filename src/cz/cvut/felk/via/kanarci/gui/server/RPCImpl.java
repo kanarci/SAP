@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.NotImplementedException;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import cz.cvut.felk.via.kanarci.datastore.objects.Address;
@@ -134,7 +132,8 @@ implements RPC {
 	@Override
 	public void addNewGoods(GoodsRPC goods) {
 		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		DUF.get().addGoods(DRPCC.get().goodsFromRPC(goods));
+//		throw new NotImplementedException();
 		
 	}
 

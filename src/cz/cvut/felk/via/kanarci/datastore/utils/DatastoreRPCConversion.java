@@ -218,6 +218,11 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	@Override
 	public Goods goodsFromRPC(GoodsRPC goods) {
+//		TODO
+//		System.out.println(" Num of category goods IS " + goods.getCategory().size());
+//		for(String s : goods.getCategory()){
+//			System.out.println(" Goods category IS " + s);
+//		}
 		return new Goods(stringToKey(goods.getKey()), goods.getName(),
 				new Text(goods.getDescription()), goods.getPrice(), goods
 						.getNumOfPieces(), goods.getVisiblity(),

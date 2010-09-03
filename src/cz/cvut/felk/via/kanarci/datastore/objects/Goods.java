@@ -174,8 +174,15 @@ public class Goods implements Serializable{
 
 	@Override
 	public String toString() {
-		String ret = " Zbozi : " + this.name + " || key " + key.toString()
-				+ "<br> Popisek: " + this.description.toString();
+		String ret = "nop";
+		if(key == null){
+			ret = " Zbozi : " + this.name + " || key is null" + "Popisek: " + this.description.toString();
+		}
+		else{
+			ret = " Zbozi : " + this.name + " || key " + key.toString()
+			+ "Popisek: " + this.description.toString();
+		}
+
 
 		return ret;
 	}

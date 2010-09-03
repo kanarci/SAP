@@ -36,12 +36,12 @@ public class GoodsList extends Composite implements ITab {
 	@Override
 	public void refreshContent() {
 
-		if(selectedCategory == null || selectedCategory.getKey() == null){
+		if (selectedCategory == null || selectedCategory.getKey() == null) {
 			return;
 		}
-		
-		System.out.println(" GoodsList - cat key "+selectedCategory.getKey());
-		
+
+		System.out.println(" GoodsList - cat key " + selectedCategory.getKey());
+
 		rpc.getAllGoodsServer(selectedCategory,
 				new AsyncCallback<List<GoodsRPC>>() {
 
@@ -52,11 +52,14 @@ public class GoodsList extends Composite implements ITab {
 
 					@Override
 					public void onSuccess(List<GoodsRPC> result) {
+
+						System.out.println("NUm of obtained goods with category " + result.size());
 						goods = result;
 						goodsTree.removeItems();
 						goodsList.clear();
 						for (GoodsRPC g : goods) {
 							TreeItem ti = new TreeItem(g.getName());
+							goodsTree.addItem(ti);
 							goodsList.add(new TreeItemLink(goods.indexOf(g), ti
 									.getHTML()));
 							goodsTree.addItem(ti);

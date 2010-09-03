@@ -99,8 +99,21 @@ public class CategoryTree extends Composite implements ITab {
 			Window.alert("Category cannot be deleted ");
 			return null;
 		}
-
-		System.out.println("returnet cat is "+ categories.get(index).getKey());
 		return categories.get(index);
+	}
+	
+	
+	public List<CategoryRPC> getCategoryForKey(List<String> keys){
+		List<CategoryRPC> ret = new ArrayList<CategoryRPC>();
+		
+		for(String key : keys){
+			for(CategoryRPC cat : categories){
+				if(cat.getKey().equals(key)){
+					ret.add(cat);
+				}
+			}
+		}			
+		return ret;
+		
 	}
 }

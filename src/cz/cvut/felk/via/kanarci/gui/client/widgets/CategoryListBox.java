@@ -69,16 +69,54 @@ public class CategoryListBox extends Composite implements ITab {
 
 	public void addItem(CategoryRPC cat) {
 		// TODO Auto-generated method stub
-//		categoriesGoods.add(cat);
-//		goodsCategories.addItem(cat);
 		categories.add(cat);
-		catItemList.add(new TreeItemLink(categories.indexOf(cat), cat.getName() + " : "
-				+ cat.getParameterName() + " - "
-				+ cat.getParameterValue()));
-		listBox.addItem(cat.getName() + " : "
-				+ cat.getParameterName() + " - "
-				+ cat.getParameterValue());
+		catItemList.add(new TreeItemLink(categories.indexOf(cat), catTotext(cat)));
+		listBox.addItem(catTotext(cat));
 		
 	}
+	public void addItems(List<CategoryRPC> cat){
+		categories.clear();
+		catItemList.clear();
+		listBox.clear();
+		for(CategoryRPC c : cat){
+			addItem(c);
+		}
+	}
 
+	public List<String> getCategories() {
+		List<String> ret = new ArrayList<String>();
+		for(CategoryRPC cat : categories){
+			ret.add(cat.getKey());
+		}
+		return ret;
+	}
+
+	public void removeSelectedItem(){
+		
+		CategoryRPC cat = getSelectedItem();
+
+		int index = 0;
+		for(TreeItemLink ti : catItemList){
+			if(ti.text.equals(catTotext(cat))){
+				break;  
+			}
+			index++;
+		}
+		if(index == -1){
+			return;
+		}
+		
+		listBox.removeItem(index);
+		catItemList.remove(index);
+		categories.remove(cat);
+
+
+		
+	}
+	
+	private String catTotext(CategoryRPC cat) {
+		return cat.getName() + " : "
+		+ cat.getParameterName() + " - "
+		+ cat.getParameterValue();
+	}
 }
