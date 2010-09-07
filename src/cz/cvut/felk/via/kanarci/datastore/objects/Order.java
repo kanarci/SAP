@@ -47,7 +47,7 @@ public class Order implements Serializable{
 	private DeliveryMethod deliveryMethod;
 
 	@Persistent
-	private List<Goods> goodsInOrder;
+	private List<Key> goodsInOrder;
 
 	@Persistent
 	private Contact deliveryContact;
@@ -63,7 +63,7 @@ public class Order implements Serializable{
 
 	public Order(Date creationDate, DeliveryMethod deliveryMethod,
 			Date deliveryDate, Date estimatedDeliveryDate,
-			List<Goods> goodsInOrder, Contact deliveryContact,
+			List<Key> goodsInOrder, Contact deliveryContact,
 			Contact billingContact, Key modificatedBy, Key createdBy) {
 		super();
 		this.creationDate = new Date();
@@ -82,7 +82,7 @@ public class Order implements Serializable{
 	}
 
 	public Order(String state, Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
+			DeliveryMethod deliveryMethod, List<Key> goodsInOrder,
 			Contact deliveryContact, Contact billingContact, Key createdBy) {
 		super();
 		this.orderState = OrderState.OPEN;
@@ -105,7 +105,7 @@ public class Order implements Serializable{
 	public Order(Key key, OrderState orderState, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethod deliveryMethod, List<Goods> goodsInOrder,
+			DeliveryMethod deliveryMethod, List<Key> goodsInOrder,
 			Contact deliveryContact, Contact billingContact, Key modificatedBy,
 			Key createdBy) {
 		super();
@@ -161,11 +161,11 @@ public class Order implements Serializable{
 		this.modificationDate = modificationDate;
 	}
 
-	public List<Goods> getGoodsInOrder() {
+	public List<Key> getGoodsInOrder() {
 		return goodsInOrder;
 	}
 
-	public void setGoodsInOrder(List<Goods> goodsInOrder) {
+	public void setGoodsInOrder(List<Key> goodsInOrder) {
 		this.goodsInOrder = goodsInOrder;
 	}
 

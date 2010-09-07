@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -143,8 +144,12 @@ public class NewOrder extends Composite implements ITab{
 				g.add(new GoodsRPC("666", goods.getValue(goods.getSelectedIndex()), "description",
 						Double.parseDouble(onePrice.getValue()), Integer.parseInt(count.getValue()),
 						true, Double.parseDouble(vat.getValue()), "666", s));
+				List<String> gList = new ArrayList<String>();
+				for(GoodsRPC grpc : g){
+					gList.add(grpc.getKey());
+				}
 				final OrderRPC order = new OrderRPC(OrderStateRPC.OPEN, new Date(), new Date(), new Date(),
-						new Date(), new Date(), orderDate, DeliveryMethodRPC.PPL, g, new ContactRPC(),
+						new Date(), new Date(), orderDate, DeliveryMethodRPC.PPL, gList, new ContactRPC(),
 						new ContactRPC(), "Generic Seller", "Generic Seller"); 
 				orderList.add(order);
 				
@@ -211,25 +216,25 @@ public class NewOrder extends Composite implements ITab{
 				calc();
 			}
 		});
-		save.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("This will save your orders to DB  (will means in future, not yet)");
-				//TODO: save to DB
-				rpc.addNewOrders(orderList, new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-						// TODO Auto-generated method stub
-						Window.alert("Ok");
-					}
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Window.alert("fail: "+caught.toString());
-					}
-				});
-			}
-		});
+//		save.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				Window.alert("This will save your orders to DB  (will means in future, not yet)");
+//				//TODO: save to DB
+//				rpc.addNewOrders(orderList, new AsyncCallback<Void>() {
+//					@Override
+//					public void onSuccess(Void result) {
+//						// TODO Auto-generated method stub
+//						Window.alert("Ok");
+//					}
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//						Window.alert("fail: "+caught.toString());
+//					}
+//				});
+//			}
+//		});
 		
 		flexTable.setWidget(0, 0, new HTML("<u>User</u>:"));
 		flexTable.setWidget(0, 1, user);
@@ -237,7 +242,11 @@ public class NewOrder extends Composite implements ITab{
 		flexTable.setWidget(2, 1, data);
 		flexTable.setWidget(3, 1, save);
 
-		initWidget(flexTable);
+		DockPanel dPanel = new DockPanel();
+		dPanel.add(flexTable, DockPanel.NORTH);
+		initWidget(dPanel);
+		
+		
 	}
 
 	

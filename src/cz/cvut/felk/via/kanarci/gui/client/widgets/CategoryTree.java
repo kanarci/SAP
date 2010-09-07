@@ -1,7 +1,9 @@
 package cz.cvut.felk.via.kanarci.gui.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -20,8 +22,10 @@ public class CategoryTree extends Composite implements ITab {
 
 	final RPCAsync rpc = GWT.create(RPC.class);
 
-	private List<CategoryRPC> categories = new ArrayList<CategoryRPC>();
-	private List<TreeItemLink> catItemList = new ArrayList<TreeItemLink>();
+//	private List<CategoryRPC> categories = new ArrayList<CategoryRPC>();
+//	private List<TreeItemLink> catItemList = new ArrayList<TreeItemLink>();
+//	
+	Map<String, CategoryRPC> categoriexx = new HashMap<String, CategoryRPC>();
 	public final Tree categoryTree = new Tree();
 
 	public CategoryTree() {
@@ -42,17 +46,21 @@ public class CategoryTree extends Composite implements ITab {
 
 			@Override
 			public void onSuccess(List<CategoryRPC> result) {
-				categories = result;
 				categoryTree.removeItems();
-				catItemList.clear();
-				for (CategoryRPC cat : categories) {
-					TreeItem ti = new TreeItem(cat.getName() + " : "
-							+ cat.getParameterName() + " - "
-							+ cat.getParameterValue());
-					// catTree.put(ti.getHTML(), categories.indexOf(cat));
-					catItemList.add(new TreeItemLink(categories.indexOf(cat),
-							ti.getHTML()));
+				categoriexx.clear();
+				
+//				categories = result;
+//				catItemList.clear();
+				
+				
+				for (CategoryRPC cat : result) {
+					TreeItem ti = new TreeItem(catTotext(cat));
+					categoriexx.put(catTotext(cat), cat);
 					categoryTree.addItem(ti);
+					// catTree.put(ti.getHTML(), categories.indexOf(cat));
+//					catItemList.add(new TreeItemLink(categories.indexOf(cat),
+//							ti.getHTML()));
+
 				}
 			}
 		});
@@ -84,22 +92,25 @@ public class CategoryTree extends Composite implements ITab {
 
 	public CategoryRPC getSelectedItem() {
 
-		String html = categoryTree.getSelectedItem().getHTML();
-		int index = -1;
-		int i = -1;
-		for (TreeItemLink ti : catItemList) {
-			i++;
-			if (ti.text.equals(html)) {
-				index = i;
-				break;
-			}
-		}
-
-		if (index == -1) {
-			Window.alert("Category cannot be deleted ");
-			return null;
-		}
-		return categories.get(index);
+		String html = categoryTree.getSelectedItem().getText();
+		
+		return categoriexx.get(html);
+//		
+//		int index = -1;
+//		int i = -1;
+//		for (TreeItemLink ti : catItemList) {
+//			i++;
+//			if (ti.text.equals(html)) {
+//				index = i;
+//				break;
+//			}
+//		}
+//
+//		if (index == -1) {
+//			Window.alert("Category cannot be deleted ");
+//			return null;
+//		}
+//		return categories.get(index);
 	}
 	
 	
@@ -107,7 +118,7 @@ public class CategoryTree extends Composite implements ITab {
 		List<CategoryRPC> ret = new ArrayList<CategoryRPC>();
 		
 		for(String key : keys){
-			for(CategoryRPC cat : categories){
+			for(CategoryRPC cat : categoriexx.values()){
 				if(cat.getKey().equals(key)){
 					ret.add(cat);
 				}
@@ -115,5 +126,12 @@ public class CategoryTree extends Composite implements ITab {
 		}			
 		return ret;
 		
+	}
+	
+	
+	private String catTotext(CategoryRPC cat) {
+		return cat.getName() + " : " + cat.getParameterName() + " - "
+				+ cat.getParameterValue();
+
 	}
 }

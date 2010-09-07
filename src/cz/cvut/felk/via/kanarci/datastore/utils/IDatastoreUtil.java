@@ -56,9 +56,9 @@ public interface IDatastoreUtil {
 
 	public void addInvoiceSupplier(Invoice_supplier invs);
 	
-	public void addOrder(String state, Date estimatedDeliveryDate, Date deliveryDate, DeliveryMethod deliveryMethod, List<Goods> goodsInOrder, Contact deliveryContact, Contact billingContact, Key adddBy);
+	public void addOrder(String state, Date estimatedDeliveryDate, Date deliveryDate, DeliveryMethod deliveryMethod, List<Key> goodsInOrder, Contact deliveryContact, Contact billingContact, Key adddBy);
 
-	public void addOrder(Date creationDate, DeliveryMethod deliveryMethod, Date deliveryDate, Date estimatedDeliveryDate,	List<Goods> goodsInOrder, Contact deliveryContact, Contact billingContact, Key modificatedBy, Key adddBy);
+	public void addOrder(Date creationDate, DeliveryMethod deliveryMethod, Date deliveryDate, Date estimatedDeliveryDate,	List<Key> goodsInOrder, Contact deliveryContact, Contact billingContact, Key modificatedBy, Key adddBy);
 
 	public void addOrder(Order order);
 	

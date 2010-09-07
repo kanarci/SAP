@@ -58,10 +58,10 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	private Key stringToKey(String string) {
 		if (string == null || string.equals("")) {
-//			System.out.println("stringToKey - key was null od empy !!! ");
+			// System.out.println("stringToKey - key was null od empy !!! ");
 			return null;
 		} else {
-//			System.out.println("stringToKey - key "+string);
+			// System.out.println("stringToKey - key "+string);
 			return KeyFactory.stringToKey(string);
 		}
 	}
@@ -75,7 +75,7 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 				.getCloseDate(), order.getModificationDate(), order
 				.getCourierShipmentDate(), order.getEstimatedDeliveryDate(),
 				order.getDeliveryDate(), deliveryMethodToRPC(order
-						.getDeliveryMethod()), goodsToRPC(order
+						.getDeliveryMethod()), keyToString(order
 						.getGoodsInOrder()), contactToRPC(order
 						.getDeliveryContact()), contactToRPC(order
 						.getBillingContact()), keyToString(order
@@ -189,7 +189,7 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 				.getCloseDate(), order.getModificationDate(), order
 				.getCourierShipmentDate(), order.getEstimatedDeliveryDate(),
 				order.getDeliveryDate(), deliveryMethodFromRPC(order
-						.getDeliveryMethod()), goodsFromRPC(order
+						.getDeliveryMethod()), stringToKey(order
 						.getGoodsInOrder()), contactFromRPC(order
 						.getDeliveryContact()), contactFromRPC(order
 						.getBillingContact()), stringToKey(order
@@ -218,11 +218,12 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	@Override
 	public Goods goodsFromRPC(GoodsRPC goods) {
-//		TODO
-//		System.out.println(" Num of category goods IS " + goods.getCategory().size());
-//		for(String s : goods.getCategory()){
-//			System.out.println(" Goods category IS " + s);
-//		}
+		// TODO
+		// System.out.println(" Num of category goods IS " +
+		// goods.getCategory().size());
+		// for(String s : goods.getCategory()){
+		// System.out.println(" Goods category IS " + s);
+		// }
 		return new Goods(stringToKey(goods.getKey()), goods.getName(),
 				new Text(goods.getDescription()), goods.getPrice(), goods
 						.getNumOfPieces(), goods.getVisiblity(),
@@ -240,13 +241,14 @@ public class DatastoreRPCConversion implements IDatastoreRPCConversion {
 
 	@Override
 	public Category categoryFromRPC(CategoryRPC cat) {
-		if (cat.getGoodsInCategory() == null || cat.getGoodsInCategory().isEmpty()) {
-//			System.out.println("DRPCC0 - cat key "+cat.getKey());
+		if (cat.getGoodsInCategory() == null
+				|| cat.getGoodsInCategory().isEmpty()) {
+			// System.out.println("DRPCC0 - cat key "+cat.getKey());
 			return new Category(stringToKey(cat.getKey()), cat.getName(),
 					stringToKey(cat.getSupremeCategory()), cat
 							.getParameterName(), cat.getParameterValue());
 		} else {
-//			System.out.println("DRPCC1 - cat key "+cat.getKey());
+			// System.out.println("DRPCC1 - cat key "+cat.getKey());
 			return new Category(stringToKey(cat.getKey()), cat.getName(),
 					stringToKey(cat.getSupremeCategory()), stringToKey(cat
 							.getGoodsInCategory()), cat.getParameterName(), cat

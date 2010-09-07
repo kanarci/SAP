@@ -30,7 +30,7 @@ public class OrderRPC implements Serializable{
 	
 	private DeliveryMethodRPC deliveryMethodRPC;
 	
-	private List<GoodsRPC> goodsInOrder;
+	private List<String> goodsInOrder;
 	
 	private ContactRPC deliveryContact;
 	
@@ -43,7 +43,7 @@ public class OrderRPC implements Serializable{
 	public OrderRPC(String key, OrderStateRPC orderStateRPC, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethodRPC deliveryMethodRPC, List<GoodsRPC> goodsInOrder,
+			DeliveryMethodRPC deliveryMethodRPC, List<String> goodsInOrder,
 			ContactRPC deliveryContact, ContactRPC billingContact,
 			String modificatedBy, String createdBy) {
 		super();
@@ -66,7 +66,7 @@ public class OrderRPC implements Serializable{
 	public OrderRPC(OrderStateRPC orderStateRPC, Date creationDate,
 			Date closeDate, Date modificationDate, Date courierShipmentDate,
 			Date estimatedDeliveryDate, Date deliveryDate,
-			DeliveryMethodRPC deliveryMethodRPC, List<GoodsRPC> goodsInOrder,
+			DeliveryMethodRPC deliveryMethodRPC, List<String> goodsInOrder,
 			ContactRPC deliveryContact, ContactRPC billingContact,
 			String modificatedBy, String createdBy) {
 		super();
@@ -163,11 +163,11 @@ public class OrderRPC implements Serializable{
 		this.deliveryMethodRPC = deliveryMethodRPC;
 	}
 
-	public List<GoodsRPC> getGoodsInOrder() {
+	public List<String> getGoodsInOrder() {
 		return goodsInOrder;
 	}
 
-	public void setGoodsInOrder(List<GoodsRPC> goodsInOrder) {
+	public void setGoodsInOrder(List<String> goodsInOrder) {
 		this.goodsInOrder = goodsInOrder;
 	}
 

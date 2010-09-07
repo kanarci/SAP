@@ -1,7 +1,9 @@
 package cz.cvut.felk.via.kanarci.gui.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
@@ -14,14 +16,13 @@ import cz.cvut.felk.via.kanarci.gui.shared.GoodsRPC;
 
 public class CategoryListBox extends Composite implements ITab {
 
-	private List<CategoryRPC> categories = new ArrayList<CategoryRPC>();
-	private List<TreeItemLink> catItemList = new ArrayList<TreeItemLink>();
+	Map<String, CategoryRPC> categories = new HashMap<String, CategoryRPC>();
+
 	ListBox listBox = new ListBox();
 	GoodsRPC goods;
 
 	public CategoryListBox() {
 		super();
-
 		initWidget(listBox);
 	}
 
@@ -30,11 +31,6 @@ public class CategoryListBox extends Composite implements ITab {
 		// TODO Auto-generated method stub
 
 	}
-
-//	public void addItem(String name) {
-//		// TODO Auto-generated method stub
-//
-//	}
 
 	public void setGoods(GoodsRPC goods) {
 		this.goods = goods;
@@ -45,78 +41,45 @@ public class CategoryListBox extends Composite implements ITab {
 	}
 
 	public CategoryRPC getSelectedItem() {
-
-		// return (CategoryRPC) staticTree.getSelectedItem();
-
-		String html = listBox.getItemText(listBox.getSelectedIndex());
-		int index = -1;
-		int i = -1;
-		for (TreeItemLink ti : catItemList) {
-			i++;
-			if (ti.text.equals(html)) {
-				index = i;
-				break;
-			}
-		}
-
-		if (index == -1) {
-			Window.alert("Category cannot be found ");
-			return null;
-		}
-
-		return categories.get(index);
+		String html = listBox.getValue(listBox.getSelectedIndex());
+		return categories.get(html);
 	}
 
 	public void addItem(CategoryRPC cat) {
-		// TODO Auto-generated method stub
-		categories.add(cat);
-		catItemList.add(new TreeItemLink(categories.indexOf(cat), catTotext(cat)));
+
+		categories.put(catTotext(cat), cat);
 		listBox.addItem(catTotext(cat));
-		
+
 	}
-	public void addItems(List<CategoryRPC> cat){
+
+	public void addItems(List<CategoryRPC> cat) {
 		categories.clear();
-		catItemList.clear();
 		listBox.clear();
-		for(CategoryRPC c : cat){
+		for (CategoryRPC c : cat) {
 			addItem(c);
 		}
 	}
 
 	public List<String> getCategories() {
 		List<String> ret = new ArrayList<String>();
-		for(CategoryRPC cat : categories){
+
+		for (CategoryRPC cat : categories.values()) {
 			ret.add(cat.getKey());
 		}
 		return ret;
 	}
 
-	public void removeSelectedItem(){
-		
+	public void removeSelectedItem() {
+
 		CategoryRPC cat = getSelectedItem();
+		listBox.removeItem(listBox.getSelectedIndex());
+		categories.remove(catTotext(cat));
 
-		int index = 0;
-		for(TreeItemLink ti : catItemList){
-			if(ti.text.equals(catTotext(cat))){
-				break;  
-			}
-			index++;
-		}
-		if(index == -1){
-			return;
-		}
-		
-		listBox.removeItem(index);
-		catItemList.remove(index);
-		categories.remove(cat);
-
-
-		
 	}
-	
+
 	private String catTotext(CategoryRPC cat) {
-		return cat.getName() + " : "
-		+ cat.getParameterName() + " - "
-		+ cat.getParameterValue();
+		return cat.getName() + " : " + cat.getParameterName() + " - "
+				+ cat.getParameterValue();
+
 	}
 }

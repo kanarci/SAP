@@ -136,8 +136,8 @@ public class Contact {
     @Override
     public String toString(){
 		return "Jmeno : " + firstName + " || Prijmeni : " + sureName + " || Telefon : " + phone 
-		+ " || Email : " + email + " <br>Jmeno spolecnosti : " + corporationName + " || Oddeleni : " + department +
-		"<br> ADRESA : " + address.toString() ;
+		+ " || Email : " + email + " \nJmeno spolecnosti : " + corporationName + " || Oddeleni : " + department +
+		"\n ADRESA : " + address.toString() ;
     }
 
 }

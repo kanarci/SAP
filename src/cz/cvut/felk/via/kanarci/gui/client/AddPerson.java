@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -156,7 +157,10 @@ public class AddPerson extends Composite implements ITab{
 		
 		DecoratorPanel flexTableDecorator = new DecoratorPanel();
 		flexTableDecorator.add(flexTable);
-		initWidget(flexTableDecorator);
+		
+		DockPanel dPanel = new DockPanel();
+		dPanel.add(flexTableDecorator, DockPanel.NORTH);
+		initWidget(dPanel);
 	}
 
 	@Override

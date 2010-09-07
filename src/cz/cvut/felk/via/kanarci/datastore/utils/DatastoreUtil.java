@@ -7,10 +7,14 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.Extent;
 import javax.jdo.JDOUserException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import javax.jdo.identity.ObjectIdentity;
+
+import org.datanucleus.jpa.Persistable;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -26,7 +30,7 @@ public class DatastoreUtil implements IDatastoreUtil {
 	/**
 	 * Default constructor
 	 */
-	public DatastoreUtil() {
+	DatastoreUtil() {
 		super();
 	}
 
@@ -42,27 +46,23 @@ public class DatastoreUtil implements IDatastoreUtil {
 		}
 	}
 
-	private <T> void makeObjectPersistent(T o, PersistenceManager pm) {
+	private <T> Key makeObjectPersistentRetKey(T o) {
+
+		Key ret = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		try {
 			pm.makePersistent(o);
 			System.out.println("Object " + o.getClass().getSimpleName()
 					+ " saved in datastore");
+			// TODO
+			// System.out.println("ObjectId is " + pm.getObjectId(o));
+			ObjectIdentity oi = (ObjectIdentity) pm.getObjectId(o);
+			ret = (Key) oi.getKey();
 		} finally {
-			// pm.close();
+			pm.close();
 		}
-	}
-
-	private <T> T makeObjectPersistentRetObj(T o, PersistenceManager pm) {
-
-		try {
-			pm.makePersistent(o);
-			System.out.println("Object " + o.getClass().getSimpleName()
-					+ " saved in datastore");
-		} finally {
-			// pm.close();
-		}
-		return o;
+		return ret;
 	}
 
 	private void deleteAllPersistentObjects(Class<?> o) {
@@ -105,53 +105,6 @@ public class DatastoreUtil implements IDatastoreUtil {
 
 	}
 
-	// @SuppressWarnings("unchecked")
-	// private <T> void updatePersistentObject(T o, Key key){
-	// System.out.println("Deleting & updating object " +
-	// o.getClass().getSimpleName() + " with key " +
-	// KeyFactory.keyToString(key));
-	// PersistenceManager pm = PMF.get().getPersistenceManager();
-	//		
-	// try{
-	// T obj = (T) pm.getObjectById(o.getClass(), key);
-	// pm.deletePersistent(obj);
-	// System.out.println(" Object wiped out from datastore");
-	// }
-	// catch(JDOUserException ex){
-	// System.out.println(" Object was not deleted from datastore");
-	// }
-	// finally{
-	// pm.close();
-	// }
-	//		
-	// }
-
-	// @SuppressWarnings({ "unchecked", "unused" })
-	// private <T> T getUniqueObjectForIdentifier(T o, String property, String
-	// identifier){
-	//		
-	// T obj = null;
-	// PersistenceManager pm = PMF.get().getPersistenceManager();
-	//		
-	// Transaction tx = pm.currentTransaction();
-	// try {
-	// tx.begin();
-	// 
-	// Query q = pm.newQuery(o.getClass());
-	// q.setFilter(property + " == " + identifier);
-	// q.setUnique(true);
-	// T qobj = (T) q.execute();
-	// obj = pm.detachCopy(qobj);
-	// tx.commit();
-	// } finally {
-	// if (tx.isActive()) {
-	// tx.rollback();
-	// }
-	// pm.close();
-	// }
-	// return obj;
-	// }
-
 	@SuppressWarnings( { "unchecked" })
 	private <T> List<T> getAllObjects(Class<T> o) {
 
@@ -165,10 +118,6 @@ public class DatastoreUtil implements IDatastoreUtil {
 			Query q = pm.newQuery(o);
 			List<T> qret = (List<T>) q.execute();
 			ret = new ArrayList<T>(pm.detachCopyAll(qret));
-			// for(T c : qret){
-			// T var = pm.detachCopy(c);
-			// ret.add(var);
-			// }
 		} finally {
 			pm.close();
 		}
@@ -208,15 +157,10 @@ public class DatastoreUtil implements IDatastoreUtil {
 	private <T> T getObjectForKey(Class<T> o, Key key) {
 
 		if (key == null) {
-			System.out
-					.println("getObjectForKey(class<T> o, Key key) - key was null");
+			System.out.println("getObjectForKey(class<T> o,key) - key was null");
 			return null;
 		}
 
-		// System.out.println("getObjectForKey - key "+key.toString());
-		// System.out.println("getObjectForKey - key "+KeyFactory.keyToString(key));
-		// System.out.println("getObjectForKey - class "+o.getSimpleName());
-		//		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -224,44 +168,16 @@ public class DatastoreUtil implements IDatastoreUtil {
 		T obj;
 		try {
 			obj = (T) pm.getObjectById(o, key);
-			// TODO
-			// System.out.println("getObjectForKey(class<T> o, Key key) - returned object"
-			// + obj.toString());
-			// pm.getObjectById(o.getSimpleName(), key);
 			obj = pm.detachCopy(obj);
-			// System.out.println("getObjectForKey(class<T> o, Key key) - returned object"
-			// + obj.toString());
-
 		} finally {
 			pm.close();
 		}
-		// System.out.println("getObjectForKey(class<T> o, Key key) - returned object"
-		// + obj.toString());
 
 		return obj;
 	}
 
-	private <T> T getObjectForKey(Class<T> o, Key key, PersistenceManager pm) {
-
-		if (key == null) {
-			System.out.println("getObjectForKey(class<T> o, Key key, pm) - key was null");
-			return null;
-		}
-
-		pm.getFetchPlan().setMaxFetchDepth(4);
-
-		T obj;
-		try {
-			obj = (T) pm.getObjectById(o, key);
-			obj = pm.detachCopy(obj);
-		} finally {
-			// TODO
-		}
-
-		return obj;
-	}
-
-	private <T> List<T> getObjectsForKey(Class<T> o, List<Key> goodsInCategory) {
+	@SuppressWarnings("unchecked")
+	private <T> List<T> getObjectsForKey(Class<T> o, List<Key> objectsInCategory) {
 
 		List<T> ret = new ArrayList<T>();
 
@@ -270,30 +186,15 @@ public class DatastoreUtil implements IDatastoreUtil {
 		pm.getFetchPlan().setMaxFetchDepth(4);
 
 		try {
-			Query query = pm.newQuery(o.getClass(), ":p.contains(key)");
-			query.execute(goodsInCategory);
-			ret = pm.detachCopy(ret);
+			Query query = pm.newQuery(o, ":p.contains(key)");
+			ret = (List<T>) query.execute(objectsInCategory);
+
+			ret = new ArrayList<T>(pm.detachCopyAll(ret));
 		} finally {
 			pm.close();
 		}
 
 		return ret;
-	}
-
-	private Goods getGoodsKey(Goods goods, PersistenceManager pm) {
-
-		Query q = pm.newQuery(Goods.class, "name == gname");
-//		q.setFilter("name == gname");
-//				+ " && description == "
-//				+ goods.getDescription().toString() + " && visiblity == "+goods.getVisiblity());
-		q.declareParameters("String gname");
-		q.setUnique(true);
-		Goods g = (Goods) q.execute(goods.getName());
-		if(g == null){
-			System.out.println(" getGoodsKey - no such goods for name : "+goods.getName());
-		}
-		g = pm.detachCopy(g);
-		return g;
 	}
 
 	/* ------------------------------------------------------------ */
@@ -395,53 +296,20 @@ public class DatastoreUtil implements IDatastoreUtil {
 	@Override
 	public void addGoods(Goods goods) {
 
-		makeObjectPersistent(goods);
+		Key goodsKey = null;
 
-		
-		System.out.println(" Get all Objects - goods");
-		List<Goods> aaa = getAllObjects(Goods.class);
-		for(Goods gaa : aaa){
-				System.out.println(gaa.toString());
-		}
-		
-		
+		goodsKey = makeObjectPersistentRetKey(goods);
+
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Transaction tx = pm.currentTransaction();
 
-		try {
-			tx.begin();
-
-			Goods g = getGoodsKey(goods, pm);
-			
-			System.out.println(" AAAAAAAAaaa "+ pm.getObjectId(goods).toString());
-			
-			System.out
-					.println("+++++++++ addGoods(Goods goods) - goods new key " + goods.toString());
-//			System.out
-//					.println("+++++++++ addGoods(Goods goods) - goods new key "
-//							+ KeyFactory.keyToString(goods.getKey()));
-			System.out
-					.println("+++++++++ addGoods(Goods goods) - goods new key ");
-
-			for (Key key : g.getCategory()) {
-				System.out
-						.println(" addGoods(Goods goods) - key of goods category "
-								+ KeyFactory.keyToString(key));
-				Category cat = getObjectForKey(Category.class, key, pm);
-				System.out
-						.println(" addGoods(Goods goods) - obtained category "
-								+ KeyFactory.keyToString(cat.getKey()));
-				cat.addGoodsToCategory(g.getKey());
-				makeObjectPersistent(cat, pm);
-			}
-			tx.commit();
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
+		int i = 1;
+		for (Key k : goods.getCategory()) {
+			System.out.println(" Adding to " + i + " category with key " + k);
+			Category cat = (Category) pm.getObjectById(Category.class, k);
+			cat.addGoodsToCategory(goodsKey);
 		}
+
+		pm.close();
 
 	}
 
@@ -504,7 +372,7 @@ public class DatastoreUtil implements IDatastoreUtil {
 	@Override
 	public void addOrder(String state, Date estimatedDeliveryDate,
 			Date deliveryDate, DeliveryMethod deliveryMethod,
-			List<Goods> goodsInOrder, Contact deliveryContact,
+			List<Key> goodsInOrder, Contact deliveryContact,
 			Contact billingContact, Key addedBy) {
 
 		Order order = new Order(state, estimatedDeliveryDate, deliveryDate,
@@ -516,7 +384,7 @@ public class DatastoreUtil implements IDatastoreUtil {
 	@Override
 	public void addOrder(Date creationDate, DeliveryMethod deliveryMethod,
 			Date deliveryDate, Date estimatedDeliveryDate,
-			List<Goods> goodsInOrder, Contact deliveryContact,
+			List<Key> goodsInOrder, Contact deliveryContact,
 			Contact billingContact, Key modificatedBy, Key adddBy) {
 
 		Order order = new Order(creationDate, deliveryMethod, deliveryDate,

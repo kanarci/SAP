@@ -72,7 +72,7 @@ public class GoodsList extends Composite implements ITab {
 	@SuppressWarnings("unused")
 	private GoodsRPC getSelectedItem() {
 
-		String html = goodsTree.getSelectedItem().getHTML();
+		String html = goodsTree.getSelectedItem().getText();
 		int index = -1;
 		int i = -1;
 		for (TreeItemLink ti : goodsList) {
